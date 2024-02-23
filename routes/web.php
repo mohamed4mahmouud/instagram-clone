@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -38,4 +39,8 @@ Route::middleware('auth')->group(function () {
 route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('profile');
 route::get('/profile/{user}/saved', [UserController::class, 'savedPosts'])->name('saved');
 
+route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('profile');
+route::get('/profile/{user}/saved', [UserController::class, 'savedPosts'])->name('saved');
+
+Route::resource('posts',PostsController::class);
 require __DIR__.'/auth.php';
