@@ -107,10 +107,10 @@
                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                 </div>
                 <div class="mb-3 text-end">
-                    <a href="">Forget Password?</a>
+                    <a href="{{ route('password.request') }}">Forget Password?</a>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
             </form>
 
             <p>Don't have an account? <a href="">Sign Up</a></p>
