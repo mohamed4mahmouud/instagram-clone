@@ -25,6 +25,10 @@
             margin: 10px auto;
             padding: 40px;
         }
+        .sign-up-container img {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
         .info {
             font-weight: 600px;
             line-height: 20px;
@@ -105,6 +109,7 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="sign-up-container text-center">
+                    <img src="{{ asset('/images/logo.png') }}">
                     <p class="info">Sign up to see photo and videos from your friends.</p>
                     <button type="submit" class="btn btn-primary">Log in with Facebook</button>
                     <p class="or">OR</p>
