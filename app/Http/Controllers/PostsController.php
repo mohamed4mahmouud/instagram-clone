@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use function Termwind\render;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class PostsController extends Controller
 {
@@ -18,8 +19,15 @@ class PostsController extends Controller
     public function index()
     {
         // $posts=User::find(1)->posts();
-        $posts=User::find(1)->posts;
-        return view('posts.index',['posts'=>$posts]);
+        $posts = User::find(1)->posts;
+        foreach ($posts as $post) {
+            $post->images = json_decode($post->images, true)['image'];
+            $created_at=Carbon::parse($post->created_at);
+            $post->timeDifference=$created_at->diffForHumans();
+        }
+
+        $user = User::find(1);
+        return view('posts.index', ['posts' => $posts, 'user' => $user]);
     }
 
     /**
@@ -27,7 +35,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view ('posts.create');
+        return view('posts.create');
     }
 
     /**
@@ -35,23 +43,22 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $post=new Post();
-        for ($i=0; $i < count($request->input('tags')); $i++) { 
-            $tag=new Tag();
-            $tag->name=$request->input('tags')[$i];
+        $post = new Post();
+        for ($i = 0; $i < count($request->input('tags')); $i++) {
+            $tag = new Tag();
+            $tag->name = $request->input('tags')[$i];
             // $tag->save();
         }
-        $post->caption= $request->input('caption');
-        $post->user_id= User::all()->random()->id;
-        $images=[];
-        for ($i=0; $i<count($request->file('files')) ; $i++) { 
-            if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
-                $imagepath=$request->file('files')[$i]->store('images','public');
-                $images[$i]=$imagepath;
+        $post->caption = $request->input('caption');
+        $post->user_id = User::all()->random()->id;
+        $images = [];
+        for ($i = 0; $i < count($request->file('files')); $i++) {
+            if ($request->hasFile('files') && $request->file('files')[$i]->isValid()) {
+                $imagepath = $request->file('files')[$i]->store('images', 'public');
+                $images[$i] = $imagepath;
             }
-            
         }
-        $post->images=json_encode($images);
+        $post->images = json_encode($images);
         $post->save();
     }
 
