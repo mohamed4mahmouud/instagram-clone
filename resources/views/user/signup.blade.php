@@ -74,6 +74,7 @@
             background: #2e2d2d;
             font-size: 12px;
             border: none;
+            color: #9d9d9d;
         }
         .form-control::placeholder {
             color: #9d9d9d;

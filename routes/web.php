@@ -20,14 +20,15 @@ Route::get('/', function () {
 });
 
 // login route
-// Route::get('/userlogin', function(){
-//     return view('user.login');
-// });
-
-Route::group(['middleware' => 'guest'], function () {
-    Route::get('/userlogin', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/userlogin', [AuthenticatedSessionController::class, 'store']);
+Route::get('/userlogin', function(){
+    return view('user.login');
 });
+
+
+// Route::group(['middleware' => 'guest'], function () {
+//     Route::get('/userlogin', [AuthenticatedSessionController::class, 'create'])->name('login');
+//     Route::post('/userlogin', [AuthenticatedSessionController::class, 'store']);
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
