@@ -14,6 +14,11 @@ class UserController extends Controller
         $user = User::findOrFail($userId);
         $profile = $user->profile;
 
-        return view('profile', ['user' => $user, 'profile' => $profile]);
+        return view('profile.profile', ['user' => $user, 'profile' => $profile]);
+    }
+
+    public function savedPosts($userId)
+    {
+        return 'savedPosts';
     }
 }

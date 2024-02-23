@@ -11,8 +11,9 @@
             color: #fff; 
         }
         .custom-container {
-        max-width: 950px; 
+        max-width: 935px; 
         margin: 0 auto; 
+        padding: 0;
         }
         
         .text-white:hover {
@@ -35,6 +36,30 @@
         width: 65px;
         z-index: 1;
         }
+        .edit-btn{
+            background-color: #363636;
+            color: white;
+        }
+        .edit-btn:hover{
+            background-color: #262626;
+        }
+        .post img {
+        width: 315px;
+        height: 315px;
+        object-fit: cover;
+        }
+        .post{
+            padding: 0;
+        }
+        .col-md-4{
+            padding: 0;
+        }
+        .posts-container{
+            padding: 0;
+        }
+        .post a:hover{
+            background: rgba(0,0,0, .4);
+        }
     </style>
 </head>
 <body>
@@ -46,7 +71,9 @@
             </div>
             <div class="col-md-9">
                 {{-- Username --}}
-                <h1>{{ $user->userName }}</h1>
+                <h1 class="d-inline">{{ $user->userName }}</h1>
+                {{-- Edit Profile Button --}}
+                <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
                 {{-- Bio --}}
                 <p>Bio: {{ $profile->bio }}</p>
                 {{-- Counts --}}
@@ -62,14 +89,14 @@
             </div>
         </div>
         {{-- Posts navBar --}}
-        <div class="row mt-3">
+        <div class="row mt-3 mb-3">
             <hr class="mt-4">
             <div class="col d-flex justify-content-center mt-2 position-relative">
-                <a href="#" id="postsTab" class="text-white text-decoration-none tab-selected position-relative">
+                <a href="{{ route('profile', ['user' => $user]) }}" id="postsTab" class="text-white text-decoration-none tab-selected position-relative">
                     <i class="fa-solid fa-table-cells"></i> Posts
                     <div class="indicator"></div>
                 </a>
-                <a href="#" id="savedTab" class="text-white text-decoration-none ms-5 tab-not-selected position-relative">
+                <a href="{{ route('saved', ['user' => $user]) }}" id="savedTab" class="text-white text-decoration-none ms-5 tab-not-selected position-relative">
                     <i class="fa-regular fa-bookmark"></i> Saved
                     <div class="indicator"></div>
                 </a>
@@ -77,26 +104,42 @@
         </div>
         
         {{-- Posts --}}
-        <div class="row mt-3">
-            <div class="col-md-4 mb-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid" alt="Post Image">
+        <div class="container posts-container">
+            <div class="row mb-1">
+                <div class="col-md-4">
+                    <div class="post">
+                        <a href="#"><img src="/storage/images/1.png" alt="Post 1"></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="post">
+                        <a href="#"><img src="/storage/images/post1.png" alt="Post 2"></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="post">
+                        <a href="#"><img src="/storage/images/post2.png" alt="Post 3"></a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid" alt="Post Image">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="post">
+                        <a href="#"><img src="/storage/images/post3.png" alt="Post 4"></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="post">
+                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 5"></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="post">
+                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 6"></a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid" alt="Post Image">
-            </div>
-            <div class="col-md-4 mb-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid" alt="Post Image">
-            </div>
-            <div class="col-md-4 mb-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid" alt="Post Image">
-            </div>
-            <div class="col-md-4 mb-4">
-                <img src="https://via.placeholder.com/300" class="img-fluid" alt="Post Image">
-            </div>
-        </div>
+        </div>        
     </div>
     <script src="https://kit.fontawesome.com/4a3689b860.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
