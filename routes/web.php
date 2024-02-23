@@ -30,5 +30,6 @@ Route::middleware('auth')->group(function () {
 });
 
 route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('profile');
+route::get('/profile/{user}/saved', [UserController::class, 'showProfile'])->name('profile');
 
 require __DIR__.'/auth.php';
