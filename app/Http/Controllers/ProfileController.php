@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Profile;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -56,5 +59,32 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function showProfile($userId)
+    {
+    $user = User::findOrFail($userId);
+    $profile = $user->profile;
+    
+    $posts = $user->posts;
+    foreach ($posts as $post) {
+        $post->images = json_decode($post->images, true)['image'];
+        $created_at = Carbon::parse($post->created_at);
+        $post->timeDifference = $created_at->diffForHumans();
+    }
+
+    return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts]);
+    }
+
+    public function savedPosts($userId)
+    {
+        return 'savedPosts';
+    }
+
+    public function follow(Request $request, $userId)
+    {
+        $user = User::findOrFail(6);
+        $targetUser = User::findOrFail($userId);
+        return redirect()->back();
     }
 }
