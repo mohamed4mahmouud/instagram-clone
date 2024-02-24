@@ -2,23 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Profile;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
+    public function show()
+    {
+        $user = Auth::user();
+        return view('user.viewprofile', ['user' => $user]);
+    }
+    
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        $user = Auth::user();
+        $profile = $user->profile;
+        return view('user.viewprofile', [
+            'user' => $user,
+            'profile' => $profile,
         ]);
+    }
+
+    public function store(ProfileUpdateRequest $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'max:255',
+            'website' => 'url|max:255',
+        ]);
+
+        $profile = new Profile();
+
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatar', 'public');
+            $profile->avatar = $avatarPath;
+        }
+
+        $profile->bio = $request->input('bio');
+        $profile->website = $request->input('website');
+
+        // Associate the profile with the user
+        $user->profile()->save($profile);
+
+        return Redirect::route('user.viewprofile')->with('status', 'profile-created');
     }
 
     /**
@@ -26,15 +62,30 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        // $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // if ($request->user()->isDirty('email')) {
+        //     $request->user()->email_verified_at = null;
+        // }
+        $user = Auth::user();
+
+        $profile = $user->profile;
+
+        $request->validate([
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'max:255',
+            'website' => 'url|max:255',
+        ]);
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatar', 'public');
+            $profile->avatar = $avatarPath;
         }
 
-        $request->user()->save();
+        $profile->bio = $request->input('bio');
+        $profile->website = $request->input('website');
+        $profile->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('user.viewprofile')->with('status', 'profile-updated');
     }
 
     /**
