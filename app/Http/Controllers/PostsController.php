@@ -39,17 +39,23 @@ class PostsController extends Controller
         $post = new Post();
         $request->validate([
             'tags.*' => 'regex:/^#[^\s]+$/'
-        ]);                   
-        for ($i=0; $i < count($request->input('tags')); $i++) { 
+        ]);    
+
+        $post->caption= $request->input('caption');
+
+        preg_match_all('/#(\w+)/', $post->caption, $matches);
+        $hashtags = $matches[1];
+       
+        for ($i=0; $i < count($hashtags); $i++) { 
             $tag=new Tag();       
-            $tag->name=$request->input('tags')[$i];
+            $tag->name=$hashtags[$i];
             $tagName= $tag->name;
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $tag->save();
            
         }
 
-        $post->caption= $request->input('caption');
+        
         $post->user_id= User::all()->random()->id;
         $images=[];
         for ($i=0; $i<count($request->file('files')) ; $i++) { 
