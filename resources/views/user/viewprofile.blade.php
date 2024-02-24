@@ -67,9 +67,9 @@
             <div class="col-md-8 mt-5">
                     <div class="font-weight-bolder"><h4>{{ __('Edit Profile') }}</h4></div>
                     <div>
-                        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('ay7aga') }}" enctype="multipart/form-data">
                             @csrf
-                            @method('PATCH')
+                            
                             
                         <div class="row mt-5 mb-2 userimg">
                             <div class="col-md-2 mt-2 ps-4">
@@ -81,7 +81,7 @@
                             </div>
                             <div class="col-md-6 mt-4">
                                 <label class="btn btn-primary">
-                                Change photo<input id="avatar" type="file" class="form-control" name="avatar" style="display: none;" value="{{ $profile->avatar ?? old('avatar') }}">
+                                Change photo<input id="avatar" type="file" class="form-control" name="avatar" style="display: none;" value="{{ old('avatar', session('profile_data.avatar')) }}">
                                 </label>
                             </div>
                         </div>
@@ -89,19 +89,21 @@
                                 <label for="website" class="col-md-4 col-form-label text-md-right text-white">{{ __('Website') }}</label>
 
                                 <div class="col-md-6 w-75">
-                                    <input id="website" type="text" class="form-control" name="website" placeholder="Website" value="{{ $profile->website ?? old('website') }}">
+                                    <input id="website" type="text" class="form-control" name="website" placeholder="Website" value="{{ old('website', session('profile_data.website')) }}">
                                 </div>
 
                                 <label for="bio" class="col-md-4 col-form-label text-md-right text-white">{{ __('Bio') }}</label>
 
                                 <div class="col-md-6 w-75">
-                                    <textarea id="bio" class="form-control" name="bio" placeholder="Bio">{{ $profile->bio ?? old('bio') }}</textarea>
+                                    <textarea id="bio" class="form-control" name="bio" placeholder="Bio">{{ old('bio', session('profile_data.bio')) }}</textarea>
                                 </div>
 
                                 <div class="col-md-6 offset-md-4 mt-4">
+                                @method('PUT')
+                                    <!-- <input type="submit" value="Submit"> -->
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Update Profile') }}
-                                    </button>
+                                    {{ __('Upload Profile') }}
+                                </button>
                                 </div>
                         </form>
                     </div>

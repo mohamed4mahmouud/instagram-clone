@@ -31,8 +31,8 @@ Route::get('/userlogin', function(){
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
-    // Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::get('/viewprofile', [ProfileController::class, 'edit'])->name('user.viewprofile');
+    
 });
 
 Route::get('/dashboard', function () {
@@ -41,8 +41,9 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::put('/updateprofile', [ProfileController::class, 'update'])->name('ay7aga');
 
 require __DIR__.'/auth.php';

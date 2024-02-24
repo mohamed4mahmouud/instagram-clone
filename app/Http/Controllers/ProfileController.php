@@ -31,15 +31,15 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function store(ProfileUpdateRequest $request): RedirectResponse
+    public function store(Request $request)
     {
         $user = Auth::user();
 
-        $request->validate([
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'bio' => 'max:255',
-            'website' => 'url|max:255',
-        ]);
+        // $request->validate([
+        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     'bio' => 'max:255',
+        //     'website' => 'url|max:255',
+        // ]);
 
         $profile = new Profile();
 
@@ -50,9 +50,10 @@ class ProfileController extends Controller
 
         $profile->bio = $request->input('bio');
         $profile->website = $request->input('website');
-
-        // Associate the profile with the user
+        // $profile->save();
         $user->profile()->save($profile);
+        // $request->session()->flash('profile_data', $request->all());
+        $request->session()->flash('profile_data', $request->except(['avatar']));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
     }
@@ -60,7 +61,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
         // $request->user()->fill($request->validated());
 
@@ -68,24 +69,39 @@ class ProfileController extends Controller
         //     $request->user()->email_verified_at = null;
         // }
         $user = Auth::user();
-
+        // dd($user->id);
+        // $id = Auth::id();
         $profile = $user->profile;
 
-        $request->validate([
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'bio' => 'max:255',
-            'website' => 'url|max:255',
-        ]);
+        // $request->validate([
+        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     'bio' => 'max:255',
+        //     'website' => 'url|max:255',
+        // ]);
+        // if ($request->hasFile('avatar')) {
+        //     $avatarPath = $request->file('avatar')->store('avatar', 'public');
+        //     $profile->avatar = $avatarPath;
+        // }
+     
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
             $profile->avatar = $avatarPath;
         }
-
+    
+        // $profile->update([
+        //     'bio' => $request->input('bio'),
+        //     'website' => $request->input('website'),
+        // ]);
         $profile->bio = $request->input('bio');
+       
         $profile->website = $request->input('website');
+        // $profile->id = $id;
         $profile->save();
+        // $request->session()->flash('profile_data', $request->all());
+        $request->session()->flash('profile_data', $request->except(['avatar']));
 
-        return Redirect::route('user.viewprofile')->with('status', 'profile-updated');
+
+        return view('welcome');
     }
 
     /**
