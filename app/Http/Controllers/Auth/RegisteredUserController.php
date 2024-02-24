@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use Exception;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use App\Mail\verfiyEmail;
+use Illuminate\View\View;
+use App\Jobs\verfiyEmailJob;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use PhpParser\Node\Stmt\TryCatch;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
 
 class RegisteredUserController extends Controller
 {
@@ -30,12 +35,14 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        try{
         $request->validate([
             'fullname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'username'=>['required','string','max:100'],
             "phone"=>['required'],
             'password' => ['required', Rules\Password::defaults()],
+            'gender'=> ['required']
         ]);
 
         $user = User::create([
@@ -44,13 +51,17 @@ class RegisteredUserController extends Controller
             'username'=> $request->username,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-
+            'gender' => $request->gender,
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Mail::to($user->email)->send(new verfiyEmail($user->username));
+        verfiyEmailJob::dispatch($user->name,$user->email);
 
         return redirect(RouteServiceProvider::HOME);
+    }catch(Exception $e){
+        dd($e);
+    }
     }
 }
