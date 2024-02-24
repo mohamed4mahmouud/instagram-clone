@@ -57,8 +57,30 @@
         .posts-container{
             padding: 0;
         }
-        .post a:hover{
-            background: rgba(0,0,0, .4);
+        .post {
+        position: relative;
+        }   
+
+        .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0; 
+        transition: opacity 0.3s ease; 
+        }
+
+        .post:hover .overlay {
+        opacity: 1;
+        }
+
+        .overlay::after {
+        font-size: 50px;
+        color: white;
+        position: absolute;
+        transform: translate(-50%, -50%);
         }
     </style>
 </head>
@@ -108,34 +130,34 @@
             <div class="row mb-1">
                 <div class="col-md-4">
                     <div class="post">
-                        <a href="#"><img src="/storage/images/1.png" alt="Post 1"></a>
+                        <a href="#"><img src="/storage/images/1.png" alt="Post 1"><div class="overlay"><p>sfasffasf</p></div></a>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="post">
-                        <a href="#"><img src="/storage/images/post1.png" alt="Post 2"></a>
+                        <a href="#"><img src="/storage/images/post1.png" alt="Post 2"><div class="overlay"></div></a>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="post">
-                        <a href="#"><img src="/storage/images/post2.png" alt="Post 3"></a>
+                        <a href="#"><img src="/storage/images/post2.png" alt="Post 3"><div class="overlay"></div></a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="post">
-                        <a href="#"><img src="/storage/images/post3.png" alt="Post 4"></a>
+                        <a href="#"><img src="/storage/images/post3.png" alt="Post 4"><div class="overlay"></div></a>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="post">
-                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 5"></a>
+                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 5"><div class="overlay"></div></a>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="post">
-                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 6"></a>
+                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 6"><div class="overlay"></div></a>
                     </div>
                 </div>
             </div>
