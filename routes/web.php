@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -40,4 +41,9 @@ route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('pro
 route::get('/profile/{user}/saved', [UserController::class, 'savedPosts'])->name('saved');
 
 Route::resource('posts',PostsController::class);
+Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Posts.like');
+Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
+
+Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
+
 require __DIR__.'/auth.php';

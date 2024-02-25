@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use Carbon\Carbon;
 use App\Models\Tag;
-use App\Models\Post;
 
+use App\Models\Like;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-use function Termwind\render;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 
 class PostsController extends Controller
 {
@@ -22,8 +23,8 @@ class PostsController extends Controller
         $posts = User::find(1)->posts;
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true)['image'];
-            $created_at=Carbon::parse($post->created_at);
-            $post->timeDifference=$created_at->diffForHumans();
+            $created_at = Carbon::parse($post->created_at);
+            $post->timeDifference = $created_at->diffForHumans();
         }
 
         $user = User::find(1);
@@ -92,5 +93,36 @@ class PostsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function likePost(Request $request)
+    {
+
+        // TODO : 
+        // User that is logged in will be used instead to put his like 
+        // for the sake of the test right now 
+        //iam using user with id for testing right now
+
+        $user = User::find(1);
+        $like = new Like();
+        $like->user_id = $user->id;
+        $like->post_id = $request->post;
+        $like->save();
+        return ['msg' => 'liked successfully'];
+    }
+
+    public function commentPost(Request $request)
+    {
+        $comment = new Comment();
+        $comment->post_id = $request->post;
+        $comment->user_id = User::find(1)->id;
+        $comment->body=$request->json()->get('comment');
+        $comment->saveOrFail();
+
+        return response()->json(['message' => 'Commented on post '.$comment->post_id .'By '. $request->json()->get('comment')]);
+    }
+    
+    public function test(){
+        $posts=Post::with('comments')->get();
+        dd($posts[5]->comments_count);
     }
 }
