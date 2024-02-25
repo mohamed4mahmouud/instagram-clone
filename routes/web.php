@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\ProfileController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +42,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
+route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');
+route::post('porfile/{user}/follow', [ProfileController::class, 'follow'])->name('user.follow');
+route::delete('porfile/{user}/unfollow', [ProfileController::class, 'unfollow'])->name('user.unfollow');
+
+Route::resource('posts',PostsController::class);
+Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Posts.like');
+Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
+
+Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
 
 require __DIR__.'/auth.php';
