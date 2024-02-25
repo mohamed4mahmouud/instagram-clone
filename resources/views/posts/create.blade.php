@@ -37,20 +37,7 @@
 
 </head>
 <body>
-    {{-- <div class="container">
-    <form action="{{route('posts.store')}}" method="post" enctype="multipart/form-data">
-        @csrf
-        <label for="caption">Caption</label>
-        <input type="text" name="caption" id="caption">
-        <label for="tags">Tags</label>
-        <input type="text" name="tags[]" id="tags">
-        <label for="files">Select files:</label>
-        <input type="file" id="files" name="files[]" multiple><br><br>
-
-        <input type="submit">
-    </form>
-</div> --}}
-
+   
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -87,7 +74,7 @@
                                 </div> --}}
 
                             <i class="fa-regular fa-clone fa-2x text-light files" style="display: none"><label for=""></label></i>    
-                            <input type="file" id="files" class="custom-file-input text-light files" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">   
+                            <input type="file" class="custom-file-input text-light files" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">   
                             
 
                             {{-- Upload icon and btn --}}
@@ -95,7 +82,7 @@
                                 <i class="far fa-images fa-5x mt-3" style="color: white;"></i>
                                     <div class="custom-file mt-5">
                                         <button  type="button" id="addFiles" class="btn btn-primary"><label class="custom-file-label text-light fw-semibold" for="files">Select from your device</label></button>
-                                        <input type="file" id="files" class="custom-file-input m-3 ms-5 text-light" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">   
+                                        <input type="file" id="files" class="custom-file-input m-3 ms-5 text-light files" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">   
                                     </div>
                             </div>
 

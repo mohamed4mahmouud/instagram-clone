@@ -7,7 +7,6 @@ use App\Models\Post;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use function Termwind\render;
 use App\Http\Controllers\Controller;
 use App\Models\PostsTag;
 
@@ -81,7 +80,7 @@ class PostsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('posts.show');
     }
 
     /**
