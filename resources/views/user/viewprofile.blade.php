@@ -73,7 +73,7 @@
                             
                         <div class="row mt-5 mb-2 userimg">
                             <div class="col-md-2 mt-2 ps-4">
-                                <img id="avatarimg" src="{{ asset('/images/user.png') }}">
+                                <img id="avatarimg" src="{{ asset($profile->avatar ?? old('avatar')) }}">
                             </div>
                             <div class="col-md-4 mt-3 ps-2">
                                 <p class="usrname mb-0">{{ $user->userName }}</p>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="col-md-6 mt-4">
                                 <label class="btn btn-primary">
-                                Change photo<input id="avatar" type="file" class="form-control" name="avatar" style="display: none;" value="{{ old('avatar', session('profile_data.avatar')) }}">
+                                Change photo<input id="avatar" type="file" class="form-control" name="avatar" style="display: none;" value="{{ $profile->avatar ?? old('avatar') }}">
                                 </label>
                             </div>
                         </div>
@@ -89,13 +89,13 @@
                                 <label for="website" class="col-md-4 col-form-label text-md-right text-white">{{ __('Website') }}</label>
 
                                 <div class="col-md-6 w-75">
-                                    <input id="website" type="text" class="form-control" name="website" placeholder="Website" value="{{ old('website', session('profile_data.website')) }}">
+                                    <input id="website" type="text" class="form-control" name="website" placeholder="Website" value="{{ old('website', session('profile_data.website', $profile->website ?? '')) }}">
                                 </div>
 
                                 <label for="bio" class="col-md-4 col-form-label text-md-right text-white">{{ __('Bio') }}</label>
 
                                 <div class="col-md-6 w-75">
-                                    <textarea id="bio" class="form-control" name="bio" placeholder="Bio">{{ old('bio', session('profile_data.bio')) }}</textarea>
+                                    <textarea id="bio" class="form-control" name="bio" placeholder="Bio">{{ old('bio', session('profile_data.bio', $profile->bio ?? '')) }}</textarea>
                                 </div>
 
                                 <div class="col-md-6 offset-md-4 mt-4">
@@ -125,6 +125,34 @@
             reader.readAsDataURL(input.files[0]);
         }
     });
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var storedData = JSON.parse(localStorage.getItem('profile_data')) || {};
+
+        document.getElementById('website').value = storedData.website || '{{ old('website', $profile->website ?? '') }}';
+        document.getElementById('bio').value = storedData.bio || '{{ old('bio', $profile->bio ?? '') }}';
+
+        // Add other input fields in a similar manner
+
+        document.getElementById('website').addEventListener('input', function(event) {
+            storedData.website = event.target.value;
+            updateLocalStorage(storedData);
+        });
+
+        document.getElementById('bio').addEventListener('input', function(event) {
+            storedData.bio = event.target.value;
+            updateLocalStorage(storedData);
+        });
+
+
+        // Add other input fields in a similar manner
+
+        function updateLocalStorage(data) {
+            localStorage.setItem('profile_data', JSON.stringify(data));
+        }
+    });
+
 </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
