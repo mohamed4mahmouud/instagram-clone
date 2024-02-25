@@ -18,7 +18,10 @@ class ProfileController extends Controller
     public function show()
     {
         $user = Auth::user();
-        return view('user.viewprofile', ['user' => $user]);
+        $profile = $user->profile;
+        return view('user.viewprofile', [
+            'user' => $user,
+            'profile' => $profile]);
     }
     
     public function edit(Request $request): View
@@ -35,11 +38,11 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // $request->validate([
-        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        //     'bio' => 'max:255',
-        //     'website' => 'url|max:255',
-        // ]);
+        $request->validate([
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'max:255',
+            'website' => 'url|max:255',
+        ]);
 
         $profile = new Profile();
 
@@ -52,8 +55,6 @@ class ProfileController extends Controller
         $profile->website = $request->input('website');
         // $profile->save();
         $user->profile()->save($profile);
-        // $request->session()->flash('profile_data', $request->all());
-        $request->session()->flash('profile_data', $request->except(['avatar']));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
     }
@@ -73,11 +74,11 @@ class ProfileController extends Controller
         // $id = Auth::id();
         $profile = $user->profile;
 
-        // $request->validate([
-        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        //     'bio' => 'max:255',
-        //     'website' => 'url|max:255',
-        // ]);
+        $request->validate([
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'max:255',
+            'website' => 'url|max:255',
+        ]);
         // if ($request->hasFile('avatar')) {
         //     $avatarPath = $request->file('avatar')->store('avatar', 'public');
         //     $profile->avatar = $avatarPath;
@@ -98,7 +99,7 @@ class ProfileController extends Controller
         // $profile->id = $id;
         $profile->save();
         // $request->session()->flash('profile_data', $request->all());
-        $request->session()->flash('profile_data', $request->except(['avatar']));
+        // $request->session()->flash('profile_data', $request->except(['avatar']));
 
 
         return view('welcome');

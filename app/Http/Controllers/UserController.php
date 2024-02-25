@@ -8,25 +8,50 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function update(Request $request)
+
+    public function edit(Request $request)
+    {
+        $user = Auth::user();
+        return view('user.viewprofile', ['user' => $user]);
+    }
+
+    public function store(Request $request)
     {
         $user = Auth::user();
 
-        // Validate the request data
         $request->validate([
-            'fullname' => 'required|string|max:255',
+            'fullName' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'required|string|max:20',
             'gender' => 'required|in:male,female,other',
         ]);
 
-        // Update user data
-        $user->name = $request->input('fullname');
+        $user->fullName = $request->input('fullName');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->gender = $request->input('gender');
         $user->save();
 
-        return response()->json(['message' => 'User profile updated successfully']);
+        return redirect()->route('welcome')->with('success', 'Profile updated successfully.');
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'fullName' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'required|string|max:20',
+            'gender' => 'required|in:male,female,other',
+        ]);
+
+        $user->fullName = $request->input('fullName');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->gender = $request->input('gender');
+        $user->save();
+
+        return view('welcome');
     }
 }

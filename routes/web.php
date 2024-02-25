@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
@@ -26,17 +27,18 @@ Route::get('/userlogin', function(){
     return view('user.login');
 });
 
-// Route::get('/viewprofile', function(){
-//     return view('user.viewprofile');
-// });
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
     // Route::get('/viewprofile', [ProfileController::class, 'edit'])->name('user.viewprofile');
     
+    
 });
 
-Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
+
+Route::put('/updateuser', [UserController::class, 'update'])->name('updateUser');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
