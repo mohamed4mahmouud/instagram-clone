@@ -69,11 +69,11 @@
                     <div>
                         <form method="POST" action="{{ route('ay7aga') }}" enctype="multipart/form-data">
                             @csrf
-                            
+                            @method('PUT')
                             
                         <div class="row mt-5 mb-2 userimg">
                             <div class="col-md-2 mt-2 ps-4">
-                                <img id="avatarimg" src="{{ asset($profile->avatar ?? old('avatar')) }}">
+                                <img id="avatarimg" src="{{ Storage::url($profile->avatar ?? old('avatar')) }}">
                             </div>
                             <div class="col-md-4 mt-3 ps-2">
                                 <p class="usrname mb-0">{{ $user->userName }}</p>
@@ -98,8 +98,45 @@
                                     <textarea id="bio" class="form-control" name="bio" placeholder="Bio">{{ old('bio', session('profile_data.bio', $profile->bio ?? '')) }}</textarea>
                                 </div>
 
+                                <div class="row mt-2">
+    <label for="email" class="col-md-4 col-form-label text-md-right text-white">{{ __('Email') }}</label>
+
+    <div class="col-md-6 w-75">
+        <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email', session('profile_data.email', $user->email ?? '')) }}">
+    </div>
+</div>
+
+<div class="row mt-2">
+    <label for="full_name" class="col-md-4 col-form-label text-md-right text-white">{{ __('Full Name') }}</label>
+
+    <div class="col-md-6 w-75">
+        <input id="fullname" type="text" class="form-control" name="fullname" placeholder="Full Name" value="{{ old('full_name', session('profile_data.full_name', $user->fullName ?? '')) }}">
+    </div>
+</div>
+
+<div class="row mt-2">
+    <label for="phone" class="col-md-4 col-form-label text-md-right text-white">{{ __('Phone') }}</label>
+
+    <div class="col-md-6 w-75">
+        <input id="phone" type="text" class="form-control" name="phone" placeholder="Phone" value="{{ old('phone', session('profile_data.phone', $user->phone ?? '')) }}">
+    </div>
+</div>
+
+<div class="row mt-2">
+    <label for="gender" class="col-md-4 col-form-label text-md-right text-white">{{ __('Gender') }}</label>
+
+    <div class="col-md-6 w-75">
+        <select id="gender" class="form-control" name="gender">
+            <option value="male" {{ (old('gender', session('profile_data.gender', $user->gender ?? '')) == 'male') ? 'selected' : '' }}>Male</option>
+            <option value="female" {{ (old('gender', session('profile_data.gender', $user->gender ?? '')) == 'female') ? 'selected' : '' }}>Female</option>
+            <option value="other" {{ (old('gender', session('profile_data.gender', $user->gender ?? '')) == 'other') ? 'selected' : '' }}>Other</option>
+        </select>
+    </div>
+</div>
+
+
                                 <div class="col-md-6 offset-md-4 mt-4">
-                                @method('PUT')
+                                
                                     <!-- <input type="submit" value="Submit"> -->
                                     <button type="submit" class="btn btn-primary">
                                     {{ __('Upload Profile') }}

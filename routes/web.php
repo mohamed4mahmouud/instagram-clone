@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Models\Profile;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/viewprofile', [ProfileController::class, 'edit'])->name('user.viewprofile');
     
 });
+
+Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
