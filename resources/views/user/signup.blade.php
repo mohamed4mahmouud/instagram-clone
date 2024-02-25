@@ -25,6 +25,10 @@
             margin: 10px auto;
             padding: 40px;
         }
+        .sign-up-container img {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
         .info {
             font-weight: 600px;
             line-height: 20px;
@@ -98,6 +102,31 @@
             margin: 10px auto;
             padding: 20px;
         }
+        select {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        background-color: #2e2d2d;
+        color: #999;
+        margin-bottom: 5px;
+    }
+
+    select option {
+        background-color: #2e2d2d;
+        color: #999;
+    }
+
+    select:hover {
+        cursor: pointer;
+        background-color: #333;
+    }
+
+    select:focus {
+        outline: none;
+        background-color: #444;
+    }
     </style>
 </head>
 <body>
@@ -105,6 +134,7 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="sign-up-container text-center">
+                    <img src="{{ asset('/images/logo.png') }}">
                     <p class="info">Sign up to see photo and videos from your friends.</p>
                     <button type="submit" class="btn btn-primary">Log in with Facebook</button>
                     <p class="or">OR</p>
@@ -125,12 +155,17 @@
                         <div class="form-group">
                             <input type="password" class="form-control" placeholder="Password" name="password">
                         </div>
+                        <select name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
                         <button type="submit" class="btn btn-primary btn-block">Sign up</button>
                     </form>
                     <p class="terms">By signing up, you agree to our <a href="#">Terms</a>, <a href="#">Privacy Policy</a>, and <a href="#">Cookies Policy</a>.</p>
                 </div>
                 <div class="login text-center">
-                    <p>Have an account? <a href="#">Log in</a></p>
+                    <p>Have an account? <a href="{{ route('login') }}">Log in</a></p>
                 </div>
             </div>
         </div>
