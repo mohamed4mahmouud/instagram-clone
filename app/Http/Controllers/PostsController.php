@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Tag;
+use App\Models\Post;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use function Termwind\render;
+use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+
+class PostsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        // $posts=User::find(1)->posts();
+        $posts = User::find(1)->posts;
+        foreach ($posts as $post) {
+            $post->images = json_decode($post->images, true)['image'];
+            $created_at=Carbon::parse($post->created_at);
+            $post->timeDifference=$created_at->diffForHumans();
+        }
+
+        $user = User::find(1);
+        return view('posts.index', ['posts' => $posts, 'user' => $user]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $post = new Post();
+        for ($i = 0; $i < count($request->input('tags')); $i++) {
+            $tag = new Tag();
+            $tag->name = $request->input('tags')[$i];
+            // $tag->save();
+        }
+        $post->caption = $request->input('caption');
+        $post->user_id = User::all()->random()->id;
+        $images = [];
+        for ($i = 0; $i < count($request->file('files')); $i++) {
+            if ($request->hasFile('files') && $request->file('files')[$i]->isValid()) {
+                $imagepath = $request->file('files')[$i]->store('images', 'public');
+                $images[$i] = $imagepath;
+            }
+        }
+        $post->images = json_encode($images);
+        $post->save();
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}

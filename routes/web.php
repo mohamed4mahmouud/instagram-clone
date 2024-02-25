@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-route::get('/profile/{user}', [UserController::class, 'showProfile'])->name('profile');
-route::get('/profile/{user}/saved', [UserController::class, 'showProfile'])->name('profile');
+route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
+route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');
+route::post('porfile/{user}/follow', [ProfileController::class, 'follow'])->name('user.follow');
+route::delete('porfile/{user}/unfollow', [ProfileController::class, 'unfollow'])->name('user.unfollow');
 
+Route::resource('posts',PostsController::class);
 require __DIR__.'/auth.php';

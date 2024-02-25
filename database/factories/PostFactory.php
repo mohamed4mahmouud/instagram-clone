@@ -3,8 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Faker\Generator as faker;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -20,9 +21,16 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $userByRandom = User::all()->random();
+        $images=[
+            'image'=>fake()->imageUrl()
+        ];
         return [
-            'caption'=>fake()->paragraph(),
-            'images'=>fake()->image('public/storage/images',640,480,null,false)
+            // 'title'=>fake()->title(),
+            'caption'=>fake()->sentence(),
+            // 'enabled'=>fake()->boolean(70),
+            // 'slug' => Str::slug($this->faker->title),
+            'user_id'=>$userByRandom->id,
+            'images'=>json_encode($images)
         ];
     }
 }
