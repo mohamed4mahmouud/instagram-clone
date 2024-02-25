@@ -80,11 +80,4 @@ class ProfileController extends Controller
     {
         return 'savedPosts';
     }
-
-    public function follow(Request $request, $userId)
-    {
-        $user = User::findOrFail(6);
-        $targetUser = User::findOrFail($userId);
-        return redirect()->back();
-    }
 }

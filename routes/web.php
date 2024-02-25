@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FollowController;
+
 
 
 /*
@@ -45,8 +47,9 @@ Route::middleware('auth')->group(function () {
 
 route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
 route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');
-route::post('porfile/{user}/follow', [ProfileController::class, 'follow'])->name('user.follow');
-route::delete('porfile/{user}/unfollow', [ProfileController::class, 'unfollow'])->name('user.unfollow');
+
+route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
+route::delete('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
 
 Route::resource('posts',PostsController::class);
 Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Posts.like');
