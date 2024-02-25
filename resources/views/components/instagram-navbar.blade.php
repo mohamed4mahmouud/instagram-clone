@@ -66,6 +66,4 @@
                 });
             </script>
         @endsection
-        </body>
-
-        </html>
+ 

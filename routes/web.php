@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
 
 /*
@@ -42,4 +43,9 @@ route::post('porfile/{user}/follow', [ProfileController::class, 'follow'])->name
 route::delete('porfile/{user}/unfollow', [ProfileController::class, 'unfollow'])->name('user.unfollow');
 
 Route::resource('posts',PostsController::class);
+Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Posts.like');
+Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
+
+Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
+
 require __DIR__.'/auth.php';
