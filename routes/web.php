@@ -1,10 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FollowController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+
 
 
 /*
@@ -27,6 +29,12 @@ Route::get('/userlogin', function(){
     return view('user.login');
 });
 
+
+// Route::group(['middleware' => 'guest'], function () {
+//     Route::get('/userlogin', [AuthenticatedSessionController::class, 'create'])->name('login');
+//     Route::post('/userlogin', [AuthenticatedSessionController::class, 'store']);
+// });
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -44,4 +52,9 @@ route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow
 route::delete('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
 
 Route::resource('posts',PostsController::class);
+Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Posts.like');
+Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
+
+Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
+
 require __DIR__.'/auth.php';

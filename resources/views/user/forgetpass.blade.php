@@ -44,11 +44,18 @@
             margin-top: 20px;
         }
 
-    
+        /* input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #343a40; 
+            background-color: #343a40;
+        } */
         .form-control{
             background-color: #2e2d2d;
             border: none;
-            color: #9d9d9d;
         }
         .form-control::placeholder{
             color: #9d9d9d;
@@ -89,29 +96,16 @@
         <div class="login-container">
             <img src="{{ asset('/images/logo.png') }}">
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('password.email') }}">
                 @csrf
 
                 <div class="mb-3">
                     <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter your email" required>
                 </div>
 
-                <div class="mb-3">
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                </div>
-                <div class="mb-3 text-end">
-                    <!-- <a href="{{ route('password.request') }}">Forget Password?</a> -->
-                    @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-                </div>
 
-                <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Email Password Reset Link') }}</button>
             </form>
-
-            <p>Don't have an account? <a href="{{ route('user.signup') }}">Sign Up</a></p>
         </div>
     </div>
 
