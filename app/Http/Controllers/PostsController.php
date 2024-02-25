@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostComment;
 use App\Models\Comment;
 use Carbon\Carbon;
 use App\Models\Tag;
@@ -117,8 +118,9 @@ class PostsController extends Controller
         $comment->user_id = User::find(1)->id;
         $comment->body=$request->json()->get('comment');
         $comment->saveOrFail();
+        event(new PostComment($comment));
 
-        return response()->json(['message' => 'Commented on post '.$comment->post_id .'By '. $request->json()->get('comment')]);
+        return response()->json(['message' => 'Commented on post '.$comment]);
     }
     
     public function test(){
