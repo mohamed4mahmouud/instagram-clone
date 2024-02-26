@@ -105,7 +105,6 @@ class PostsController extends Controller
     {
 
         // TODO : 
-        //handle repeated likes to be unlike not like againx
         // User that is logged in will be used instead to put his like 
         // for the sake of the test right now 
         //iam using user with id for testing right now
@@ -120,9 +119,8 @@ class PostsController extends Controller
         if ($like) {
             event(new RemovePostLike($like));
             $like->delete();
-            return ['msg' => 'like removed'.$like];
-        }
-        else {
+            return ['msg' => 'like removed' . $like];
+        } else {
             $like = new Like();
             $like->user_id = $user->id;
             $like->post_id = $request->post;

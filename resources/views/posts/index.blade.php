@@ -255,10 +255,10 @@
                     let data = await res.json();
                     // TODO: change heart icon to be filled with LOVE @farah
                     console.log(data);
+                    //Handle the likes increment or decrement on the browser View
                 }
             });
 
-            //TODO : handle posting a comment 
 
             //TODO: Dynamic load Posts comments and likes
 
@@ -286,5 +286,6 @@
                     console.log(resData);
                 }
             });
+
         </script>
     @endsection

@@ -56,5 +56,6 @@ Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Pos
 Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
 
 Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
+Route::get('/users/{search}',[UserController::class,'search']);
 
 require __DIR__.'/auth.php';
