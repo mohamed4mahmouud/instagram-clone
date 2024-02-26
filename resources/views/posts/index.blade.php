@@ -107,7 +107,10 @@
                             {{-- Image --}}
                             <div class="bg-image hover-overlay shadow-1-strong rounded-0" data-mdb-ripple-init
                                 data-mdb-ripple-color="light">
-                                <img src="{{ $post->images }}" class="w-100" alt="Louvre" />
+                                @foreach ($post->images as $img)
+                                <img src="{{ Storage::url($img) }}" class="w-100" alt="Louvre" />
+
+                                @endforeach
                                 <a href="#!">
                                     <div class="mask" style="background-color: hsla(0, 0%, 98%, 0.2)"></div>
                                 </a>
@@ -226,7 +229,7 @@
                     </ul>
                 </div>
                 <div class="col-md-2">
-                    <p class="user-name mt-2 text-primary"> Follow</p>
+                    <a href="#" class="text-decoration-none ps-3"><small>Follow</small></a>
                 </div>
 
             </div>
@@ -257,10 +260,12 @@
                     const commentBody = document.getElementById('comment-' + postId).value;
                     const url = 'http://localhost:8000/post/' + postId + '/comment';
                     const csrf=document.querySelectorAll('meta')[2].getAttribute('content');
+                    console.log(csrf);
                     const data= 
                     {   
                         comment:commentBody
                     };
+                    try{
                     const res= await fetch(url ,{
                         method: 'POST',
                         headers: {
@@ -272,6 +277,11 @@
                     let resData=await res.json();
                     console.log(resData);
                 }
+            catch(error){
+                console.error('Error:', error.message);
+                console.log(error.message);
+            }
+        }
             });
         </script>
     @endsection
