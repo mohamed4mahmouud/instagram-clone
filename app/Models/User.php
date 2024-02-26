@@ -84,11 +84,11 @@ class User extends Authenticatable
     public function isFollowed()
     {
         $authenticatedUser = User::find(6);
-        
+
         if ($authenticatedUser) {
             return $authenticatedUser->isFollowing($this);
         }
-        
+
         return false;
     }
     public function likes(){
