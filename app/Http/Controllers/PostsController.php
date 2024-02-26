@@ -14,6 +14,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PostsTag;
 
 class PostsController extends Controller
 {
@@ -25,7 +26,7 @@ class PostsController extends Controller
         // $posts=User::find(1)->posts();
         $posts = User::find(1)->posts;
         foreach ($posts as $post) {
-            $post->images = json_decode($post->images, true)['image'];
+            $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);
             foreach ($post->comments as $comment) {
                 $commentCreateTime = Carbon::parse($comment->created_at);
@@ -52,22 +53,47 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $post = new Post();
-        for ($i = 0; $i < count($request->input('tags')); $i++) {
-            $tag = new Tag();
-            $tag->name = $request->input('tags')[$i];
-            // $tag->save();
+        $request->validate([
+            'tags.*' => 'regex:/^#[^\s]+$/'
+        ]);    
+
+        $post->caption= $request->input('caption');
+
+        preg_match_all('/#(\w+)/', $post->caption, $matches);
+        $hashtags = $matches[1];
+        
+        for ($i=0; $i < count($hashtags); $i++) { 
+            $tag=new Tag();       
+            $tag->name=$hashtags[$i];
+            $tagName= $tag->name;
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $tag->save();
+           
         }
-        $post->caption = $request->input('caption');
-        $post->user_id = User::all()->random()->id;
-        $images = [];
-        for ($i = 0; $i < count($request->file('files')); $i++) {
-            if ($request->hasFile('files') && $request->file('files')[$i]->isValid()) {
-                $imagepath = $request->file('files')[$i]->store('images', 'public');
-                $images[$i] = $imagepath;
+    
+
+        
+        $post->user_id= User::all()->random()->id;
+        $images=[];
+        // dd($request->all());
+        // dd($request->input('caption'));
+        for ($i=0; $i<count($request->file('files')) ; $i++) { 
+            if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
+                $imagepath=$request->file('files')[$i]->store('images','public');
+                $images[$i]=$imagepath;
             }
         }
-        $post->images = json_encode($images);
+ 
+        $post->images=json_encode($images);
         $post->save();
+
+        if($hashtags){
+        $postTag = new PostsTag();
+        $postTag->post_id = $post->id;
+        $postTag->tag_id = $tag->id;
+        $postTag->save();
+        }
+
     }
 
     /**
@@ -75,7 +101,13 @@ class PostsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post ::find($id);
+        $post->images = json_decode($post->images, true);
+        $created_at = Carbon::parse($post->comments[0]->created_at);
+        // dd( $created_at ->diffForHumans());
+        $post->timeDifference = $created_at->diffForHumans();
+        // dd($post->images[0]);
+        return view('posts.show' , ['post' => $post]);
     }
 
     /**
