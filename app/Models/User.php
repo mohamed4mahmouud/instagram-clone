@@ -1,53 +1,94 @@
 <?php
-
 namespace App\Models;
-
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Like;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'fullname',
         'email',
         'password',
         'username',
         'gender',
-        'email',
         'phone',
-        
+        'email',
+        'email_verified_at',
+        'verification_token',
+        'followers_count',
+        'following_count'
+
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
-    public function posts(){
-        return $this -> hasMany(Post::class);
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function following(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'followee_id');
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'followers', 'followee_id', 'follower_id');
+    }
+
+    public function follow(User $userToFollow)
+    {
+        if (!$this->isFollowing($userToFollow)) {
+            $this->following()->attach($userToFollow->id);
+            $userToFollow->increment('followers_count');
+            $this->increment('following_count');
+        }
+    }
+
+    public function unfollow(User $userToUnfollow)
+    {
+        if ($this->isFollowing($userToUnfollow)) {
+            $this->following()->detach($userToUnfollow->id);
+            $userToUnfollow->decrement('followers_count');
+            $this->decrement('following_count');
+        }
+    }
+
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('followee_id', $user->id)->exists();
+    }
+
+    public function isFollowed()
+    {
+        $authenticatedUser = User::find(6);
+        
+        if ($authenticatedUser) {
+            return $authenticatedUser->isFollowing($this);
+        }
+        
+        return false;
+    }
+    public function likes(){
+        return $this->hasMany(Like::class);
     }
 }

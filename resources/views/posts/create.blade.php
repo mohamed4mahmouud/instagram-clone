@@ -23,15 +23,36 @@
         .carousel-item img{
             object-fit: cover;
         }
-        #files {
-        position: absolute;
+        #filebtn {
+        /* position: absolute;
         bottom: 0;
         left: 15px;
         width: 100%;
         height: 100%;
-        /* opacity: 0; Hide the input element */
-        cursor: pointer; /* Change cursor to pointer when hovering over the input */
+        opacity: 0; 
+        cursor: pointer;  */
     }
+    #addIcon{
+        position: absolute;
+    top: 50%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+        
+    }
+    .carousel-item{
+        position: relative;
+    }
+    .card-header {
+        border-bottom: 2px solid #363636;
+    }
+
+    .carousel-item img{
+        width: 500px;
+        height: 400px;
+    }
+
+   
      
     </style>
 
@@ -47,6 +68,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
+
                         <div class="form-group row justify-content-center position-relative" id="ImagePrev">
                         
                              {{-- images preview --}}
@@ -68,23 +90,22 @@
                                     </div>
 
                             </div>
-{{-- 
-                                <div class="col-md-auto" id="verticalline" style="display: none">
-                                <div class="vr bg-secondary"></div>
-                                </div> --}}
 
-                            <i class="fa-regular fa-clone fa-2x text-light files" style="display: none"><label for=""></label></i>    
-                            <input type="file" class="custom-file-input text-light files" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">   
+                            {{-- Upload Icon --}}
+                            {{-- <i class="fa-regular fa-clone fa-2x text-light mb-5" id="addIcon" style="display: none"><label for=""></label></i>     --}}
+                            {{-- <input type="file" class="custom-file-input text-light files" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">    --}}
                             
 
                             {{-- Upload icon and btn --}}
-                            <div id="icon" class="col-md-6 text-center m-5">
-                                <i class="far fa-images fa-5x mt-3" style="color: white;"></i>
-                                    <div class="custom-file mt-5">
-                                        <button  type="button" id="addFiles" class="btn btn-primary"><label class="custom-file-label text-light fw-semibold" for="files">Select from your device</label></button>
-                                        <input type="file" id="files" class="custom-file-input m-3 ms-5 text-light files" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">   
-                                    </div>
+                            <div class="col-md-6 text-center m-5">
+                                <i  id="icon" class="far fa-images fa-5x mt-3" style="color: white;"></i>
+                                <div class="custom-file mt-5">
+                                    <input type="file" id="filebtn" class="custom-file-input m-3 ms-5 text-light" name="files[]" multiple onchange="previewImages()">   
+                                    <button  type="button" id="addFiles" class="btn btn-primary"><label class="custom-file-label text-light fw-semibold" for="files">Select from your device</label>
+                                    </button>
+                                </div>
                             </div>
+                            
 
                             
                             <div class="col-md-6 position-absolute top-0 end-0"  id="caption" style="display: none;">  
@@ -143,10 +164,10 @@
 
         previewContainer.innerHTML = ''; // Clear previous previews
         
-        var files = document.getElementById('files').files;
-
-        multipleImgIcon = document.querySelector('.files');
-        multipleImgIcon.style.display = 'block';
+        var files = document.getElementById('filebtn').files;
+       
+        // multipleImgIcon = document.querySelector('.files');
+        // multipleImgIcon.style.display = 'block';
         
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
@@ -173,19 +194,21 @@
                 carouselControlsNext.style.display = "none";
             
             }
-            console.log(files.length);
             }
-           
             
-            
+        
             reader.readAsDataURL(file);
-
+        
             imgIcon.remove();
             caption.style.display = 'block';
             submitBtn.style.display = 'block';
             imgSlider.classList.remove('d-none');
             imgSlider.classList.add('d-block');
+            console.log(document.getElementById('filebtn').files);
         }
+        // chanage add files button to icons on image
+        document.getElementById('addFiles').style.display = 'none';
+        document.getElementById('addIcon').style.display = 'block';
 
         
     }
