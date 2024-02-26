@@ -12,6 +12,10 @@
     <style>
         .bg-black::placeholder {
         color: white;
+
+    }
+    .hash-tag{
+        text-decoration: none;
     }
     </style>
 </head>
@@ -26,10 +30,17 @@
                         <div class="carousel-item active">
                             <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
                          </div>
+                         @if (count ($post->images) > 1)
+                         @foreach ($post->images as $index => $img)
+                         @if($index >0)
                         <div class="carousel-item">
-                            <img src="{{ Storage::url($post->images[1]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                            <img src="{{ Storage::url($img) }}" class="d-block w-100" style="width: 400px; height: 600px;">
                         </div>
-                    </div>
+                        @endif
+                        @endforeach
+                        @endif
+                     </div>
+                     @if (count ($post->images) > 1)
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
@@ -38,6 +49,7 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
+                    @endif
                 </div>
             </div>
 
@@ -45,7 +57,7 @@
                 <div>
                     <div class="d-flex align-items-center">
                         <div class="pe-3">
-                            <img src="{{url('/images/download.jpg')}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                            <img src="{{asset($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
                         </div>           
                         <div>
                             <div class="fw-bold">
@@ -76,15 +88,20 @@
                                             <span class="text-light">{{ $post->user->fullName }}</span>
                                             </a>
                                         </span>
-                                        <span class="text-light ms-1">{{ $post->caption }}</span>
+                                        
+                                        <span class="text-light ms-1">
+                                        {!! preg_replace('/#(\w+)/', '<a href="#tagpage" class="hash-tag text-primary">$0</a>', $post->caption) !!}
+                                        </span>
                                     </div>
                                     <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
                                 </div>
-                                <p class="text-white-50">1h</p>
+                                <p class="text-white-50">{{$post->created_at->diffForHumans()}}</p>
                             </div>
                         </div>
 
                         {{-- other comments --}}
+                        @if (!$post->comments->isEmpty())
+                        @foreach ($post->comments as $comment)
                         <div class="d-flex">
                             <div class="pe-3">
                                 <img src="{{ url('/images/download.jpg') }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
@@ -93,37 +110,20 @@
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <span class="fw-bold text-light">
-                                            <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
-                                            <span class="text-light">{{$post->comments[0]->user->fullName}}</span>
+                                            <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">                
+                                            <span class="text-light">{{$comment->user->fullName}}</span>
                                             </a>
                                         </span>
-                                        <span class="text-light ms-1">{{ $post->comments[0]->body }}</span>
+                                        <span class="text-light ms-1">{{ $comment->body }}</span>
+                                    
                                     </div>
                                     <i class="fa-regular fa-heart fa-sm mt-3" style="color: #ffffff;"></i>
                                 </div>
                                 <p class="text-white-50 mt-2">{{$post->timeDifference}}</p>
                             </div>
                         </div>
-                        <div class="d-flex">
-                            <div class="pe-3">
-                                <img src="{{ url('/images/download.jpg') }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
-                            </div>    
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="fw-bold text-light">
-                                            <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
-                                            <span class="text-light">{{ $post->user->fullName }}</span>
-                                            </a>
-                                        </span>
-                                        <span class="text-light ms-1">{{ $post->caption }}</span>
-                                    </div>
-                                    <i class="fa-regular fa-heart fa-sm mt-3" style="color: #ffffff;"></i>
-                                </div>
-                                <p class="text-white-50 mt-2">1h</p>
-                            </div>
-                        </div>
-                    
+                        @endforeach
+                        @endif
                     
                     <hr class="text-light">
                     {{-- Reactions Bar  --}}
@@ -132,9 +132,10 @@
                             <div class="row">
                                 <div class="col-md-8">
                                     <i
+                                        data-post-id='{{ $post->id }}'
                                         class="fa-regular fa-heart fa-lg text-white ms-0"></i>
-                                    <i
-                                         class="fa-regular fa-comment fa-lg text-white ms-3"></i></a>
+                                    <a href="#comment-{{ $post->id }}"><i
+                                        class="fa-regular fa-comment fa-lg text-white ms-3"></i></a>
                                     <i class="fa-regular fa-paper-plane fa-lg text-white ms-3"></i>
                                 </div>
                                 <div class="col-md-4 text-end">
@@ -142,6 +143,7 @@
                                 </div>
                             </div>
                             {{-- Liked by --}}
+                             @if (!$post->likes->isEmpty())
                             <div class="row text-white">
                                 <div class="col-md-12 mt-4">
                                     <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
@@ -151,6 +153,7 @@
                                         <div class="col-md-12 mt-2">
                                             <span class="my-1 text-secondary">{{ $post->timeDifference }}</span>
                                         </div>
+                                        @endif
                                 </div>
                             </div>
 
@@ -174,7 +177,7 @@
             </div>
         </div>
     </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
 </html>

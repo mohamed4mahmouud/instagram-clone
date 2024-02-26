@@ -97,10 +97,13 @@ class PostsController extends Controller
     {
         $post = Post ::find($id);
         $post->images = json_decode($post->images, true);
+        // check if the post has comments or not
+        if(!$post->comments->isEmpty()){
         $created_at = Carbon::parse($post->comments[0]->created_at);
-        // dd( $created_at ->diffForHumans());
         $post->timeDifference = $created_at->diffForHumans();
-        // dd($post->images[0]);
+        }
+        
+      
         return view('posts.show' , ['post' => $post]);
     }
 
@@ -158,5 +161,15 @@ class PostsController extends Controller
     public function test(){
         $posts=Post::with('comments')->get();
         dd($posts[5]->comments_count);
+    }
+
+    public function tagsView(string $id){
+        $posts = Post::find(35);
+        $posts->images = json_decode($posts->images, true);
+
+        $tag = Tag::find($id);
+        $postTag = PostsTag::where('tag_id', $id)->get();
+        // dd($postTag->post->caption);
+        return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
     }
 }

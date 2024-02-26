@@ -30,10 +30,11 @@
                                     class="ms-1 d-none d-sm-inline text-white">Notifications</span></a>
                         </li>
                         <li>
-                            <a href="{{ route('posts.create') }}"class="nav-link px-0 align-middle">
+                            <a href=""class="nav-link px-0 align-middle" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
                                 <i class="fa-regular fa-square-plus fa-lg text-white"></i> <span
                                     class="ms-1 d-none d-sm-inline text-white">Add Post</span> </a>
-
+                                  {{-- <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button> --}}
+                                        @include('posts.create')
                         </li>
                         <li>
                             <a href="#" class="d-flex align-items-center text-white text-decoration-none"
