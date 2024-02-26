@@ -1,92 +1,100 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $user->userName }}'s Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #000000; 
-            color: #fff; 
-        }
-        .custom-container {
-        max-width: 935px; 
-        margin: 0 auto; 
-        padding: 0;
-        }
-        
-        .text-white:hover {
-            color: #f8f9fa !important;
-            text-decoration: none !important;
-        }
-        .tab-selected {
-            opacity: 1;
-        }
-        .tab-not-selected {
-            opacity: 0.5;
-        }
-        .indicator {
-        height: 2px;
-        background-color: #ffffff;
-        position: absolute;
-        top: -25px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 65px;
-        z-index: 1;
-        }
-        .edit-btn{
-            background-color: #363636;
-            color: white;
-        }
-        .edit-btn:hover{
-            background-color: #262626;
-        }
-        .post img {
-        width: 315px;
-        height: 315px;
-        object-fit: cover;
-        }
-        .post{
-            padding: 0;
-        }
-        .col-md-4{
-            padding: 0;
-        }
-        .posts-container{
-            padding: 0;
-        }
-        .post {
-        position: relative;
-        }   
-
-        .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0; 
-        transition: opacity 0.3s ease; 
-        }
-
-        .post:hover .overlay {
+@extends('layouts.main')
+@section('css')
+<style>
+    body {
+        background-color: #000000; 
+        color: #fff; 
+    }
+    .custom-container {
+    max-width: 935px; 
+    margin: 0 0 0 350px; 
+    padding: 0;
+    }
+    
+    .text-white:hover {
+        color: #f8f9fa !important;
+        text-decoration: none !important;
+    }
+    .tab-selected {
         opacity: 1;
-        }
-
-        .overlay::after {
-        font-size: 50px;
+    }
+    .tab-not-selected {
+        opacity: 0.5;
+    }
+    .indicator {
+    height: 2px;
+    background-color: #ffffff;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65px;
+    z-index: 1;
+    }
+    .edit-btn{
+        background-color: #363636;
         color: white;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5 custom-container">
-        <div class="row">
+    }
+    .edit-btn:hover{
+        background-color: #262626;
+    }
+    .post img {
+    width: 315px;
+    height: 315px;
+    object-fit: cover;
+    }
+    .post{
+        padding: 0;
+    }
+    .posts{
+        padding: 0;
+    }
+    .posts-container{
+        padding: 0;
+    }
+    .post {
+    position: relative;
+    width: 100%;
+    height: auto;
+    }
+
+    .overlay {
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0; 
+    transition: opacity 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .post:hover .overlay {
+    opacity: 1;
+    color: white
+    }
+    .overlay .fa-comment {
+    margin: 0 0 0 20px;
+    }
+    .overlay .fa-solid {
+    margin-right: 5px; 
+    }
+    .counts li:hover{
+        background-color: #000000;
+        cursor: pointer;
+    }
+    .counts li{
+        margin-right: 30px;
+    }
+</style>
+
+@endsection
+@section('newsfeed')
+    <div class="container mt-5 custom-container ">
+        <div class="row mb-5">
             <div class="col-md-3">
                 {{-- Profile Picture --}}
                 <img src="{{ asset('storage/' . $profile->avatar) }}" class="w-75 rounded-circle" alt="Avatar">
@@ -97,17 +105,34 @@
                 {{-- Edit Profile Button --}}
                 <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
                 {{-- Bio --}}
+                @if($profile->bio)
                 <p>Bio: {{ $profile->bio }}</p>
+                @endif
                 {{-- Counts --}}
-                <ul class="list-inline">
-                    <li class="list-inline-item">Posts: 100</li>
-                    <li class="list-inline-item">{{ $user->followers_count }} followers</li>
-                    <li class="list-inline-item">{{ $user->following_count }} following</li>
+                <ul class="list-inline counts">
+                    <li class="d-inline-block">{{ $user->posts_count }} Posts</li>
+                    <li class="d-inline-block"><a href=""></a>{{ $user->followers_count }} followers</a></li>
+                    <li class="d-inline-block">{{ $user->following_count }} following</li>
                 </ul>
                 {{-- Website --}}
+                @if($profile->website)
                 <p>Website: <a href="#">{{ $profile->website }}</a></p>
+                @endif
                 {{-- Follow Button --}}
-                <button class="btn btn-primary">Follow</button>
+                @if($user->id !== 6)
+                    @if ($user->isFollowed())
+                        <form action="{{ route('unfollow', $user) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Unfollow</button>
+                        </form>
+                    @else
+                        <form action="{{ route('follow', $user) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Follow</button>
+                        </form>
+                    @endif
+                @endif
             </div>
         </div>
         {{-- Posts navBar --}}
@@ -128,45 +153,16 @@
         {{-- Posts --}}
         <div class="container posts-container">
             <div class="row mb-1">
-                <div class="col-md-4">
+                @foreach($posts as $post)
+                <div class="col-md-4 mb-1 posts">
                     <div class="post">
-                        <a href="#"><img src="/storage/images/1.png" alt="Post 1"><div class="overlay"><p>sfasffasf</p></div></a>
+                        <a href="#"><img src="{{$post->images }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="post">
-                        <a href="#"><img src="/storage/images/post1.png" alt="Post 2"><div class="overlay"></div></a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="post">
-                        <a href="#"><img src="/storage/images/post2.png" alt="Post 3"><div class="overlay"></div></a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="post">
-                        <a href="#"><img src="/storage/images/post3.png" alt="Post 4"><div class="overlay"></div></a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="post">
-                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 5"><div class="overlay"></div></a>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="post">
-                        <a href="#"><img src="https://via.placeholder.com/150" alt="Post 6"><div class="overlay"></div></a>
-                    </div>
-                </div>
+            @endforeach
             </div>
         </div>        
     </div>
-    <script src="https://kit.fontawesome.com/4a3689b860.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         const postsTab = document.getElementById('postsTab');
         const savedTab = document.getElementById('savedTab');
@@ -203,8 +199,4 @@
     
         window.addEventListener('load', setActiveTab);
     </script>
-    
-    
-</body>
-</html>
-
+    @endsection

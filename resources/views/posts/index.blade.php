@@ -132,10 +132,20 @@
                                     {{-- Liked by --}}
                                     <div class="row text-white">
                                         <div class="col-md-8 mt-1">
+                                            @if ($post->like_count)
                                             <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
                                                 class="rounded-circle" height="30" alt="avatar" />
-                                            <small>Liked by <strong>Janet-t</strong> and
-                                                <strong>{{ $post->like_count }}</strong> others</small>
+                                            <small>Liked by <strong>
+                                                @foreach ($post->likes->take(1) as $like)
+                                                    
+                                                        {{ $like->user->userName }}
+                                                    
+                                                @endforeach
+
+                                            </strong> and
+                                            <strong>{{ $post->like_count? $post->like_count:''}}</strong>{{ $post->like_count> 1 ? ' others':''}}</small>
+                                            
+                                            @endif
                                         </div>
                                     </div>
                                     {{-- Caption --}}
@@ -151,14 +161,21 @@
                                     </div>
                                     {{-- Comments --}}
                                     <div class="row text-white">
-                                        <small class="my-1"> View All 21 Comments</small>
-                                        <p><strong class="text-white">Alex_123</strong>
-                                            Lorem ipsum dolor.
-                                        </p>
-                                        <p><strong class="text-white">Weez0_123</strong>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis fugiat
-                                            reprehenderit architecto, quae nihil assumenda! Ex, incidunt.
-                                        </p>
+                                        @if ($post->comments_count)
+                                        @if ($post->comments_count>3)
+                                        {{-- TODO: Add href 3la View bywreek comments el post dh w yslam lw modal based yb2a 3zma @everyone--}}
+                                        {{-- TODO: Add comment Posted how long ago @everyone--}}
+                                        <small class="my-1"> View All {{ $post->comments_count}} Comments</small>
+                                            
+                                        @endif
+                                        @foreach ($post->comments->take(3) as $comment)
+                                            <p><strong class="text-white">{{ $comment->user->userName }}</strong>
+                                                {{ $comment->body }}
+                                            </p>
+                                        @endforeach
+                                            
+                                        @endif
+
                                         <small class="my-1 text-secondary">{{ $post->timeDifference }}</small>
                                     </div>
 
@@ -247,7 +264,7 @@
             //TODO : handle posting a comment 
 
             //TODO: Dynamic load Posts comments and likes
-            
+
 
 
             let postComments = document.querySelectorAll('.post-comment-btn')
@@ -256,23 +273,19 @@
                     const postId = this.getAttribute('data-post-id');
                     const commentBody = document.getElementById('comment-' + postId).value;
                     const url = 'http://localhost:8000/post/' + postId + '/comment';
-                    const csrf=document.querySelectorAll('meta')[2].getAttribute('content');
-                    const data= 
-                    {   
-                        comment:commentBody,
-                        _token:csrf
+                    const csrf = document.querySelectorAll('meta')[2].getAttribute('content');
+                    const data = {
+                        comment: commentBody
                     };
-
-                    console.log(csrf);
-                    const res= await fetch(url ,{
+                    const res = await fetch(url, {
                         method: 'POST',
                         headers: {
-                            "content-type":"application/json",
-                            // "X-CSRF-TOKEN":csrf
+                            "content-type": "application/json",
+                            "X-CSRF-TOKEN": csrf
                         },
                         body: JSON.stringify(data),
                     })
-                    let resData=await res.json();
+                    let resData = await res.json();
                     console.log(resData);
                 }
             });

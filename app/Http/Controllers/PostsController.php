@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AddLike;
 use App\Events\PostComment;
 use App\Models\Comment;
 use Carbon\Carbon;
@@ -99,6 +100,7 @@ class PostsController extends Controller
     {
 
         // TODO : 
+        //handle repeated likes to be unlike not like againx
         // User that is logged in will be used instead to put his like 
         // for the sake of the test right now 
         //iam using user with id for testing right now
@@ -108,7 +110,8 @@ class PostsController extends Controller
         $like->user_id = $user->id;
         $like->post_id = $request->post;
         $like->save();
-        return ['msg' => 'liked successfully'];
+        event(new AddLike($like));
+        return ['msg'=>'liked successfully'];
     }
 
     public function commentPost(Request $request)
@@ -124,7 +127,11 @@ class PostsController extends Controller
     }
     
     public function test(){
-        $posts=Post::with('comments')->get();
-        dd($posts[5]->comments_count);
+        $posts=Post::with('likes')->get();
+        foreach ($posts as $post) {
+            foreach ($post->likes as $like) {
+                dd($like->user);
+            }
+        }
     }
 }
