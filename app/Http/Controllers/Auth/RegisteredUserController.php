@@ -3,17 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-<<<<<<< HEAD
-use App\Models\Profile;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
-=======
 
 use Exception;
 use App\Mail\VerifyEmail;
@@ -24,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
->>>>>>> 68d1dfcca670de34c09fd57134c1a986a99c8692
 use App\Providers\RouteServiceProvider;
 
 class RegisteredUserController extends Controller
@@ -56,19 +44,6 @@ class RegisteredUserController extends Controller
                 'gender'=> ['required']
             ]);
 
-<<<<<<< HEAD
-        $user = User::create([
-            'fullname' => $request->fullname,
-            'email' => $request->email,
-            'username'=> $request->username,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-        ]);
-
-        $user->profile()->create();
-
-        event(new Registered($user));
-=======
 
             $user= new User();
             $verificationToken = Str::random(60);
@@ -91,7 +66,6 @@ class RegisteredUserController extends Controller
         } catch (Exception $e) {
             dd($e);
         }
->>>>>>> 68d1dfcca670de34c09fd57134c1a986a99c8692
 
 
     }

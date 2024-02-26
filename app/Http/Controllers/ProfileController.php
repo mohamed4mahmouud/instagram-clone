@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Profile;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Events\ProfileUpdated;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\User;
-use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -74,8 +73,7 @@ class ProfileController extends Controller
         //     $request->user()->email_verified_at = null;
         // }
         $user = Auth::user();
-        // dd($user->id);
-        // $id = Auth::id();
+        // dd($user)
         $profile = $user->profile;
 
         $request->validate([
@@ -83,34 +81,41 @@ class ProfileController extends Controller
             'bio' => 'max:255',
             'website' => 'url|max:255',
         ]);
-        // if ($request->hasFile('avatar')) {
-        //     $avatarPath = $request->file('avatar')->store('avatar', 'public');
-        //     $profile->avatar = $avatarPath;
-        // }
      
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
             $profile->avatar = $avatarPath;
         }
     
-        // $profile->update([
-        //     'bio' => $request->input('bio'),
-        //     'website' => $request->input('website'),
-        // ]);
         $profile->bio = $request->input('bio');
        
         $profile->website = $request->input('website');
 
-        $user->update([
-            'fullName' => $request->input('fullName'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
-            'gender' => $request->input('gender'),
-        ]);
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        if ($request->filled('new_password')) {
+            $user->update([
+                'fullName' => $request->input('fullName'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
+                'gender' => $request->input('gender'),
+                'password' => Hash::make($request->new_password),
+            ]);
+        } else {
+            $user->update([
+                'fullName' => $request->input('fullName'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
+                'gender' => $request->input('gender'),
+            ]);
+        }
         
         $profile->save();
 
-        return view('welcome');
+        // return view('welcome');
+        return redirect()->route('user.viewprofile')->with('status', 'Profile updated successfully.');
     }
 
     /**

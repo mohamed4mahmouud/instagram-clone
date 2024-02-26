@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 // Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
+Route::put('/viewprofile', [ProfileController::class, 'update'])->name('user.viewprofile');
+
 
 
 Route::get('/dashboard', function () {
@@ -51,5 +53,18 @@ Route::middleware('auth')->group(function () {
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
+route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');
+
+route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
+route::delete('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
+
+Route::resource('posts',PostsController::class);
+Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Posts.like');
+Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
+
+Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
 
 require __DIR__.'/auth.php';

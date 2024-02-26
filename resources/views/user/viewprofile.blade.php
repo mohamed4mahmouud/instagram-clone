@@ -67,7 +67,7 @@
             <div class="col-md-8 mt-5">
                     <div class="font-weight-bolder"><h4>{{ __('Edit Profile') }}</h4></div>
                     <div>
-                        <form method="POST" action="{{ route('ay7aga') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('user.viewprofile') }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             
@@ -106,6 +106,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="row mt-2">
                                     <label for="full_name" class="col-md-4 col-form-label text-md-right text-white">{{ __('Full Name') }}</label>
 
@@ -133,6 +134,35 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <!-- <h4>{{ __('Change Password') }}</h4> -->
+
+    <div class="col-md-6 w-75 mt-2">
+        <label for="current_password" class="form-label">{{ __('Current Password') }}</label>
+        <input id="current_password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" required>
+
+        @error('current_password')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+
+    <div class="col-md-6 w-75">
+        <label for="new_password" class="form-label">{{ __('New Password') }}</label>
+        <input id="new_password" type="password" class="form-control @error('new_password') is-invalid @enderror" name="new_password" required>
+
+        @error('new_password')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+
+    <!-- <div class="mb-3">
+        <label for="new_password_confirmation" class="form-label">{{ __('Confirm New Password') }}</label>
+        <input id="new_password_confirmation" type="password" class="form-control" name="new_password_confirmation" required>
+    </div> -->
 
 
                                 <div class="col-md-6 offset-md-4 mt-4">
