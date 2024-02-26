@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Events\AddLike;
 use App\Events\PostComment;
+use App\Events\RemovePostLike;
+use App\Listeners\DecrementPostLikeCount;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\IncrementPostCommentCount;
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         AddLike::class=>[
             IncrementPostLikesCount::class
+        ],
+        RemovePostLike::class=>[
+            DecrementPostLikeCount::class
         ]
     ];
 

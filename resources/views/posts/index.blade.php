@@ -133,18 +133,15 @@
                                     <div class="row text-white">
                                         <div class="col-md-8 mt-1">
                                             @if ($post->like_count)
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-                                                class="rounded-circle" height="30" alt="avatar" />
-                                            <small>Liked by <strong>
-                                                @foreach ($post->likes->take(1) as $like)
-                                                    
-                                                        {{ $like->user->userName }}
-                                                    
-                                                @endforeach
+                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
+                                                    class="rounded-circle" height="30" alt="avatar" />
+                                                <small>Liked by <strong>
+                                                        @foreach ($post->likes->take(1) as $like)
+                                                            {{ $like->user->userName }}
+                                                        @endforeach
 
-                                            </strong> and
-                                            <strong>{{ $post->like_count? $post->like_count:''}}</strong>{{ $post->like_count> 1 ? ' others':''}}</small>
-                                            
+                                                    </strong> {{ $post->like_count - 1 ? 'and' : '' }}
+                                                    <strong>{{ $post->like_count - 1 ? $post->like_count - 1 : '' }}</strong>{{ $post->like_count > 1 ? ' others' : '' }}</small>
                                             @endif
                                         </div>
                                     </div>
@@ -162,18 +159,18 @@
                                     {{-- Comments --}}
                                     <div class="row text-white">
                                         @if ($post->comments_count)
-                                        @if ($post->comments_count>3)
-                                        {{-- TODO: Add href 3la View bywreek comments el post dh w yslam lw modal based yb2a 3zma @everyone--}}
-                                        {{-- TODO: Add comment Posted how long ago @everyone--}}
-                                        <small class="my-1"> View All {{ $post->comments_count}} Comments</small>
-                                            
-                                        @endif
-                                        @foreach ($post->comments->take(3) as $comment)
-                                            <p><strong class="text-white">{{ $comment->user->userName }}</strong>
-                                                {{ $comment->body }}
-                                            </p>
-                                        @endforeach
-                                            
+                                            @if ($post->comments_count > 3)
+                                                {{-- TODO: Add href 3la View bywreek comments el post dh w yslam lw modal based yb2a 3zma @everyone --}}
+                                                <small class="my-1"> View All {{ $post->comments_count }}
+                                                    Comments</small>
+                                            @endif
+                                            @foreach ($post->comments->take(3) as $comment)
+                                                <p class="mb-0"><strong
+                                                        class="text-white">{{ $comment->user->userName }}:</strong>
+                                                    {{ $comment->body }}
+                                                </p>
+                                                <small class="mb-2 text-secondary">{{ $comment->timeDifference }}</small>
+                                            @endforeach
                                         @endif
 
                                         <small class="my-1 text-secondary">{{ $post->timeDifference }}</small>
