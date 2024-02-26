@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Like;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use App\Models\Profile;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -25,7 +28,9 @@ class User extends Authenticatable
         'userName',
         'gender',
         'email',
-        'phone',  
+        'email_verified_at',
+        'phone',
+        'verification_token'
     ];
 
     /**
@@ -47,10 +52,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
+    public function posts(){
+        return $this -> hasMany(Post::class);
+    }
     public function profile()
-{
+    {
     return $this->hasOne(Profile::class);
-}
-
+    }
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
 }

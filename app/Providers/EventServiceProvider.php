@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\PostComment;
+use App\Listeners\IncrementPostCommentCount;
 use App\Events\ProfileUpdated;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
@@ -19,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        PostComment::class=>[
+            IncrementPostCommentCount::class
+        ]
         ProfileUpdated::class => [
             UpdateUserData::class,
         ],
