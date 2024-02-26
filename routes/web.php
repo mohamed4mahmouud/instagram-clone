@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::put('/updateuser', [UserController::class, 'update'])->name('updateUser');
+// Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
 
 
 Route::get('/dashboard', function () {

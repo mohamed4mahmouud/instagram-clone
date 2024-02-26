@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Events\ProfileUpdated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -55,6 +56,7 @@ class ProfileController extends Controller
         $profile->website = $request->input('website');
         // $profile->save();
         $user->profile()->save($profile);
+        event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
     }
@@ -98,8 +100,6 @@ class ProfileController extends Controller
         $profile->website = $request->input('website');
         // $profile->id = $id;
         $profile->save();
-        // $request->session()->flash('profile_data', $request->all());
-        // $request->session()->flash('profile_data', $request->except(['avatar']));
 
 
         return view('welcome');
