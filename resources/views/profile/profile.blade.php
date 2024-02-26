@@ -161,7 +161,10 @@
                 </div>
             @endforeach
             </div>
-        </div>        
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            {{ $posts->links() }}  
+        </div>     
     </div>
     <script>
         const postsTab = document.getElementById('postsTab');
