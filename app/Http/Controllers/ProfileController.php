@@ -66,7 +66,7 @@ class ProfileController extends Controller
     $user = User::findOrFail($userId);
     $profile = $user->profile;
     
-    $posts = $user->posts;
+    $posts = $user->posts()->paginate(9);
     foreach ($posts as $post) {
         // $post->images = json_decode($post->images, true)['image'];
         $post->images = json_decode($post->images, true);
