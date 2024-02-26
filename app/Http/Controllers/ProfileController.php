@@ -56,7 +56,7 @@ class ProfileController extends Controller
         $profile->website = $request->input('website');
         // $profile->save();
         $user->profile()->save($profile);
-        event(new ProfileUpdated($user));
+        // event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
     }
@@ -98,9 +98,15 @@ class ProfileController extends Controller
         $profile->bio = $request->input('bio');
        
         $profile->website = $request->input('website');
-        // $profile->id = $id;
-        $profile->save();
 
+        $user->update([
+            'fullName' => $request->input('fullName'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'gender' => $request->input('gender'),
+        ]);
+        
+        $profile->save();
 
         return view('welcome');
     }

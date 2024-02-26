@@ -23,11 +23,11 @@ class UpdateUserData
     {
         $profile = $event->user->profile;
 
-        $event->user->update([
+        $user->update([
             'fullName' => $profile->fullName,
             'phone' => $profile->phone,
             'gender' => $profile->gender,
-            'email' => $event->user->email,
+            'email' => $profile->email,
         ]);
     }
 }
