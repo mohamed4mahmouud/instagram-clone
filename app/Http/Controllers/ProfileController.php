@@ -144,7 +144,7 @@ class ProfileController extends Controller
     $user = User::findOrFail($userId);
     $profile = $user->profile;
     
-    $posts = $user->posts;
+    $posts = $user->posts()->paginate(9);
     foreach ($posts as $post) {
         $post->images = json_decode($post->images, true)['image'];
         $created_at = Carbon::parse($post->created_at);
@@ -157,12 +157,5 @@ class ProfileController extends Controller
     public function savedPosts($userId)
     {
         return 'savedPosts';
-    }
-
-    public function follow(Request $request, $userId)
-    {
-        $user = User::findOrFail(6);
-        $targetUser = User::findOrFail($userId);
-        return redirect()->back();
     }
 }
