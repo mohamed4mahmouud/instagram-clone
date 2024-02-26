@@ -110,7 +110,7 @@
                 @endif
                 {{-- Counts --}}
                 <ul class="list-inline counts">
-                    <li class="d-inline-block">Posts: {{ $user->posts_count }}</li>
+                    <li class="d-inline-block">{{ $user->posts_count }} Posts</li>
                     <li class="d-inline-block"><a href=""></a>{{ $user->followers_count }} followers</a></li>
                     <li class="d-inline-block">{{ $user->following_count }} following</li>
                 </ul>
@@ -119,7 +119,20 @@
                 <p>Website: <a href="#">{{ $profile->website }}</a></p>
                 @endif
                 {{-- Follow Button --}}
-                <button class="btn btn-primary">Follow</button>
+                @if($user->id !== 6)
+                    @if ($user->isFollowed())
+                        <form action="{{ route('unfollow', $user) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Unfollow</button>
+                        </form>
+                    @else
+                        <form action="{{ route('follow', $user) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Follow</button>
+                        </form>
+                    @endif
+                @endif
             </div>
         </div>
         {{-- Posts navBar --}}
@@ -148,7 +161,10 @@
                 </div>
             @endforeach
             </div>
-        </div>        
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            {{ $posts->links() }}  
+        </div>     
     </div>
     <script>
         const postsTab = document.getElementById('postsTab');

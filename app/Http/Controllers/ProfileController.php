@@ -2,42 +2,120 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Profile;
-use Carbon\Carbon;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
+    public function show()
+    {
+        $user = Auth::user();
+        $profile = $user->profile;
+        return view('user.viewprofile', [
+            'user' => $user,
+            'profile' => $profile]);
+    }
+    
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        $user = Auth::user();
+        $profile = $user->profile;
+        return view('user.viewprofile', [
+            'user' => $user,
+            'profile' => $profile,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'max:255',
+            'website' => 'url|max:255',
+        ]);
+
+        $profile = new Profile();
+
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatar', 'public');
+            $profile->avatar = $avatarPath;
+        }
+
+        $profile->bio = $request->input('bio');
+        $profile->website = $request->input('website');
+        // $profile->save();
+        $user->profile()->save($profile);
+        // event(new ProfileUpdated($user));
+
+        return Redirect::route('user.viewprofile')->with('status', 'profile-created');
     }
 
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request)
     {
-        $request->user()->fill($request->validated());
+        // $request->user()->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // if ($request->user()->isDirty('email')) {
+        //     $request->user()->email_verified_at = null;
+        // }
+        $user = Auth::user();
+        // dd($user)
+        $profile = $user->profile;
+
+        $request->validate([
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'max:255',
+            'website' => 'url|max:255',
+        ]);
+     
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatar', 'public');
+            $profile->avatar = $avatarPath;
+        }
+    
+        $profile->bio = $request->input('bio');
+       
+        $profile->website = $request->input('website');
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
 
-        $request->user()->save();
+        if ($request->filled('new_password')) {
+            $user->update([
+                'fullName' => $request->input('fullName'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
+                'gender' => $request->input('gender'),
+                'password' => Hash::make($request->new_password),
+            ]);
+        } else {
+            $user->update([
+                'fullName' => $request->input('fullName'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
+                'gender' => $request->input('gender'),
+            ]);
+        }
+        
+        $profile->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // return view('welcome');
+        return redirect()->route('user.viewprofile')->with('status', 'Profile updated successfully.');
     }
 
     /**
@@ -66,7 +144,7 @@ class ProfileController extends Controller
     $user = User::findOrFail($userId);
     $profile = $user->profile;
     
-    $posts = $user->posts;
+    $posts = $user->posts()->paginate(9);
     foreach ($posts as $post) {
         $post->images = json_decode($post->images, true)['image'];
         $created_at = Carbon::parse($post->created_at);
@@ -79,12 +157,5 @@ class ProfileController extends Controller
     public function savedPosts($userId)
     {
         return 'savedPosts';
-    }
-
-    public function follow(Request $request, $userId)
-    {
-        $user = User::findOrFail(6);
-        $targetUser = User::findOrFail($userId);
-        return redirect()->back();
     }
 }

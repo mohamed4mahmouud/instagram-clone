@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
+    public $timestamps = false;
     use HasFactory;
     protected $fillable=
     [
         'name'
     ];
     public function posts(){
-        return $this -> belongsTo(Post::class);
+        return $this -> belongsToMany(Post::class);
     }
 }
