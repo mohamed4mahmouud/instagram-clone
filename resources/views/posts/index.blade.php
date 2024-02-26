@@ -259,13 +259,16 @@
                     const csrf=document.querySelectorAll('meta')[2].getAttribute('content');
                     const data= 
                     {   
-                        comment:commentBody
+                        comment:commentBody,
+                        _token:csrf
                     };
+
+                    console.log(csrf);
                     const res= await fetch(url ,{
                         method: 'POST',
                         headers: {
                             "content-type":"application/json",
-                            "X-CSRF-TOKEN":csrf
+                            // "X-CSRF-TOKEN":csrf
                         },
                         body: JSON.stringify(data),
                     })
