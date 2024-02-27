@@ -32,7 +32,7 @@ class VerifyEmailJob implements ShouldQueue
     {
         //
             Mail::to($this->email)->cc('hamo@gmail.com')
-            ->bcc('hamo2@gmail.com')->send(new VerifyEmail($this->name,$this->token));
+            ->bcc('hamo2@gmail.com')->send(new VerifyEmail($this->name,$this->token));  
     }
 }
 
