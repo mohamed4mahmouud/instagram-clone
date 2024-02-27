@@ -1,13 +1,14 @@
 <?php
 
-use App\Models\Profile;
-use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\FollowController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
