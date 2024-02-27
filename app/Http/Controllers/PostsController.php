@@ -49,35 +49,35 @@ class PostsController extends Controller
         $post = new Post();
         $request->validate([
             'tags.*' => 'regex:/^#[^\s]+$/'
-        ]);    
+        ]);
 
         $post->caption= $request->input('caption');
 
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         $hashtags = $matches[1];
-        
-        for ($i=0; $i < count($hashtags); $i++) { 
-            $tag=new Tag();       
+
+        for ($i=0; $i < count($hashtags); $i++) {
+            $tag=new Tag();
             $tag->name=$hashtags[$i];
             $tagName= $tag->name;
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $tag->save();
-           
-        }
-    
 
-        
+        }
+
+
+
         $post->user_id= User::all()->random()->id;
         $images=[];
         // dd($request->all());
         // dd($request->input('caption'));
-        for ($i=0; $i<count($request->file('files')) ; $i++) { 
+        for ($i=0; $i<count($request->file('files')) ; $i++) {
             if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
                 $imagepath=$request->file('files')[$i]->store('images','public');
                 $images[$i]=$imagepath;
             }
         }
- 
+
         $post->images=json_encode($images);
         $post->save();
 
@@ -130,9 +130,9 @@ class PostsController extends Controller
     public function likePost(Request $request)
     {
 
-        // TODO : 
-        // User that is logged in will be used instead to put his like 
-        // for the sake of the test right now 
+        // TODO :
+        // User that is logged in will be used instead to put his like
+        // for the sake of the test right now
         //iam using user with id for testing right now
 
         $user = User::find(1);
@@ -154,7 +154,7 @@ class PostsController extends Controller
 
         return response()->json(['message' => 'Commented on post '.$comment]);
     }
-    
+
     public function test(){
         $posts=Post::with('comments')->get();
         dd($posts[5]->comments_count);

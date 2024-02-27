@@ -31,7 +31,7 @@
         border-radius: 50%;
         overflow: hidden;
         width: 70px;
-        height: 70px; 
+        height: 70px;
         object-fit: cover;
     }
     .userimg {
@@ -70,7 +70,6 @@
                         <form method="POST" action="{{ route('user.viewprofile') }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            
                             <div class="row mt-5 mb-2 userimg">
                                 <div class="col-md-2 mt-2 ps-4">
                                     <img id="avatarimg" src="{{ Storage::url($profile->avatar ?? old('avatar')) }}">
@@ -85,7 +84,7 @@
                                     </label>
                                 </div>
                             </div>
-            
+
                                 <label for="website" class="col-md-4 col-form-label text-md-right text-white">{{ __('Website') }}</label>
 
                                 <div class="col-md-6 w-75">
