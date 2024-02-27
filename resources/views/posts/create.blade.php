@@ -34,7 +34,7 @@
     } */
     .modal-header {
         border-bottom: 2px solid #363636;
-        text-align: center
+        
     }
 
     .carousel-item img{
@@ -42,21 +42,22 @@
         height: 400px;
         object-fit: cover;
     }
-    
+    .modal-title{
+  width: 100%;
+  text-align: center;
+}
      
     </style>
 
 </head>
 <body>
-   
-
-
+ 
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header text-center">
-          <h1 class="modal-title fs-5 text-light" id="exampleModalToggleLabel">Create a new post</h1>
-          <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-light" id="exampleModalToggleLabel">Create new post</h1>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
@@ -65,7 +66,7 @@
                 <div class="form-group row justify-content-center position-relative" id="ImagePrev">
                 
                      {{-- images preview --}}
-                    <div class="col-6" >
+                    <div class="col-7" >
                         <div id="carouselExampleIndicators" class="carousel slide d-none">  
                             <div class="carousel-inner">
                                 <div class="carousel-item">
@@ -103,7 +104,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-6 position-absolute top-0 end-0"  id="caption" style="display: none;">   
+                    <div class="col-md-5 position-absolute top-0 end-0"  id="caption" style="display: none;">   
                     {{-- profile caption's details --}}
                         {{-- <div class="row"> --}}
 

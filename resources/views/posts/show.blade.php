@@ -1,5 +1,6 @@
 @extends('layouts.main');
 @section('newsfeed');
+@section('css')
     <style>
         .bg-black::placeholder {
         color: white;
@@ -9,6 +10,7 @@
         text-decoration: none;
     }
     </style>
+@endsection
 </head>
 <body>
     <body class="bg-black">

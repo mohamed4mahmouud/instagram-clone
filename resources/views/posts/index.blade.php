@@ -113,11 +113,13 @@
                                             <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
                                         </div>
                                     @endif
-                                        
-                                     <div class="carousel-item">
-                                         <img src="{{ Storage::url($post->images[$i]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
-                                     </div>
-                                         
+                                        @if ($i>0)
+                                        <div class="carousel-item">
+                                            <img src="{{ Storage::url($post->images[$i]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                                        </div>
+                                            
+                                        @endif
+                                    
                                      @endfor
                                     </div>
                                     @if (count($post->images)>1)
