@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Events\PostComment;
 use App\Events\TagPost;
 use App\Models\Comment;

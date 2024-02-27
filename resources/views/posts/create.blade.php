@@ -14,7 +14,9 @@
         .card{
             background-color: #232222;
         }
-       
+        .modal-content{
+            background-color: #262626;
+        }
         #filebtn {
         /* position: absolute;
         bottom: 0;
@@ -49,6 +51,7 @@
         height: 400px;
         object-fit: cover;
     }
+    
      
     </style>
 
@@ -59,10 +62,10 @@
 
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark">
+      <div class="modal-content">
         <div class="modal-header text-center">
           <h1 class="modal-title fs-5 text-light" id="exampleModalToggleLabel">Create a new post</h1>
-          <button type="button" class="btn-close text-white " data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
@@ -123,7 +126,7 @@
                         {{-- </div> --}}
                      {{-- Caption --}}
                         <div class="form-floating">
-                        <textarea  name="caption" class="form-control text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px; background-color:#232222;border: none; "></textarea>
+                        <textarea  name="caption" class="form-control text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px; background-color:#262626;border: none; "></textarea>
                         <label for="floatingTextarea2" style="color:#9d9d9d">Write a caption here...</label>
                       </div>
                     </div>
