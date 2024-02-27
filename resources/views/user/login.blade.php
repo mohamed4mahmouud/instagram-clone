@@ -15,7 +15,7 @@
 
         .container {
             display: flex;
-            justify-content: center;
+            /* justify-content: center; */
             align-items: center;
             height: 100vh;
         }
@@ -28,6 +28,8 @@
             max-width: 400px;
             width: 100%;
             text-align: center;
+            margin-top: 100px;
+            height: 100%;
         }
 
         .login-container img {
@@ -86,32 +88,37 @@
 </head>
 <body>
     <div class="container">
-        <div class="login-container">
-            <img src="{{ asset('/images/logo.png') }}">
+        <div class="row">   
+            <div class="col-6 me-5">
+                <img src="{{ asset('/images/instagram1.gif') }}">
+            </div>
+            <div class="login-container col-12 ml-5">
+                <img src="{{ asset('/images/logo.png') }}">
 
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
 
-                <div class="mb-3">
-                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter your email" required>
-                </div>
+                    <div class="mb-3">
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter your email" required>
+                    </div>
 
-                <div class="mb-3">
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                </div>
-                <div class="mb-3 text-end">
-                    <!-- <a href="{{ route('password.request') }}">Forget Password?</a> -->
-                    @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-                </div>
+                    <div class="mb-3">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <!-- <a href="{{ route('password.request') }}">Forget Password?</a> -->
+                        @if (Route::has('password.request'))
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                            {{ __('Forgot your password?') }}
+                        </a>
+                        @endif
+                    </div>
 
-                <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
-            </form>
+                    <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
+                </form>
 
-            <p>Don't have an account? <a href="{{ route('user.signup') }}">Sign Up</a></p>
+                <p>Don't have an account? <a href="{{ route('user.signup') }}">Sign Up</a></p>
+            </div>
         </div>
     </div>
 
