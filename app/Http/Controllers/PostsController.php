@@ -11,6 +11,7 @@ use App\Events\PostAdd;
 use App\Events\TagPost;
 use App\Models\Comment;
 use App\Models\PostsTag;
+use App\Models\SavedPost;
 use App\Events\PostComment;
 use Illuminate\Http\Request;
 use App\Events\RemovePostLike;
@@ -221,5 +222,15 @@ class PostsController extends Controller
         
         return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
         
+    }
+    public function savePost(Request $request){
+        //save post to a random user
+        $user=User::all()->random();
+        $savedPost=new SavedPost();
+        $savedPost->user_id=$user->id;
+        $savedPost->post_id=$request->postId;
+        $savedPost->save();
+        return ['MSG' =>'Post saved successfully'];
+
     }
 }
