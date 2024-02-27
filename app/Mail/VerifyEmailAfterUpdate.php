@@ -10,7 +10,7 @@ class VerifyEmailAfterUpdate extends VerifyEmail
     {
         return new Content(
             view: 'Mails.verifyemail',
-            with:['token'=>parent::$token , 'name'=>parent::$name]
+            with:['token'=>$this->token , 'name'=>$this->name]
         );
     }
 }

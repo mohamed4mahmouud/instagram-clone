@@ -15,20 +15,20 @@
 
         .container {
             display: flex;
-            /* justify-content: center; */
+            justify-content: center;
             align-items: center;
             height: 100vh;
         }
 
         .login-container {
             background-color: #232222; 
-            padding: 20px;
+            padding: 50px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
             max-width: 400px;
             width: 100%;
             text-align: center;
-            margin-top: 100px;
+            /* margin-top: 100px; */
             height: 100%;
         }
 
@@ -42,9 +42,7 @@
             color: #fff;
         }
 
-        form {
-            margin-top: 20px;
-        }
+        
 
     
         .form-control{
@@ -88,36 +86,22 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">   
-            <div class="col-6 me-5">
-                <img src="{{ asset('/images/instagram1.gif') }}">
-            </div>
-            <div class="login-container col-12 ml-5">
-                <img src="{{ asset('/images/logo.png') }}">
-
-                <form method="POST" action="{{ route('login') }}">
+        <div class="row">
+            <div class="login-container">
+                <form method="POST" action="{{ route('user.changePassword') }}">
                     @csrf
+                    @method('PUT')
+                    <h4 class="mb-4">Change E-mail</h4>
+                    <div class="row mt-2">
+                                    <label for="email" class="col-md-4 col-form-label text-md-right text-white">{{ __('Email') }}</label>
 
-                    <div class="mb-3">
-                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter your email" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                    </div>
-                    <div class="mb-3 text-end">
-                        <!-- <a href="{{ route('password.request') }}">Forget Password?</a> -->
-                        @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
-                        </a>
-                        @endif
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
+                                    <div class="col-md-6 w-75">
+                                        <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ $user->email ?? old('email') }}">
+                                    </div>
+                                </div>
+                
+                <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
                 </form>
-
-                <p>Don't have an account? <a href="{{ route('user.signup') }}">Sign Up</a></p>
             </div>
         </div>
     </div>

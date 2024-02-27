@@ -31,9 +31,8 @@ class VerifyEmailJob implements ShouldQueue
     public function handle(): void
     {
         //
-            Mail::to($this->email)->send(new VerifyEmail($this->name,$this->token))->cc('hamo@gmail.com')
-            ->bcc('hamo2@gmail.com');
-
+            Mail::to($this->email)->cc('hamo@gmail.com')
+            ->bcc('hamo2@gmail.com')->send(new VerifyEmail($this->name,$this->token));
     }
 }
 

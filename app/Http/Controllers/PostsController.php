@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PostComment;
-use App\Models\Comment;
 use Carbon\Carbon;
 use App\Models\Tag;
-
 use App\Models\Like;
 use App\Models\Post;
+
 use App\Models\User;
+use App\Models\Comment;
+use App\Models\PostsTag;
+use App\Events\PostComment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\PostsTag;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
@@ -22,14 +23,16 @@ class PostsController extends Controller
     public function index()
     {
         // $posts=User::find(1)->posts();
-        $posts = User::find(1)->posts;
+        $user = Auth::user();
+        $posts = $user->posts;
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);
             $post->timeDifference = $created_at->diffForHumans();
         }
 
-        $user = User::find(1);
+        // $user = User::find(7);
+        // dd($user);
         return view('posts.index', ['posts' => $posts, 'user' => $user]);
     }
 

@@ -53,7 +53,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+route::get('/changePassword', function() {
+return view('user.changePassword');
+})->name('user.changePassword');
+route::get('/changeEmail', function() {
+    return view('user.changeEmail');
+    })->name('user.changeEmail');
 route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
 route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');
 
