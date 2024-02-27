@@ -9,18 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyEmail extends Mailable
+class VerifyEmailAfterUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(protected $name , protected $token)
+    public function __construct(public $name , public $token, public $email)
     {
-        //
         $this->name = $name;
         $this->token = $token;
+        $this->email = $email;
     }
 
     /**
@@ -29,7 +29,7 @@ class VerifyEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verify Email',
+            subject: 'Verify Email After Update',
         );
     }
 
@@ -39,8 +39,8 @@ class VerifyEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'Mails.verify',
-            with:['token'=>$this->token , 'name'=>$this->name]
+            view: 'Mails.verifyemail',
+            with:['token'=> $this->token , 'email'=> $this->email],
         );
     }
 

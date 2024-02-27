@@ -34,9 +34,8 @@ Route::get('/userlogin', function(){
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
-    // Route::get('/viewprofile', [ProfileController::class, 'edit'])->name('user.viewprofile');
-
-
+    Route::get('verifyemail/{token}',[ProfileController::class,'verifyEmailAfterUpdate'])->name('verifyemail');
+    Route::post('update-email',[ProfileController::class,'updateEmail'])->name('updateemail');
 });
 
 
@@ -51,9 +50,26 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    route::get('/changePassword', function() {
+        return view('user.changePassword');
+        })->name('user.changePassword');
+
+        route::get('/changeEmail', function() {
+            return view('user.changeEmail');
+            })->name('user.changeEmail');
+
+
+
+    Route::post('verifyemail', [ProfileController::class, 'sendEmail'])->name('verifyEmail');
+    Route::get('/verifyemail/{token}/{email}', [ProfileController::class, 'verifyEmailAfterUpdate'])->name('verifyEmailupdate');
+
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+
 
 
 route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
