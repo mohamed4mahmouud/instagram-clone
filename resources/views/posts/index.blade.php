@@ -310,5 +310,15 @@
                 }
             });
 
+            let savePosts= document.querySelectorAll('.fa-bookmark');
+            // console.log(savePosts);
+            savePosts.forEach(savePost => {
+                savePost.onclick = function() {
+                    const postId=this.getAttribute('data-post-id');
+                    const res=await fetch("http://localhost:8000/posts/{postId}/save");
+                    let resData=await res.json();
+                    
+                }
+            });
         </script>
     @endsection
