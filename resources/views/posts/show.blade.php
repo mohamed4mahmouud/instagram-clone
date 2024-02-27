@@ -89,11 +89,15 @@
                                             </a>
                                         </span>
                                         <p class="text-light">
-                                           {{-- {{$post->caption}} --}}
-                                                <span class="text-light">
-                                                    {!! preg_replace('/#(\w+)/', '<a href="' . route("tags", ["id" => $tag[0]]) . '" class="hash-tag">$0</a>', $post->caption) !!}
-                                                </span>
-                                             
+                                           {{$post->caption}}
+                                           @foreach ($post->tags as $tag)
+                                           <span class="text-light">
+                                               <a href="{{ route("tags", ["id" => $tag->id]) }}" class="hash-tag">#{{ $tag->name }}</a>
+                                           </span>
+                                       @endforeach
+                                       
+                                               
+                                           {{-- <p class="text-light">{{$post->caption}}</p>   --}}
                                         </p>
                                     </div>
                                     <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>

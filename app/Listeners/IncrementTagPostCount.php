@@ -21,11 +21,8 @@ class IncrementTagPostCount
      */
     public function handle(TagPost $event): void
     {
-        $post = $event->post;
-        $tags = $post->tags;
-        foreach ($tags as $tag) {
+        $tag=$event->tag;
         $tag->post_count++;
-        }
-        $post->save();
+        $tag->save();
     }
 }

@@ -62,7 +62,6 @@ class PostsController extends Controller
             }
         }
         $post->images=json_encode($images);
-        event(new TagPost($post));
         $post->save();
 
         // tag store
@@ -74,6 +73,7 @@ class PostsController extends Controller
             $tag->name=$hashtags[$i];
             $tagName= $tag->name;
             $tag = Tag::firstOrCreate(['name' => $tagName]);
+            event(new TagPost($tag));
             $tag->save();
 
             //save tags and post_id in post_tag table
@@ -100,13 +100,19 @@ class PostsController extends Controller
         $created_at = Carbon::parse($post->comments[0]->created_at);
         $post->timeDifference = $created_at->diffForHumans();
         }
-        $tagIds = [];
-        foreach ($post->tags as $tag)
-        
-        $tagIds[] = $tag->id;
+        // $tagIds = [];
+        // foreach ($post->tags as $tag)
+        // $tagIds[] = $tag->id;
       
         // dd($tagIds);
-        return view('posts.show' , ['post' => $post , 'tag'=>$tagIds]);
+        preg_match_all('/#(\w+)/', $post->caption, $matches);
+        foreach ($matches[1] as $tag) {
+            // dd();
+        }
+        // dd($post->tags->id);
+
+        return view('posts.show' , ['post' => $post]);
+       
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Tag;
 use App\Models\Post;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -18,7 +19,7 @@ class TagPost
     /**
      * Create a new event instance.
      */
-    public function __construct(public Post $post)
+    public function __construct(public Tag $tag)
     {
         //
     }
