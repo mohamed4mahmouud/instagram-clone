@@ -14,12 +14,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#submenu1" data-bs-toggle="collapse"data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"
-                                class="nav-link px-0 align-middle">
+                            <a href="#submenu1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" class="nav-link px-0 align-middle">
                                 <i class="fa-solid fa-magnifying-glass fa-lg text-white"></i>
-                                <span class="ms-1 d-none d-sm-inline text-white">Search</span> </a>
-
+                                <span class="ms-1 d-none d-sm-inline text-white">Search</span>
+                            </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link px-0 align-middle">
@@ -55,7 +53,7 @@
                 id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header bg-black ">
                     <h5 class="offcanvas-title text-white" id="offcanvasScrollingLabel">Search</h5>
-                    <button type="button" class="btn-close " data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" ></button>
                 </div>
                 <div class="offcanvas-body bg-black ">
                     <div class="input-group mb-3">

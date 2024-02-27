@@ -42,7 +42,7 @@
                             <a class="profile-link d-flex" href="/profile/${user.id}">
                                 <div class="card-body row">
                                     <div class="story me-5">
-                                        <img src="storage/${user.avatar}" class="rounded-circle"
+                                        <img src="http://localhost:8000/storage/${user.avatar}" class="rounded-circle"
                                         height="60" alt="avatar" />
                                     </div>
                                     <div class="col-8">
