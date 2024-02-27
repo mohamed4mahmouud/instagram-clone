@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use App\Jobs\VerifyEmailAfterUpdateJob;
+use App\Mail\VerifyEmailAfterUpdate;
 use Illuminate\Support\Facades\Redirect;
 
 
@@ -152,24 +153,29 @@ class ProfileController extends Controller
         return 'savedPosts';
     }
 
-    public function verifyEmailAfterUpdate(string $token)
+    public function sendEmail(Request $request)
+    {
+
+        $user = User::Where('email', $request->email)->first();
+        $verificationToken = Str::random(60);
+        $user->verification_token = $verificationToken;
+        $user->save();
+        VerifyEmailAfterUpdateJob::dispatch($request->new_email, $user->userName, $user->verification_token);
+        //dd($user->verification_token);
+        return redirect()->route('user.changeEmail');
+    }
+
+    public function verifyEmailAfterUpdate(string $token , string $email)
     {
         $user = User::where('verification_token', $token)->first();
 
         if($user){
-            $user->update([
-                'verification_token' => null,
-                'email_verified_at' => now(),
-            ]);
+            $user->verification_token = null;
+            $user->email_verified_at = now();
+            $user->email = $email;
+            $user->save();
+            return redirect()->route('posts.index');
         }
-    }
-
-    public function updateEmail(Request $request)
-    {
-        $userid = Auth::id();
-        $user = User::find($userid);
-        $user->email = $request->email;
-        $user->save();
     }
 
     public function updatePassword(Request $request) {

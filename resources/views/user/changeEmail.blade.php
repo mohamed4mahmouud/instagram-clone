@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Change Email</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            background-color: #121212; 
-            color: #fff; 
+            background-color: #121212;
+            color: #fff;
         }
 
         .container {
@@ -21,7 +21,7 @@
         }
 
         .login-container {
-            background-color: #232222; 
+            background-color: #232222;
             padding: 50px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -42,9 +42,9 @@
             color: #fff;
         }
 
-        
 
-    
+
+
         .form-control{
             background-color: #2e2d2d;
             border: none;
@@ -88,9 +88,8 @@
     <div class="container">
         <div class="row">
             <div class="login-container">
-                <form method="POST" action="{{ route('user.changePassword') }}">
+                <form method="POST" action="{{ route('verifyEmail') }}">
                     @csrf
-                    @method('PUT')
                     <h4 class="mb-4">Change E-mail</h4>
                     <div class="row mt-2">
                                     <label for="email" class="col-md-4 col-form-label text-md-right text-white">{{ __('Email') }}</label>
@@ -99,8 +98,15 @@
                                         <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ $user->email ?? old('email') }}">
                                     </div>
                                 </div>
-                
-                <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
+                                <div class="row mt-2">
+                                    <label for="email" class="col-md-4 col-form-label text-md-right text-white">{{ __('New Email') }}</label>
+
+                                    <div class="col-md-6 w-75">
+                                        <input id="email" type="email" class="form-control" name="new_email" placeholder="Email" value="{{ $user->email ?? old('email') }}">
+                                    </div>
+                                </div>
+
+                <button type="submit" class="btn btn-primary">{{ __('Change Email') }}</button>
                 </form>
             </div>
         </div>

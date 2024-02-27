@@ -60,12 +60,12 @@ class PostsController extends Controller
         $post = new Post();
         $request->validate([
             'tags.*' => 'regex:/^#[^\s]+$/'
-        ]);    
+        ]);
         // post cption and images store
         $post->caption= $request->input('caption');
         $post->user_id= User::all()->random()->id;
         $images=[];
-        for ($i=0; $i<count($request->file('files')) ; $i++) { 
+        for ($i=0; $i<count($request->file('files')) ; $i++) {
             if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
                 $imagepath=$request->file('files')[$i]->store('images','public');
                 $images[$i]=$imagepath;
@@ -77,9 +77,9 @@ class PostsController extends Controller
         // tag store
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         $hashtags = $matches[1];
-        
-        for ($i=0; $i < count($hashtags); $i++) { 
-            $tag=new Tag();       
+
+        for ($i=0; $i < count($hashtags); $i++) {
+            $tag=new Tag();
             $tag->name=$hashtags[$i];
             $tagName= $tag->name;
             $tag = Tag::firstOrCreate(['name' => $tagName]);
@@ -112,7 +112,7 @@ class PostsController extends Controller
         // $tagIds = [];
         // foreach ($post->tags as $tag)
         // $tagIds[] = $tag->id;
-      
+
         // dd($tagIds);
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         foreach ($matches[1] as $tag) {
@@ -121,7 +121,7 @@ class PostsController extends Controller
         // dd($post->tags->id);
 
         return view('posts.show' , ['post' => $post]);
-       
+
     }
 
     /**
@@ -150,9 +150,9 @@ class PostsController extends Controller
     public function likePost(Request $request)
     {
 
-        // TODO : 
-        // User that is logged in will be used instead to put his like 
-        // for the sake of the test right now 
+        // TODO :
+        // User that is logged in will be used instead to put his like
+        // for the sake of the test right now
         //iam using user with id for testing right now
 
         $user = User::find(12);
@@ -187,7 +187,7 @@ class PostsController extends Controller
 
         return response()->json(['message' => 'Commented on post ' . $comment]);
     }
-    
+
     public function test(){
         $posts=Post::with('comments')->get();
         dd($posts[5]->comments_count);
@@ -199,8 +199,8 @@ class PostsController extends Controller
 
         // $tag = Tag::find($id);
         $postTag = PostsTag::where('tag_id', $id)->get();
-        
-        
+
+
         // dd($postTag[0]->posts);
         $tag = Tag::find($id);
         // $tag->posts[0]->images = json_decode($tag->posts[0]->images, true);
@@ -208,8 +208,8 @@ class PostsController extends Controller
             $post->images = json_decode($post->images, true);
             // dd( $tag->name );
         }
-        
+
         return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
-        
+
     }
 }

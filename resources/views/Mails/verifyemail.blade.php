@@ -7,6 +7,6 @@
 </head>
 <body>
     <p>Please click the following link to verify your email:</p>
-    <a href="{{ route('verifyemail',['token'=>$token]) }}">Verify Email</a>
+    <a href="{{ route('verifyEmailupdate', ['token' => $token , 'email' => $email]) }}">Verify Email</a>
 </body>
 </html>
