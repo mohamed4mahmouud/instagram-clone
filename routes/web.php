@@ -33,9 +33,8 @@ Route::get('/userlogin', function(){
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
-    // Route::get('/viewprofile', [ProfileController::class, 'edit'])->name('user.viewprofile');
-
-
+    Route::get('verifyemail/{token}',[ProfileController::class,'verifyEmailAfterUpdate'])->name('verifyemail');
+    Route::post('update-email',[ProfileController::class,'updateEmail'])->name('updateemail');
 });
 
 
