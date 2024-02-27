@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\TagPost;
 use App\Events\AddLike;
 use App\Events\PostAdd;
 use App\Events\PostComment;
-
+use App\Listeners\IncrementTagPostCount;
 use App\Events\RemovePostLike;
 use App\Listeners\DecrementPostLikeCount;
 use Illuminate\Support\Facades\Event;
@@ -30,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PostComment::class=>[
             IncrementPostCommentCount::class
+        ],
+        TagPost::class=>[
+            IncrementTagPostCount::class
         ],
 
         AddLike::class=>[

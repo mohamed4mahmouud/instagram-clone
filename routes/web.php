@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostsController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\FollowController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\ProfileController;
 
 
 
@@ -67,6 +67,7 @@ Route::get('/posts/{post}/like',[PostsController::class, 'likePost'])->name('Pos
 Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
 
 Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
+Route::get('/tags/{id}',[PostsController::class,'tagsView'])->name('tags');
 Route::get('/users/{search}',[UserController::class,'search']);
 
 require __DIR__.'/auth.php';
