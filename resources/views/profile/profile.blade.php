@@ -82,9 +82,11 @@
     .overlay .fa-solid {
     margin-right: 5px; 
     }
+    .counts .counts-btn:hover{
+        cursor: pointer;
+    }
     .counts li:hover{
         background-color: #000000;
-        cursor: pointer;
     }
     .counts li{
         margin-right: 30px;
@@ -121,7 +123,9 @@
                 {{-- Username --}}
                 <h1 class="d-inline">{{ $user->userName }}</h1>
                 {{-- Edit Profile Button --}}
-                <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
+                @if($user->id == 6)
+                    <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
+                @endif
                 {{-- Bio --}}
                 @if($profile->bio)
                 <p>Bio: {{ $profile->bio }}</p>
@@ -129,8 +133,8 @@
                 {{-- Counts --}}
                 <ul class="list-inline counts">
                     <li class="d-inline-block">{{ $user->posts_count }} Posts</li>
-                    <li class="d-inline-block" id="followersBtn" data-bs-toggle="modal" data-bs-target="#followersModal">{{ $user->followers_count }} followers</li>
-                    <li class="d-inline-block" id="followingBtn" data-bs-toggle="modal" data-bs-target="#followingModal">{{ $user->following_count }} following</li>
+                    <li class="d-inline-block counts-btn" id="followersBtn" data-bs-toggle="modal" data-bs-target="#followersModal">{{ $user->followers_count }} followers</li>
+                    <li class="d-inline-block counts-btn" id="followingBtn" data-bs-toggle="modal" data-bs-target="#followingModal">{{ $user->following_count }} following</li>
                 </ul>
                 {{-- Website --}}
                 @if($profile->website)
@@ -170,6 +174,12 @@
         
         {{-- Posts --}}
         <div class="container posts-container">
+            @if($posts->isEmpty())
+                <div class="text-center mt-3">
+                    <img src="{{ URL('images/no_posts.png') }}" alt="" class="mt-5">
+                    <h1 class="mt-3">No Posts Yet</h1>
+                </div>
+            @else
             <div class="row mb-1">
                 @foreach($posts as $post)
                 <div class="col-md-4 mb-1 posts">
@@ -179,6 +189,7 @@
                 </div>
             @endforeach
             </div>
+            @endif
         </div>
         <div class="d-flex justify-content-center mt-3">
             {{ $posts->links() }}  
