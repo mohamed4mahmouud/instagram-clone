@@ -17,7 +17,7 @@ class VerifyEmailJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(private $name, private $email, private $token)
+    public function __construct(protected $name, protected $email, protected $token)
     {
         //
         $this->name = $name;
