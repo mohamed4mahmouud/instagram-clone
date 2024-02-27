@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PostComment;
-use App\Models\Comment;
 use Carbon\Carbon;
 use App\Models\Tag;
-
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Events\AddLike;
+
+use App\Events\PostAdd;
+use App\Models\Comment;
 use App\Models\PostsTag;
+use App\Events\PostComment;
+use Illuminate\Http\Request;
+use App\Events\RemovePostLike;
+use App\Http\Controllers\Controller;
 
 class PostsController extends Controller
 {
@@ -26,6 +29,10 @@ class PostsController extends Controller
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);
+            foreach ($post->comments as $comment) {
+                $commentCreateTime = Carbon::parse($comment->created_at);
+                $comment->timeDifference = $commentCreateTime->shortRelativeDiffForHumans();
+            }
             $post->timeDifference = $created_at->diffForHumans();
         }
 
@@ -80,7 +87,7 @@ class PostsController extends Controller
  
         $post->images=json_encode($images);
         $post->save();
-
+        event(new PostAdd($post));
         if($hashtags){
         $postTag = new PostsTag();
         $postTag->post_id = $post->id;
@@ -136,11 +143,24 @@ class PostsController extends Controller
         //iam using user with id for testing right now
 
         $user = User::find(1);
-        $like = new Like();
-        $like->user_id = $user->id;
-        $like->post_id = $request->post;
-        $like->save();
-        return ['msg' => 'liked successfully'];
+        $like = Like::where([
+            'user_id' => $user->id,
+            'post_id' => $request->post
+        ])->first();
+        // return ['msg'=>$like];
+
+        if ($like) {
+            event(new RemovePostLike($like));
+            $like->delete();
+            return ['msg' => 'like removed' . $like];
+        } else {
+            $like = new Like();
+            $like->user_id = $user->id;
+            $like->post_id = $request->post;
+            $like->save();
+            event(new AddLike($like));
+            return ['msg' => 'liked successfully'];
+        }
     }
 
     public function commentPost(Request $request)
@@ -148,15 +168,20 @@ class PostsController extends Controller
         $comment = new Comment();
         $comment->post_id = $request->post;
         $comment->user_id = User::find(1)->id;
-        $comment->body=$request->json()->get('comment');
+        $comment->body = $request->json()->get('comment');
         $comment->saveOrFail();
         event(new PostComment($comment));
 
-        return response()->json(['message' => 'Commented on post '.$comment]);
+        return response()->json(['message' => 'Commented on post ' . $comment]);
     }
-    
-    public function test(){
-        $posts=Post::with('comments')->get();
-        dd($posts[5]->comments_count);
+
+    public function test()
+    {
+        $posts = Post::with('likes')->get();
+        foreach ($posts as $post) {
+            foreach ($post->likes as $like) {
+                dd($like->user);
+            }
+        }
     }
 }
