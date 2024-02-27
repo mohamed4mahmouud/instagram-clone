@@ -56,7 +56,7 @@ class ProfileController extends Controller
         $profile->bio = $request->input('bio');
         $profile->website = $request->input('website');
         // $profile->save();
-        $user->profile()->save($profile);
+        $user->profile->save($profile);
         // event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
@@ -72,8 +72,9 @@ class ProfileController extends Controller
         // if ($request->user()->isDirty('email')) {
         //     $request->user()->email_verified_at = null;
         // }
+
         $user = Auth::user();
-        // dd($user)
+        // dd($user);
         $profile = $user->profile;
 
         $request->validate([
@@ -96,20 +97,19 @@ class ProfileController extends Controller
         }
 
         if ($request->filled('new_password')) {
-            $user->update([
-                'fullName' => $request->input('fullName'),
-                'phone' => $request->input('phone'),
-                'email' => $request->input('email'),
-                'gender' => $request->input('gender'),
-                'password' => Hash::make($request->new_password),
-            ]);
+            $user-> fullName = $request->input('fullName');
+            $user-> phone = $request->input('phone');
+            $user-> email = $request->input('email');
+            $user-> gender = $request->input('gender');
+            $user-> password = $request->input('password');
+            
         } else {
-            $user->update([
-                'fullName' => $request->input('fullName'),
-                'phone' => $request->input('phone'),
-                'email' => $request->input('email'),
-                'gender' => $request->input('gender'),
-            ]);
+            $user-> fullName = $request->input('fullName');
+            $user-> phone = $request->input('phone');
+            $user-> email = $request->input('email');
+            $user-> gender = $request->input('gender');
+            $user-> password = $request->input('password');
+           
         }
         
         $profile->save();

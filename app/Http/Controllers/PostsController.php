@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Events\PostComment;
-use App\Events\TagPost;
-use App\Models\Comment;
 use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Like;
@@ -11,10 +8,15 @@ use App\Models\Post;
 use App\Models\User;
 use App\Events\AddLike;
 use App\Events\PostAdd;
+use App\Events\TagPost;
+use App\Models\Comment;
 use App\Models\PostsTag;
+use App\Events\PostComment;
 use Illuminate\Http\Request;
 use App\Events\RemovePostLike;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
@@ -60,13 +62,23 @@ class PostsController extends Controller
         $post->caption= $request->input('caption');
         $post->user_id= User::all()->random()->id;
         $images=[];
-        for ($i=0; $i<count($request->file('files')) ; $i++) { 
-            if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
-                $imagepath=$request->file('files')[$i]->store('images','public');
-                $images[$i]=$imagepath;
-            }
+        for ($i=0; $i<count($request->file('files')); $i++) { 
+            if ($request->hasFile('files') && $request->file('files')[$i]->isValid()) {
+                $imagepath = $request->file('files')[$i]->store('images', 'public');
+                $images[$i] = $imagepath;
+                
+                // Resize and save each image
+                // $resizedImage = Image::make(public_path('storage/' . $imagepath))
+                //     ->fit(1080, 1080, function ($constraint) {
+                //         $constraint->upsize(); // Prevent up-sizing the image
+                //     });
+                
+                // $resizedImage->save(public_path('storage/' . $imagepath));
+            // }
         }
-        $post->images=json_encode($images);
+        
+        $post->images = json_encode($imagepath);
+        
         $post->save();
 
         // tag store
@@ -89,10 +101,10 @@ class PostsController extends Controller
                 $postTag->save();
                 }
         }
-      return view('posts.index');
+      return redirect()->route('posts.index');
 
     }
-
+    }
     /**
      * Display the specified resource.
      */
@@ -151,7 +163,9 @@ class PostsController extends Controller
         // for the sake of the test right now 
         //iam using user with id for testing right now
 
-        $user = User::find(1);
+        // $user = Auth::user();
+        $user = User::find(10);
+        // return ["msg"=>$user];
         $like = Like::where([
             'user_id' => $user->id,
             'post_id' => $request->post

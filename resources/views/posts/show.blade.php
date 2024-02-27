@@ -169,7 +169,7 @@
                                 <hr>
                                 <div class="col-md-11">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input type="text" id="comment-{{ $post->id }}" class="form-control bg-black"
+                                        <input type="text" id="comment-{{ $post->id }}" class="form-control bg-black text-light"
                                             placeholder="leave a comment ..."/>
                                     </div>
                                 </div>
@@ -184,6 +184,48 @@
             </div>
         </div>
     </div>
+     <script>
+            let likeBtns = document.querySelectorAll(".fa-heart")
+            likeBtns.forEach(likeBtn => {
+                likeBtn.onclick = async function() {
+                    let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
+                        'data-post-id') + '/like');
+                    let data = await res.json();
+                    // TODO: change heart icon to be filled with LOVE @farah
+                    console.log(data);
+                    //Handle the likes increment or decrement on the browser View
+                }
+            });
+
+
+            //TODO: Dynamic load Posts comments and likes
+
+
+
+            let postComments = document.querySelectorAll('.post-comment-btn')
+            postComments.forEach(postComment => {
+                postComment.onclick = async function() {
+                    const postId = this.getAttribute('data-post-id');
+                    const commentBody = document.getElementById('comment-' + postId).value;
+                    const url = 'http://localhost:8000/post/' + postId + '/comment';
+                    const csrf = document.querySelectorAll('meta')[2].getAttribute('content');
+                    const data = {
+                        comment: commentBody
+                    };
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "content-type": "application/json",
+                            "X-CSRF-TOKEN": csrf
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    let resData = await res.json();
+                    console.log(resData);
+                }
+            });
+
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
