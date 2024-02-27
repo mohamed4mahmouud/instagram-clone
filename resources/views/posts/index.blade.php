@@ -105,16 +105,31 @@
 
                             </div>
                             {{-- Image --}}
-                            <div class="bg-image hover-overlay shadow-1-strong rounded-0" data-mdb-ripple-init
-                                data-mdb-ripple-color="light">
-                                @foreach ($post->images as $img)
-                                <img src="{{ url($img) }}" class="w-100" alt="Louvre" />
-
-                                @endforeach
-                                <a href="#!">
-                                    <div class="mask" style="background-color: hsla(0, 0%, 98%, 0.2)"></div>
-                                </a>
+                            <div id="carouselExample" class="carousel slide">
+                                <div class="carousel-inner">
+                                    @for ($i = 0; $i < count($post->images); $i++)
+                                    @if ($i==0)
+                                        <div class="carousel-item active">
+                                            <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                                        </div>
+                                    @endif
+                                        
+                                     <div class="carousel-item">
+                                         <img src="{{ Storage::url($post->images[$i]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                                     </div>
+                                         
+                                     @endfor
+                                    </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
+                            
                             {{-- Interactions --}}
 
                             <div class="card-body">
