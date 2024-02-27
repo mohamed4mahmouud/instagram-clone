@@ -2,18 +2,33 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
+=======
+use App\Events\PostComment;
+use App\Events\TagPost;
+use App\Models\Comment;
+>>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
 use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Like;
 use App\Models\Post;
 
 use App\Models\User;
+<<<<<<< HEAD
 use App\Models\Comment;
 use App\Models\PostsTag;
 use App\Events\PostComment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+=======
+use App\Events\AddLike;
+use App\Events\PostAdd;
+use App\Models\PostsTag;
+use Illuminate\Http\Request;
+use App\Events\RemovePostLike;
+use App\Http\Controllers\Controller;
+>>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
 
 class PostsController extends Controller
 {
@@ -28,6 +43,10 @@ class PostsController extends Controller
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);
+            foreach ($post->comments as $comment) {
+                $commentCreateTime = Carbon::parse($comment->created_at);
+                $comment->timeDifference = $commentCreateTime->shortRelativeDiffForHumans();
+            }
             $post->timeDifference = $created_at->diffForHumans();
         }
 
@@ -52,10 +71,26 @@ class PostsController extends Controller
         $post = new Post();
         $request->validate([
             'tags.*' => 'regex:/^#[^\s]+$/'
+<<<<<<< HEAD
         ]);
 
+=======
+        ]);    
+        // post cption and images store
+>>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
         $post->caption= $request->input('caption');
+        $post->user_id= User::all()->random()->id;
+        $images=[];
+        for ($i=0; $i<count($request->file('files')) ; $i++) { 
+            if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
+                $imagepath=$request->file('files')[$i]->store('images','public');
+                $images[$i]=$imagepath;
+            }
+        }
+        $post->images=json_encode($images);
+        $post->save();
 
+        // tag store
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         $hashtags = $matches[1];
 
@@ -64,8 +99,10 @@ class PostsController extends Controller
             $tag->name=$hashtags[$i];
             $tagName= $tag->name;
             $tag = Tag::firstOrCreate(['name' => $tagName]);
+            event(new TagPost($tag));
             $tag->save();
 
+<<<<<<< HEAD
         }
 
 
@@ -89,7 +126,17 @@ class PostsController extends Controller
         $postTag->post_id = $post->id;
         $postTag->tag_id = $tag->id;
         $postTag->save();
+=======
+            //save tags and post_id in post_tag table
+            if($hashtags){
+                $postTag = new PostsTag();
+                $postTag->post_id = $post->id;
+                $postTag->tag_id = $tag->id;
+                $postTag->save();
+                }
+>>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
         }
+      return view('posts.index');
 
     }
 
@@ -100,11 +147,24 @@ class PostsController extends Controller
     {
         $post = Post ::find($id);
         $post->images = json_decode($post->images, true);
+        // check if the post has comments or not
+        if(!$post->comments->isEmpty()){
         $created_at = Carbon::parse($post->comments[0]->created_at);
-        // dd( $created_at ->diffForHumans());
         $post->timeDifference = $created_at->diffForHumans();
-        // dd($post->images[0]);
+        }
+        // $tagIds = [];
+        // foreach ($post->tags as $tag)
+        // $tagIds[] = $tag->id;
+      
+        // dd($tagIds);
+        preg_match_all('/#(\w+)/', $post->caption, $matches);
+        foreach ($matches[1] as $tag) {
+            // dd();
+        }
+        // dd($post->tags->id);
+
         return view('posts.show' , ['post' => $post]);
+       
     }
 
     /**
@@ -139,11 +199,24 @@ class PostsController extends Controller
         //iam using user with id for testing right now
 
         $user = User::find(1);
-        $like = new Like();
-        $like->user_id = $user->id;
-        $like->post_id = $request->post;
-        $like->save();
-        return ['msg' => 'liked successfully'];
+        $like = Like::where([
+            'user_id' => $user->id,
+            'post_id' => $request->post
+        ])->first();
+        // return ['msg'=>$like];
+
+        if ($like) {
+            event(new RemovePostLike($like));
+            $like->delete();
+            return ['msg' => 'like removed' . $like];
+        } else {
+            $like = new Like();
+            $like->user_id = $user->id;
+            $like->post_id = $request->post;
+            $like->save();
+            event(new AddLike($like));
+            return ['msg' => 'liked successfully'];
+        }
     }
 
     public function commentPost(Request $request)
@@ -151,15 +224,39 @@ class PostsController extends Controller
         $comment = new Comment();
         $comment->post_id = $request->post;
         $comment->user_id = User::find(1)->id;
-        $comment->body=$request->json()->get('comment');
+        $comment->body = $request->json()->get('comment');
         $comment->saveOrFail();
         event(new PostComment($comment));
 
-        return response()->json(['message' => 'Commented on post '.$comment]);
+        return response()->json(['message' => 'Commented on post ' . $comment]);
     }
 
     public function test(){
         $posts=Post::with('comments')->get();
         dd($posts[5]->comments_count);
     }
+<<<<<<< HEAD
 }
+=======
+
+    public function tagsView(string $id){
+        // $posts = Post::find(35);
+        // $posts->images = json_decode($posts->images, true);
+
+        // $tag = Tag::find($id);
+        $postTag = PostsTag::where('tag_id', $id)->get();
+        
+        
+        // dd($postTag[0]->posts);
+        $tag = Tag::find($id);
+        // $tag->posts[0]->images = json_decode($tag->posts[0]->images, true);
+        foreach($tag->posts as $post){
+            $post->images = json_decode($post->images, true);
+            // dd( $tag->name );
+        }
+        
+        return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
+        
+    }
+}
+>>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced

@@ -14,9 +14,11 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                <i class="fa-solid fa-magnifying-glass fa-lg text-white"></i> <span
-                                    class="ms-1 d-none d-sm-inline text-white">Search</span> </a>
+                            <a href="#submenu1" data-bs-toggle="collapse"data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"
+                                class="nav-link px-0 align-middle">
+                                <i class="fa-solid fa-magnifying-glass fa-lg text-white"></i>
+                                <span class="ms-1 d-none d-sm-inline text-white">Search</span> </a>
 
                         </li>
                         <li>
@@ -30,10 +32,11 @@
                                     class="ms-1 d-none d-sm-inline text-white">Notifications</span></a>
                         </li>
                         <li>
-                            <a href="{{ route('posts.create') }}"class="nav-link px-0 align-middle">
+                            <a href=""class="nav-link px-0 align-middle" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
                                 <i class="fa-regular fa-square-plus fa-lg text-white"></i> <span
                                     class="ms-1 d-none d-sm-inline text-white">Add Post</span> </a>
-
+                                  {{-- <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button> --}}
+                                        @include('posts.create')
                         </li>
                         <li>
                             <a href="#" class="d-flex align-items-center text-white text-decoration-none"
@@ -48,7 +51,26 @@
 
                 </div>
             </div>
-
+            {{-- Search Canvas --}}
+            <div class="offcanvas offcanvas-start ms-5 px-0" data-bs-scroll="true" data-bs-backdrop="false" tabindex="0"
+                id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                <div class="offcanvas-header bg-black ">
+                    <h5 class="offcanvas-title text-white" id="offcanvasScrollingLabel">Search</h5>
+                    <button type="button" class="btn-close " data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body bg-black ">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control bg-secondary" name="Username" id="Username"
+                            placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div id="Searchresult" class="text-white">
+                        {{-- Search Result div --}}
+                        <hr>
+                        <p> a7la mesa 3lek yabo el asyaf</p>
+                    </div>
+                </div>
+            </div>
+            <script src="{{ asset('js/navbar.js') }}"></script>
 
             <script>
                 let listItems = document.querySelectorAll('li')
@@ -66,4 +88,3 @@
                 });
             </script>
         @endsection
- 

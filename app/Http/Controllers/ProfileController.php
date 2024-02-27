@@ -137,7 +137,8 @@ class ProfileController extends Controller
 
     $posts = $user->posts()->paginate(9);
     foreach ($posts as $post) {
-        $post->images = json_decode($post->images, true)['image'];
+        // $post->images = json_decode($post->images, true)['image'];
+        $post->images = json_decode($post->images, true);
         $created_at = Carbon::parse($post->created_at);
         $post->timeDifference = $created_at->diffForHumans();
     }
