@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FollowController;
+
 
 
 
@@ -30,10 +30,19 @@ Route::get('/userlogin', function(){
 });
 
 
-// Route::group(['middleware' => 'guest'], function () {
-//     Route::get('/userlogin', [AuthenticatedSessionController::class, 'create'])->name('login');
-//     Route::post('/userlogin', [AuthenticatedSessionController::class, 'store']);
-// });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
+    // Route::get('/viewprofile', [ProfileController::class, 'edit'])->name('user.viewprofile');
+
+
+});
+
+
+// Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
+Route::put('/viewprofile', [ProfileController::class, 'update'])->name('user.viewprofile');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -41,9 +50,10 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
 route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');
@@ -57,5 +67,6 @@ Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->nam
 
 Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
 Route::get('/tags/{id}',[PostsController::class,'tagsView'])->name('tags');
+Route::get('/users/{search}',[UserController::class,'search']);
 
 require __DIR__.'/auth.php';

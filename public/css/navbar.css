@@ -1,0 +1,20 @@
+.custom {
+    border-radius: 100%;
+    width: 70px;
+    height: 70px;
+    float: left;
+    margin: 0px 20px 20px 20px;
+}
+
+#Username {
+    background-color: #262626;
+    border: none;
+    color: #fafafa;
+}
+
+.profile-link{
+    
+    all: initial;
+    color: inherit;
+    /* text-decoration: none; */
+}

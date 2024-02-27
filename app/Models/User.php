@@ -3,6 +3,7 @@ namespace App\Models;
 use App\Models\Like;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,15 +13,17 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'fullname',
+        'fullName',
         'email',
         'password',
-        'username',
+        'userName',
         'gender',
         'phone',
         'email',
         'email_verified_at',
+        'phone',
         'verification_token',
+        'reset_password_token',
         'followers_count',
         'following_count'
 
@@ -81,11 +84,11 @@ class User extends Authenticatable
     public function isFollowed()
     {
         $authenticatedUser = User::find(6);
-        
+
         if ($authenticatedUser) {
             return $authenticatedUser->isFollowing($this);
         }
-        
+
         return false;
     }
     public function likes(){
