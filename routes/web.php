@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
 // Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
 Route::put('/viewprofile', [ProfileController::class, 'update'])->name('user.viewprofile');
 
+Route::put('/changePassword', [ProfileController::class, 'updatePassword'])->name('user.changePassword');
 
 
 Route::get('/dashboard', function () {

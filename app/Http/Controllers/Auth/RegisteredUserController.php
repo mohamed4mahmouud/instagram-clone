@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-
 use Exception;
+
+use App\Models\User;
+use App\Models\Profile;
 use App\Mail\VerifyEmail;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -43,7 +44,7 @@ class RegisteredUserController extends Controller
                 'password' => ['required', Rules\Password::defaults()],
                 'gender'=> ['required']
             ]);
-
+           
 
             $user= new User();
             $verificationToken = Str::random(60);
@@ -58,6 +59,9 @@ class RegisteredUserController extends Controller
 
             //dd($user->verification_token);
             $user->save();
+            $profile = new Profile();
+            $profile->user()->associate($user->id);
+            $profile->save();
             // Send verification email
             //Mail::to($user->email)->send(new VerifyEmail($user->name,$user->verification_token));
             VerifyEmailJob::dispatch($user->name,$user->email,$user->verification_token);

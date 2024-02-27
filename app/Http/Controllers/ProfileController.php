@@ -51,7 +51,7 @@ class ProfileController extends Controller
             'website' => 'url|max:255',
         ]);
 
-        $profile = new Profile();
+        // $profile = new Profile();
 
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
@@ -60,8 +60,10 @@ class ProfileController extends Controller
 
         $profile->bio = $request->input('bio');
         $profile->website = $request->input('website');
-        // $profile->save();
-        $user->profile()->save($profile);
+        
+        // $profile->user()->associate($user->id);
+        $profile->save();
+        
         // event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
@@ -78,8 +80,9 @@ class ProfileController extends Controller
         //     $request->user()->email_verified_at = null;
         // }
         $user = Auth::user();
-        // dd($user)
+        // dd($user);
         $profile = $user->profile;
+        // dd($profile);
 
         $request->validate([
             'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -99,7 +102,6 @@ class ProfileController extends Controller
         $user->update([
             'fullName' => $request->input('fullName'),
             'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
             'gender' => $request->input('gender'),
         ]);
 
@@ -176,5 +178,14 @@ class ProfileController extends Controller
         }
     }
 
-}
+    public function updatePassword(Request $request) {
+        $user = Auth::user();
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
 
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+    }
+}
