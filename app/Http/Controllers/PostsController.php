@@ -11,11 +11,8 @@ use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use App\Events\AddLike;
-
 use App\Events\PostAdd;
-use App\Models\Comment;
 use App\Models\PostsTag;
-use App\Events\PostComment;
 use Illuminate\Http\Request;
 use App\Events\RemovePostLike;
 use App\Http\Controllers\Controller;

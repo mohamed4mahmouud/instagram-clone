@@ -6,10 +6,7 @@ use App\Events\TagPost;
 use App\Events\AddLike;
 use App\Events\PostAdd;
 use App\Events\PostComment;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Auth\Events\Registered;
 use App\Listeners\IncrementTagPostCount;
-
 use App\Events\RemovePostLike;
 use App\Listeners\DecrementPostLikeCount;
 use Illuminate\Support\Facades\Event;
