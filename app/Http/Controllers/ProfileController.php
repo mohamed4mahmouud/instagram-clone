@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\Follower;
 use App\Models\Profile;
 use Carbon\Carbon;
 
@@ -65,7 +66,8 @@ class ProfileController extends Controller
     {
     $user = User::findOrFail($userId);
     $profile = $user->profile;
-    
+    $followers = Follower::where('followee_id', $userId)->get();
+    $followings = Follower::where('follower_id', $userId)->get();
     $posts = $user->posts()->paginate(9);
     foreach ($posts as $post) {
         $post->images = json_decode($post->images, true)['image'];
@@ -73,7 +75,7 @@ class ProfileController extends Controller
         $post->timeDifference = $created_at->diffForHumans();
     }
 
-    return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts]);
+    return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }
 
     public function savedPosts($userId)
