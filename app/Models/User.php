@@ -21,7 +21,9 @@ class User extends Authenticatable
         'phone',
         'email',
         'email_verified_at',
+        'phone',
         'verification_token',
+        'reset_password_token',
         'followers_count',
         'following_count'
 
@@ -82,11 +84,11 @@ class User extends Authenticatable
     public function isFollowed()
     {
         $authenticatedUser = User::find(6);
-        
+
         if ($authenticatedUser) {
             return $authenticatedUser->isFollowing($this);
         }
-        
+
         return false;
     }
     public function likes(){

@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FollowController;
@@ -34,9 +33,8 @@ Route::get('/userlogin', function(){
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
-    // Route::get('/viewprofile', [ProfileController::class, 'edit'])->name('user.viewprofile');
-    
-    
+    Route::get('verifyemail/{token}',[ProfileController::class,'verifyEmailAfterUpdate'])->name('verifyemail');
+    Route::post('update-email',[ProfileController::class,'updateEmail'])->name('updateemail');
 });
 
 
@@ -55,7 +53,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+route::get('/changePassword', function() {
+return view('user.changePassword');
+})->name('user.changePassword');
+route::get('/changeEmail', function() {
+    return view('user.changeEmail');
+    })->name('user.changeEmail');
 route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
 route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');
 
