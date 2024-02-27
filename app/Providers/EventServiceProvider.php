@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\TagPost;
 use App\Events\PostComment;
-use App\Listeners\IncrementPostCommentCount;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
+use App\Listeners\IncrementTagPostCount;
+use App\Listeners\IncrementPostCommentCount;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PostComment::class=>[
             IncrementPostCommentCount::class
+        ],
+        TagPost::class=>[
+            IncrementTagPostCount::class
         ]
     ];
 

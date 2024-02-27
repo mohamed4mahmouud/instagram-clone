@@ -98,7 +98,7 @@
         <div class="row mb-5">
             <div class="col-md-3">
                 {{-- Profile Picture --}}
-                <img src="{{url('/images/0L82wQJ8mQQaZ7XmQmAUYBo5u7r3h5JFoiq2mcVz.jpg')}}" class="rounded-circle w-100" alt="Avatar">
+                <img src="{{Storage :: url($tag->posts[0]->images[0])}}" class="rounded-circle w-100" alt="Avatar">
             </div>
             <div class="col-md-9">
                 {{-- Tag name --}}
@@ -107,7 +107,7 @@
                 {{-- Add listner for post count --}}
                 {{-- Counts --}}
                 <ul class="list-inline counts text-light ms-5">
-                    <li class="d-inline-block">1,799</li>
+                    <li class="d-inline-block">{{$tag->post_count}}</li>
                     <p>Posts</p>
                     {{-- <li class="d-inline-block"><a href=""></a>followerscount followers</a></li>
                     <li class="d-inline-block">followingcount following</li> --}}
@@ -138,14 +138,16 @@
         {{-- Posts --}}
         <div class="container posts-container">
             <div class="row mb-1">
-                {{-- @foreach($posts->images as $post) --}}
+            @foreach($tag->posts as $post)
+                {{-- @foreach($post->images as $image) --}}
                 <div class="col-md-4 mb-1 posts">
                     <div class="post">
-                        {{-- <a href="#"><img src="{{Storage::url($post->images) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a> --}}
-                    {{-- <img src="{{ Storage::url($post) }}" alt=""> --}}
+                        <a href="#"><img src="{{Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
+                    {{-- <img src="{{ Storage::url($post->images[0]) }}" alt=""> --}}
                     </div>
                 </div>
-            {{-- @endforeach --}}
+                {{-- @endforeach --}}
+            @endforeach
             </div>
         </div>        
     </div>

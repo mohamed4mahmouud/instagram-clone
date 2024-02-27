@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PostComment;
+use App\Events\TagPost;
 use App\Models\Comment;
 use Carbon\Carbon;
 use App\Models\Tag;
@@ -50,9 +51,21 @@ class PostsController extends Controller
         $request->validate([
             'tags.*' => 'regex:/^#[^\s]+$/'
         ]);    
-
+        // post cption and images store
         $post->caption= $request->input('caption');
+        $post->user_id= User::all()->random()->id;
+        $images=[];
+        for ($i=0; $i<count($request->file('files')) ; $i++) { 
+            if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
+                $imagepath=$request->file('files')[$i]->store('images','public');
+                $images[$i]=$imagepath;
+            }
+        }
+        $post->images=json_encode($images);
+        event(new TagPost($post));
+        $post->save();
 
+        // tag store
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         $hashtags = $matches[1];
         
@@ -62,31 +75,16 @@ class PostsController extends Controller
             $tagName= $tag->name;
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $tag->save();
-           
-        }
-    
 
-        
-        $post->user_id= User::all()->random()->id;
-        $images=[];
-        // dd($request->all());
-        // dd($request->input('caption'));
-        for ($i=0; $i<count($request->file('files')) ; $i++) { 
-            if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
-                $imagepath=$request->file('files')[$i]->store('images','public');
-                $images[$i]=$imagepath;
-            }
+            //save tags and post_id in post_tag table
+            if($hashtags){
+                $postTag = new PostsTag();
+                $postTag->post_id = $post->id;
+                $postTag->tag_id = $tag->id;
+                $postTag->save();
+                }
         }
- 
-        $post->images=json_encode($images);
-        $post->save();
-
-        if($hashtags){
-        $postTag = new PostsTag();
-        $postTag->post_id = $post->id;
-        $postTag->tag_id = $tag->id;
-        $postTag->save();
-        }
+      return view('posts.index');
 
     }
 
@@ -102,9 +100,13 @@ class PostsController extends Controller
         $created_at = Carbon::parse($post->comments[0]->created_at);
         $post->timeDifference = $created_at->diffForHumans();
         }
+        $tagIds = [];
+        foreach ($post->tags as $tag)
         
+        $tagIds[] = $tag->id;
       
-        return view('posts.show' , ['post' => $post]);
+        // dd($tagIds);
+        return view('posts.show' , ['post' => $post , 'tag'=>$tagIds]);
     }
 
     /**
@@ -164,12 +166,22 @@ class PostsController extends Controller
     }
 
     public function tagsView(string $id){
-        $posts = Post::find(35);
-        $posts->images = json_decode($posts->images, true);
+        // $posts = Post::find(35);
+        // $posts->images = json_decode($posts->images, true);
 
-        $tag = Tag::find($id);
+        // $tag = Tag::find($id);
         $postTag = PostsTag::where('tag_id', $id)->get();
-        // dd($postTag->post->caption);
+        
+        
+        // dd($postTag[0]->posts);
+        $tag = Tag::find($id);
+        // $tag->posts[0]->images = json_decode($tag->posts[0]->images, true);
+        foreach($tag->posts as $post){
+            $post->images = json_decode($post->images, true);
+            // dd( $tag->name );
+        }
+        
         return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
+        
     }
 }

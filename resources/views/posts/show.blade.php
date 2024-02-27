@@ -57,7 +57,7 @@
                 <div>
                     <div class="d-flex align-items-center">
                         <div class="pe-3">
-                            <img src="{{asset($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                            {{-- <img src="{{asset($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model --> --}}
                         </div>           
                         <div>
                             <div class="fw-bold">
@@ -75,7 +75,7 @@
                     <hr class="text-light">
 
                     {{-- comments section --}}
-                    {{-- post owner post description --}}
+                    {{-- post caption --}}
                         <div class="d-flex">
                             <div class="pe-3">
                                 <img src="{{ url('/images/download.jpg') }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
@@ -88,10 +88,13 @@
                                             <span class="text-light">{{ $post->user->fullName }}</span>
                                             </a>
                                         </span>
-                                        
-                                        <span class="text-light ms-1">
-                                        {!! preg_replace('/#(\w+)/', '<a href="#tagpage" class="hash-tag text-primary">$0</a>', $post->caption) !!}
-                                        </span>
+                                        <p class="text-light">
+                                           {{-- {{$post->caption}} --}}
+                                                <span class="text-light">
+                                                    {!! preg_replace('/#(\w+)/', '<a href="' . route("tags", ["id" => $tag[0]]) . '" class="hash-tag">$0</a>', $post->caption) !!}
+                                                </span>
+                                             
+                                        </p>
                                     </div>
                                     <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
                                 </div>
