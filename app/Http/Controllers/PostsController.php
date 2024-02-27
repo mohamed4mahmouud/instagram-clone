@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\AddLike;
-use App\Events\PostComment;
-use App\Events\RemovePostLike;
-use App\Models\Comment;
 use Carbon\Carbon;
 use App\Models\Tag;
-
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Events\AddLike;
+
+use App\Events\PostAdd;
+use App\Models\Comment;
 use App\Models\PostsTag;
+use App\Events\PostComment;
+use Illuminate\Http\Request;
+use App\Events\RemovePostLike;
+use App\Http\Controllers\Controller;
 
 class PostsController extends Controller
 {
@@ -86,7 +87,7 @@ class PostsController extends Controller
  
         $post->images=json_encode($images);
         $post->save();
-
+        event(new PostAdd($post));
         if($hashtags){
         $postTag = new PostsTag();
         $postTag->post_id = $post->id;

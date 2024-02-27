@@ -108,7 +108,7 @@
                             <div class="bg-image hover-overlay shadow-1-strong rounded-0" data-mdb-ripple-init
                                 data-mdb-ripple-color="light">
                                 @foreach ($post->images as $img)
-                                <img src="{{ Storage::url($img) }}" class="w-100" alt="Louvre" />
+                                <img src="{{ url($img) }}" class="w-100" alt="Louvre" />
 
                                 @endforeach
                                 <a href="#!">
