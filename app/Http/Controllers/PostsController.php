@@ -2,33 +2,21 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
 use App\Events\PostComment;
 use App\Events\TagPost;
 use App\Models\Comment;
->>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
 use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Like;
 use App\Models\Post;
 
 use App\Models\User;
-<<<<<<< HEAD
-use App\Models\Comment;
-use App\Models\PostsTag;
-use App\Events\PostComment;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-=======
 use App\Events\AddLike;
 use App\Events\PostAdd;
 use App\Models\PostsTag;
 use Illuminate\Http\Request;
 use App\Events\RemovePostLike;
 use App\Http\Controllers\Controller;
->>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
 
 class PostsController extends Controller
 {
@@ -71,17 +59,12 @@ class PostsController extends Controller
         $post = new Post();
         $request->validate([
             'tags.*' => 'regex:/^#[^\s]+$/'
-<<<<<<< HEAD
         ]);
-
-=======
-        ]);    
         // post cption and images store
->>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
         $post->caption= $request->input('caption');
         $post->user_id= User::all()->random()->id;
         $images=[];
-        for ($i=0; $i<count($request->file('files')) ; $i++) { 
+        for ($i=0; $i<count($request->file('files')) ; $i++) {
             if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
                 $imagepath=$request->file('files')[$i]->store('images','public');
                 $images[$i]=$imagepath;
@@ -102,31 +85,6 @@ class PostsController extends Controller
             event(new TagPost($tag));
             $tag->save();
 
-<<<<<<< HEAD
-        }
-
-
-
-        $post->user_id= User::all()->random()->id;
-        $images=[];
-        // dd($request->all());
-        // dd($request->input('caption'));
-        for ($i=0; $i<count($request->file('files')) ; $i++) {
-            if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
-                $imagepath=$request->file('files')[$i]->store('images','public');
-                $images[$i]=$imagepath;
-            }
-        }
-
-        $post->images=json_encode($images);
-        $post->save();
-
-        if($hashtags){
-        $postTag = new PostsTag();
-        $postTag->post_id = $post->id;
-        $postTag->tag_id = $tag->id;
-        $postTag->save();
-=======
             //save tags and post_id in post_tag table
             if($hashtags){
                 $postTag = new PostsTag();
@@ -134,7 +92,6 @@ class PostsController extends Controller
                 $postTag->tag_id = $tag->id;
                 $postTag->save();
                 }
->>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
         }
       return view('posts.index');
 
@@ -155,7 +112,7 @@ class PostsController extends Controller
         // $tagIds = [];
         // foreach ($post->tags as $tag)
         // $tagIds[] = $tag->id;
-      
+
         // dd($tagIds);
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         foreach ($matches[1] as $tag) {
@@ -164,7 +121,7 @@ class PostsController extends Controller
         // dd($post->tags->id);
 
         return view('posts.show' , ['post' => $post]);
-       
+
     }
 
     /**
@@ -235,9 +192,6 @@ class PostsController extends Controller
         $posts=Post::with('comments')->get();
         dd($posts[5]->comments_count);
     }
-<<<<<<< HEAD
-}
-=======
 
     public function tagsView(string $id){
         // $posts = Post::find(35);
@@ -245,8 +199,8 @@ class PostsController extends Controller
 
         // $tag = Tag::find($id);
         $postTag = PostsTag::where('tag_id', $id)->get();
-        
-        
+
+
         // dd($postTag[0]->posts);
         $tag = Tag::find($id);
         // $tag->posts[0]->images = json_decode($tag->posts[0]->images, true);
@@ -254,9 +208,8 @@ class PostsController extends Controller
             $post->images = json_decode($post->images, true);
             // dd( $tag->name );
         }
-        
+
         return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
-        
+
     }
 }
->>>>>>> 5d05e4a06dbccfe2ea0217b92d92fa2dd24a8ced
