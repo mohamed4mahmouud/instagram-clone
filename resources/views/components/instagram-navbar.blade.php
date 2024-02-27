@@ -53,7 +53,7 @@
                 id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header bg-black ">
                     <h5 class="offcanvas-title text-white" id="offcanvasScrollingLabel">Search</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" ></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" ></button>
                 </div>
                 <div class="offcanvas-body bg-black ">
                     <div class="input-group mb-3">
