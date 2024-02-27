@@ -24,7 +24,7 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
     public function tags(){
-        return $this -> hasMany(Tag::class);
+        return $this -> belongsToMany(Tag::class);
     }
     public function likes(){
         return $this -> hasMany(Like::class);

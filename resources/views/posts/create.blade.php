@@ -14,15 +14,7 @@
         .card{
             background-color: #232222;
         }
-        .carousel-item {
-            width: 100%;
-            height: 100%;
-          
-           
-        }
-        .carousel-item img{
-            object-fit: cover;
-        }
+       
         #filebtn {
         /* position: absolute;
         bottom: 0;
@@ -40,109 +32,134 @@
     z-index: 1;
         
     }
-    .carousel-item{
+    
+    /* .carousel-item{
         position: relative;
-    }
-    .card-header {
+        width: 100%;
+        height: 100%;
+          
+    } */
+    .modal-header {
         border-bottom: 2px solid #363636;
+        text-align: center
     }
 
     .carousel-item img{
-        width: 500px;
+        width: 400px;
         height: 400px;
+        object-fit: cover;
     }
-
-   
      
     </style>
 
 </head>
 <body>
    
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header text-light text-center fw-bold fs-4">Create a new post</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
-                        @csrf
 
-                        <div class="form-group row justify-content-center position-relative" id="ImagePrev">
-                        
-                             {{-- images preview --}}
-                            <div class="col-6" >
-                                <div id="carouselExampleIndicators" class="carousel slide d-none">  
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item">
-                                    {{-- images uploaded dynamicaly saved here :) --}}                                    
-                                        </div>
-                                     </div>
-                                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                      </button>
-                                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                      </button>
-                                    </div>
-
-                            </div>
-
-                            {{-- Upload Icon --}}
-                            {{-- <i class="fa-regular fa-clone fa-2x text-light mb-5" id="addIcon" style="display: none"><label for=""></label></i>     --}}
-                            {{-- <input type="file" class="custom-file-input text-light files" name="files[]" multiple onchange="previewImages()" style="visibility: hidden">    --}}
-                            
-
-                            {{-- Upload icon and btn --}}
-                            <div class="col-md-6 text-center m-5">
-                                <i  id="icon" class="far fa-images fa-5x mt-3" style="color: white;"></i>
-                                <div class="custom-file mt-5">
-                                    <input type="file" id="filebtn" class="custom-file-input m-3 ms-5 text-light" name="files[]" multiple onchange="previewImages()">   
-                                    <button  type="button" id="addFiles" class="btn btn-primary"><label class="custom-file-label text-light fw-semibold" for="files">Select from your device</label>
-                                    </button>
-                                </div>
-                            </div>
-                            
-
-                            
-                            <div class="col-md-6 position-absolute top-0 end-0"  id="caption" style="display: none;">  
-                              
-                            {{-- profile caption's details --}}
-                                {{-- <div class="row"> --}}
-
-                                    <div class="d-flex align-items-center">
-                                        <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar">
-                                            <i class="fas fa-user-alt text-info"></i>
-                                        </div>
-                                        <p class="fw-bold text-light ms-2 mt-3">UserName</p>
-                                    </div>
-                                    
-                                {{-- </div> --}}
-                             {{-- Caption --}}
-                                <div class="form-floating">
-                                <textarea  name="caption" class="form-control text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px; background-color:#232222;border: none; "></textarea>
-                                <label for="floatingTextarea2" style="color:#9d9d9d">Write a caption here...</label>
-                              </div>
-                            </div>
-
-                        <div class="form-group row mb-0" id="submitBtn" style="display: none;">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary float-md-end">
-                                    Create Post
-                                </button>
-                            </div>
-                        </div>
-                        
-                    </form>
-                </div>
-            </div>
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark">
+        <div class="modal-header text-center">
+          <h1 class="modal-title fs-5 text-light" id="exampleModalToggleLabel">Create a new post</h1>
+          <button type="button" class="btn-close text-white " data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-    </div>
-</div>
+        <div class="modal-body">
+            <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+                @csrf
 
+                <div class="form-group row justify-content-center position-relative" id="ImagePrev">
+                
+                     {{-- images preview --}}
+                    <div class="col-6" >
+                        <div id="carouselExampleIndicators" class="carousel slide d-none">  
+                            <div class="carousel-inner">
+                                <div class="carousel-item">
+                            {{-- images uploaded dynamicaly saved here :) --}}                                    
+                                </div>
+                             </div>
+                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                              </button>
+                              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                              </button>
+                            </div>
+
+                    </div>
+
+                    {{-- Upload btn for first time --}}
+                    <div class="col-md-6 text-center m-5">
+                        <i  id="icon" class="far fa-images fa-5x mt-3" style="color: white;"></i>
+                        <div class="custom-file mt-5">
+                            <label class="btn btn-primary" id="addFiles">
+                                Select from your device
+                                <input type="file" id="filebtn" class="custom-file-input m-3 ms-5 text-light images" name="files[]" multiple onchange="previewImages()" style="display: none">   
+                            </label>
+                        </div>
+                    </div>
+                        {{-- upload icon for add more images --}}
+                    <div class="col-md-6 text-center m-5" id="addIcon" style="display: none" >
+                        <div class="custom-file mt-5">
+                            <label class="fa-regular fa-clone fa-2x">
+                                <input type="file" class="custom-file-input m-3 ms-5 text-light images" name="files[]" multiple onchange="previewImages()" style="display: none">   
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 position-absolute top-0 end-0"  id="caption" style="display: none;">   
+                    {{-- profile caption's details --}}
+                        {{-- <div class="row"> --}}
+
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar">
+                                    <i class="fas fa-user-alt text-info"></i>
+                                </div>
+                                <p class="fw-bold text-light ms-2 mt-3">UserName</p>
+                            </div>
+                            
+                        {{-- </div> --}}
+                     {{-- Caption --}}
+                        <div class="form-floating">
+                        <textarea  name="caption" class="form-control text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px; background-color:#232222;border: none; "></textarea>
+                        <label for="floatingTextarea2" style="color:#9d9d9d">Write a caption here...</label>
+                      </div>
+                    </div>
+
+                <div class="form-group row mb-0" id="submitBtn" style="display: none;">
+                    <div class="col-md-8 offset-md-4">
+                        <button type="submit" class="btn btn-primary float-md-end">
+                            Create Post
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {{-- <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+        </div> --}}
+      </div>
+    </div>
+  </div>
+  {{-- <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Hide this modal and show the first with the button below.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+        </div>
+      </div>
+    </div>
+  </div> --}}
+ 
 
 <script>
     function previewImages() {
@@ -158,17 +175,20 @@
         ImagesUplaodedView = document.getElementById('ImagePrev');
         ImagesUplaodedView.classList.remove('justify-content-center');
 
-        // vertical line appear when images uploaded
-        vr = document.getElementById('verticalline');
-        // vr.style.display = 'block';
 
         previewContainer.innerHTML = ''; // Clear previous previews
         
-        var files = document.getElementById('filebtn').files;
-       
-        // multipleImgIcon = document.querySelector('.files');
-        // multipleImgIcon.style.display = 'block';
-        
+        // var files = document.getElementById('filebtn').files;
+        var fileInputs = document.querySelectorAll('.images');
+        var files = [];
+        fileInputs.forEach(function(input) {
+            if (input.files.length > 0) {
+                for (var i = 0; i < input.files.length; i++) {
+                    files.push(input.files[i]);
+                }
+            }
+        });
+   
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
             let reader = new FileReader();
@@ -177,7 +197,7 @@
                
             let sliderElement = document.createElement('div');    
             let imgElement = document.createElement('img');
-            imgElement.classList.add('d-block', 'w-100');
+            imgElement.classList.add('d-block');
             sliderElement.appendChild(imgElement);
             sliderElement.classList.add('carousel-item')
            
@@ -186,7 +206,6 @@
 
             if (i === 0) {
                 sliderElement.classList.add('active');
-                console.log('here');
             }
             if(files.length == 1){
                 
@@ -194,11 +213,12 @@
                 carouselControlsNext.style.display = "none";
             
             }
-            }
             
+            }
+            console.log(files);
         
             reader.readAsDataURL(file);
-        
+            
             imgIcon.remove();
             caption.style.display = 'block';
             submitBtn.style.display = 'block';

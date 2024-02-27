@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostsTag extends Model
 {
+    protected $table = 'post_tag';
+    
     use HasFactory;
     protected $fillable = [
         'tag_id',
