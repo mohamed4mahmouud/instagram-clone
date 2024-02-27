@@ -171,4 +171,15 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->save();
     }
+
+    public function updatePassword(Request $request) {
+        $user = Auth::user();
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+    }
 }

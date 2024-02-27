@@ -94,8 +94,7 @@ class PostsController extends Controller
                 $postTag->save();
                 }
         }
-      return view('posts.index');
-
+      return redirect()->route('posts.index');
     }
 
     /**
@@ -156,7 +155,7 @@ class PostsController extends Controller
         // for the sake of the test right now 
         //iam using user with id for testing right now
 
-        $user = User::find(1);
+        $user = User::find(12);
         $like = Like::where([
             'user_id' => $user->id,
             'post_id' => $request->post
@@ -181,7 +180,7 @@ class PostsController extends Controller
     {
         $comment = new Comment();
         $comment->post_id = $request->post;
-        $comment->user_id = User::find(1)->id;
+        $comment->user_id = User::find(12)->id;
         $comment->body = $request->json()->get('comment');
         $comment->saveOrFail();
         event(new PostComment($comment));
