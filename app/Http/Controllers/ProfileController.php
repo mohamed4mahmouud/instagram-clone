@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Post;
 use App\Models\Follower;
 use App\Models\Profile;
 use Illuminate\View\View;
@@ -147,11 +148,14 @@ class ProfileController extends Controller
     $followers = Follower::where('followee_id', $userId)->get();
     $followings = Follower::where('follower_id', $userId)->get();
     $posts = $user->posts()->paginate(9);
+    $images=[];
+    // dd(json_decode($posts[0]->images, true));
     foreach ($posts as $post) {
-        $post->images = json_decode($post->images, true)['image'];
-        $created_at = Carbon::parse($post->created_at);
-        $post->timeDifference = $created_at->diffForHumans();
+        $post->images = json_decode($post->images, true);
     }
+    // $post->images=$images;
+    // dd($post->images[0]);
+    // dd($images);
 
     return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }
