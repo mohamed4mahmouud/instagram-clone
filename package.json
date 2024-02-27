@@ -20,11 +20,7 @@
     },
     
     "dependencies": {
-<<<<<<< HEAD
         "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.11.3"
-=======
-        "bootstrap": "^5.3.3"
->>>>>>> 93e6033ed6e1ec4d24a57683c7f3e3f1b34d9b62
     }
 }
