@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>View Post</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-                                {{-- font awesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+@extends('layouts.main');
+@section('newsfeed');
+@section('css')
     <style>
         .bg-black::placeholder {
         color: white;
@@ -18,6 +10,7 @@
         text-decoration: none;
     }
     </style>
+@endsection
 </head>
 <body>
     <body class="bg-black">
@@ -57,7 +50,9 @@
                 <div>
                     <div class="d-flex align-items-center">
                         <div class="pe-3">
-                            {{-- <img src="{{asset($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model --> --}}
+                        @if($post->user->profile)
+                            <img src="{{Storage::url($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                        @endif
                         </div>           
                         <div>
                             <div class="fw-bold">
@@ -78,7 +73,9 @@
                     {{-- post caption --}}
                         <div class="d-flex">
                             <div class="pe-3">
-                                <img src="{{ url('/images/download.jpg') }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                                @if ($post->user->profile)
+                                <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                                @endif
                             </div>    
                             <div class="flex-grow-1">
                                 <div class="d-flex justify-content-between">
@@ -91,13 +88,10 @@
                                         <p class="text-light">
                                            {{$post->caption}}
                                            @foreach ($post->tags as $tag)
-                                           <span class="text-light">
+                                           <span class="text-light ">
                                                <a href="{{ route("tags", ["id" => $tag->id]) }}" class="hash-tag">#{{ $tag->name }}</a>
                                            </span>
                                        @endforeach
-                                       
-                                               
-                                           {{-- <p class="text-light">{{$post->caption}}</p>   --}}
                                         </p>
                                     </div>
                                     <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
@@ -169,7 +163,7 @@
                                 <hr>
                                 <div class="col-md-11">
                                     <div class="form-outline" data-mdb-input-init>
-                                        <input type="text" id="comment-{{ $post->id }}" class="form-control bg-black"
+                                        <input type="text" id="comment-{{ $post->id }}" class="form-control bg-black text-light"
                                             placeholder="leave a comment ..."/>
                                     </div>
                                 </div>
@@ -184,7 +178,59 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+     <script>
+            let likeBtns = document.querySelectorAll(".fa-heart")
+            likeBtns.forEach(likeBtn => {
+                likeBtn.onclick = async function() {
+                    let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
+                        'data-post-id') + '/like');
+                    let data = await res.json();
+                    // TODO: change heart icon to be filled with LOVE @farah
+                    console.log(data);
+                    //Handle the likes increment or decrement on the browser View
+                }
+            });
 
-</body>
-</html>
+
+            //TODO: Dynamic load Posts comments and likes
+
+
+
+            let postComments = document.querySelectorAll('.post-comment-btn')
+            postComments.forEach(postComment => {
+                postComment.onclick = async function() {
+                    const postId = this.getAttribute('data-post-id');
+                    const commentBody = document.getElementById('comment-' + postId).value;
+                    const url = 'http://localhost:8000/post/' + postId + '/comment';
+                    const csrf = document.querySelectorAll('meta')[2].getAttribute('content');
+                    const data = {
+                        comment: commentBody
+                    };
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            "content-type": "application/json",
+                            "X-CSRF-TOKEN": csrf
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    let resData = await res.json();
+                    console.log(resData);
+                }
+                
+            });
+            let savePosts= document.querySelectorAll('.fa-bookmark');
+            // console.log(savePosts);
+            savePosts.forEach(savePost => {
+                savePost.onclick = async function() {
+                    const postId=this.getAttribute('data-post-id');
+                    const res=await fetch("http://localhost:8000/posts/"+postId+"/save");
+                    let resData=await res.json();
+                   console.log(resData);
+                    
+                }
+            });
+
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+@endsection

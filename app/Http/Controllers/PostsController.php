@@ -1,10 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Events\PostComment;
-use App\Events\TagPost;
-use App\Models\Comment;
 use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Like;
@@ -13,7 +9,11 @@ use App\Models\Post;
 use App\Models\User;
 use App\Events\AddLike;
 use App\Events\PostAdd;
+use App\Events\TagPost;
+use App\Models\Comment;
 use App\Models\PostsTag;
+use App\Models\SavedPost;
+use App\Events\PostComment;
 use Illuminate\Http\Request;
 use App\Events\RemovePostLike;
 use App\Http\Controllers\Controller;
@@ -63,7 +63,9 @@ class PostsController extends Controller
         ]);
         // post cption and images store
         $post->caption= $request->input('caption');
-        $post->user_id= User::all()->random()->id;
+        // $post->user_id= User::all()->random()->id;
+        $post->user_id = Auth::user()->id;
+        // dd($post->user_id);
         $images=[];
         for ($i=0; $i<count($request->file('files')) ; $i++) {
             if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
@@ -96,6 +98,7 @@ class PostsController extends Controller
         }
       return redirect()->route('posts.index');
     }
+    
 
     /**
      * Display the specified resource.
@@ -155,7 +158,9 @@ class PostsController extends Controller
         // for the sake of the test right now
         //iam using user with id for testing right now
 
-        $user = User::find(12);
+        // $user = Auth::user();
+        $user = User::find(10);
+        // return ["msg"=>$user];
         $like = Like::where([
             'user_id' => $user->id,
             'post_id' => $request->post
@@ -210,6 +215,25 @@ class PostsController extends Controller
         }
 
         return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
+        
+    }
+    public function savePost(Request $request){
+        //save post to a random user
+        
+        $user = Auth::user();
+        $savedPost = SavedPost::where([
+            'user_id' => $user->id,
+            'post_id' => $request->postId
+        ])->first();
+            if($savedPost){
+            $savedPost->delete();
+            }else{
+            $savedPost = new SavedPost();
+            $savedPost->user_id = $user->id;
+            $savedPost->post_id = $request->postId;
+            $savedPost->save();
+}
+        return ['MSG' =>'Post saved successfully'];
 
     }
 }

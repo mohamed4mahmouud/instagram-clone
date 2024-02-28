@@ -46,7 +46,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-
+        $profile = $user ->profile;
         $request->validate([
             'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'bio' => 'max:255',
@@ -81,33 +81,38 @@ class ProfileController extends Controller
         // if ($request->user()->isDirty('email')) {
         //     $request->user()->email_verified_at = null;
         // }
+        // dd($request);
         $user = Auth::user();
         // dd($user);
         $profile = $user->profile;
-        // dd($profile);
+        $profile->user;
+        // dd($profile->user->gender);
 
-        $request->validate([
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'bio' => 'max:255',
-            'website' => 'url|max:255',
-        ]);
-
+        // $request->validate([
+        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     'bio' => 'max:255',
+        //     'website' => 'url|max:255',
+        // ]);
+        
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
             $profile->avatar = $avatarPath;
         }
+        
 
         $profile->bio = $request->input('bio');
 
         $profile->website = $request->input('website');
 
-        $user->update([
-            'fullName' => $request->input('fullName'),
-            'phone' => $request->input('phone'),
-            'gender' => $request->input('gender'),
-        ]);
+        $profile->user->fullName= $request->input('fullName');
+        $profile->user->phone = $request->input('phone');
+        $profile->user->gender = $request->input('gender');
+
+        
+        // dd($user);
 
         $profile->save();
+        $profile->user-> save();
 
         // return view('welcome');
         return redirect()->route('user.viewprofile')->with('status', 'Profile updated successfully.');
@@ -189,8 +194,7 @@ class ProfileController extends Controller
             return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
 
-        $user->update([
-            'password' => Hash::make($request->new_password),
-        ]);
+        $user-> password = Hash::make($request->new_password);
+        
     }
 }

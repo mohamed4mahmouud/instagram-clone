@@ -33,6 +33,7 @@
             <a href="#"><img src="{{Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
         {{-- <img src="{{ Storage::url($post->images[0]) }}" alt=""> --}}
         </div>
+
     </div>
     {{-- @endforeach --}}
     @endforeach

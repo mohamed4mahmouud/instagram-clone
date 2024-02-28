@@ -104,6 +104,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Following Modal -->
@@ -128,6 +129,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     @endforeach
                 </div>
