@@ -156,7 +156,8 @@
                 @foreach($posts as $post)
                 <div class="col-md-4 mb-1 posts">
                     <div class="post">
-                        <a href="{{route('posts.view')}}"><img src="{{Storage::url($post->images[0])}}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
+                        {{--Another way to redirect post link => href="/posts/{{$post->id}}" --}}
+                        <a href="{{ route('posts.show', ['post' => $post->id]) }}"><img src="{{Storage::url($post->images[0])}}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
                     </div>
                 </div>
             @endforeach

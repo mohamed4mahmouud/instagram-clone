@@ -109,9 +109,9 @@
                         {{-- <div class="row"> --}} 
                             <div class="d-flex align-items-center">
                                 <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:50px;height:50px" alt="Avatar">
-                                    <img height="50" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar">
+                                    {{-- <img height="50" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar"> --}}
                                 </div>
-                                <p class="fw-bold text-light ms-3 mt-1">{{$user->userName}}</p>
+                                {{-- <p class="fw-bold text-light ms-3 mt-1">{{$user->userName}}</p> --}}
                             </div>
                             
                         {{-- </div> --}}

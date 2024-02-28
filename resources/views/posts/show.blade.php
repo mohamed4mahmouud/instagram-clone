@@ -217,6 +217,18 @@
                     let resData = await res.json();
                     console.log(resData);
                 }
+                
+            });
+            let savePosts= document.querySelectorAll('.fa-bookmark');
+            // console.log(savePosts);
+            savePosts.forEach(savePost => {
+                savePost.onclick = async function() {
+                    const postId=this.getAttribute('data-post-id');
+                    const res=await fetch("http://localhost:8000/posts/"+postId+"/save");
+                    let resData=await res.json();
+                   console.log(resData);
+                    
+                }
             });
 
         </script>
