@@ -59,8 +59,9 @@
         svg {
             cursor: pointer;
             overflow: visible;
-            width: 60px;
-            margin: 20px
+            width: 45px;
+            padding-bottom: 5px;
+            /* margin: 20px */
         }
 
         svg #heart {
@@ -442,7 +443,7 @@
                                                 </div>
                                             <a href="#comment-{{ $post->id }}"><i
                                                     data-comment-form-id='{{ $post->id }}'
-                                                    class="fa-regular fa-comment fa-lg text-white ms-2"></i></a>
+                                                    class="fa-regular fa-comment fa-lg text-white ms-2 me-2"></i></a>
                                             <i class="fa-regular fa-paper-plane fa-lg text-white ms-2"></i>
                                         </div>
                                         <div class="col-md-4 text-end">
