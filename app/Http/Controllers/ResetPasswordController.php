@@ -20,7 +20,7 @@ class ResetPasswordController extends Controller
             $user->save();
             ResetPasswordJob::dispatch($user->email , $user->fullname, $user->reset_password_token);
         }
-        return view('user.forgetpass');
+        return redirect()->route('user.forgetpass');
     }
 
 
@@ -30,7 +30,7 @@ class ResetPasswordController extends Controller
         if($user){
             $user->reset_password_token = null;
             $user->save();
-            return view('user.resetPassForm');
+            return redirect()->route('user.resetPassForm');
         }
     }
 
