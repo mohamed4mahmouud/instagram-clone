@@ -69,6 +69,6 @@ Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->nam
 Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
 Route::get('/tags/{id}',[PostsController::class,'tagsView'])->name('tags');
 Route::get('/users/{search}',[UserController::class,'search']);
-Route::get('/posts/{postId}/save',[UserController::class, 'savePost'])->name('posts.save');
+Route::get('/posts/{postId}/save',[PostsController::class, 'savePost'])->name('posts.save');
 
 require __DIR__.'/auth.php';

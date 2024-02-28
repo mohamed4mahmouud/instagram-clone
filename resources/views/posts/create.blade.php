@@ -112,7 +112,7 @@
                                 <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar">
                                     <i class="fas fa-user-alt text-info"></i>
                                 </div>
-                                <p class="fw-bold text-light ms-2 mt-3">UserName</p>
+                                <p class="fw-bold text-light ms-2 mt-3">{{$user->fullName}}</p>
                             </div>
                             
                         {{-- </div> --}}

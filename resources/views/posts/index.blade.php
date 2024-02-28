@@ -149,7 +149,7 @@
                                             <i class="fa-regular fa-paper-plane fa-lg text-white ms-2"></i>
                                         </div>
                                         <div class="col-md-4 text-end">
-                                            <i class="fa-regular fa-bookmark text-white"></i>
+                                            <i data-post-id="{{$post->id}}" class="fa-regular fa-bookmark text-white"></i>
                                         </div>
                                     </div>
                                     {{-- Liked by --}}
@@ -313,10 +313,11 @@
             let savePosts= document.querySelectorAll('.fa-bookmark');
             // console.log(savePosts);
             savePosts.forEach(savePost => {
-                savePost.onclick = function() {
+                savePost.onclick = async function() {
                     const postId=this.getAttribute('data-post-id');
-                    const res=await fetch("http://localhost:8000/posts/{postId}/save");
+                    const res=await fetch("http://localhost:8000/posts/"+postId+"/save");
                     let resData=await res.json();
+                   console.log(resData);
                     
                 }
             });
