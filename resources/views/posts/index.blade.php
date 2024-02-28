@@ -237,6 +237,20 @@
             transition: .1s opacity .3s
         }
 
+        .heartbox svg #heart {
+    transform-origin: center;
+    animation: animateHeartOut .3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+.checkbox:checked+label svg #heartgroup1 #heart1,
+.checkbox:checked+label svg #heartgroup1 #heart2,
+/* Add similar rules for other heart groups */
+{
+    transform: scale(0.5) translate(0, -30px);
+    transform-origin: 0 0 0;
+    transition: 0.5s transform 0.3s;
+}
+
         @keyframes animateCircle {
             40% {
                 transform: scale(10);
@@ -386,8 +400,8 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                                 <div class="heartbox"> 
-                                                    <input type="checkbox" class="checkbox" id="checkbox"/>
-                                                    <label for="checkbox"> 
+                                                    <input type="checkbox" data-post-id='{{$post-> id }}' class="checkbox" class="checkbox" id="checkbox-{{$post->id}}"/>
+                                                    <label for="checkbox-{{$post->id}}"> 
                                                         <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
                                                             <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
                                                                 <path
@@ -426,8 +440,6 @@
                                                         </svg> 
                                                     </label> 
                                                 </div>
-                                            <i data-post-id='{{ $post->id }}'
-                                                class="fa-regular fa-heart fa-lg text-white ms-0"></i>
                                             <a href="#comment-{{ $post->id }}"><i
                                                     data-comment-form-id='{{ $post->id }}'
                                                     class="fa-regular fa-comment fa-lg text-white ms-2"></i></a>
@@ -555,7 +567,7 @@
 
         </div>
         <script>
-            let likeBtns = document.querySelectorAll(".fa-heart")
+            let likeBtns = document.querySelectorAll(".checkbox")
             likeBtns.forEach(likeBtn => {
                 likeBtn.onclick = async function() {
                     let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
