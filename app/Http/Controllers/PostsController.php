@@ -63,7 +63,9 @@ class PostsController extends Controller
         ]);
         // post cption and images store
         $post->caption= $request->input('caption');
-        $post->user_id= User::all()->random()->id;
+        // $post->user_id= User::all()->random()->id;
+        $post->user_id = Auth::user()->id;
+        // dd($post->user_id);
         $images=[];
         for ($i=0; $i<count($request->file('files')) ; $i++) {
             if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
@@ -96,7 +98,8 @@ class PostsController extends Controller
         }
       return redirect()->route('posts.index');
     }
-    }
+    
+
     /**
      * Display the specified resource.
      */
@@ -216,11 +219,20 @@ class PostsController extends Controller
     }
     public function savePost(Request $request){
         //save post to a random user
-        $user=User::all()->random();
-        $savedPost=new SavedPost();
-        $savedPost->user_id=$user->id;
-        $savedPost->post_id=$request->postId;
-        $savedPost->save();
+        
+        $user = Auth::user();
+        $savedPost = SavedPost::where([
+            'user_id' => $user->id,
+            'post_id' => $request->postId
+        ])->first();
+            if($savedPost){
+            $savedPost->delete();
+            }else{
+            $savedPost = new SavedPost();
+            $savedPost->user_id = $user->id;
+            $savedPost->post_id = $request->postId;
+            $savedPost->save();
+}
         return ['MSG' =>'Post saved successfully'];
 
     }

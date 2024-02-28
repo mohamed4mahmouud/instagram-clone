@@ -85,7 +85,6 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="d-flex story">
-
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
                                                     class="rounded-circle" height="40" alt="avatar" />
                                                 <div class="mt-2">
@@ -116,8 +115,7 @@
                                         @if ($i>0)
                                         <div class="carousel-item">
                                             <img src="{{ Storage::url($post->images[$i]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
-                                        </div>
-                                            
+                                        </div>    
                                         @endif
                                     
                                      @endfor
@@ -322,4 +320,5 @@
                 }
             });
         </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     @endsection

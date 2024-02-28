@@ -18,9 +18,9 @@
         cursor: pointer;  */
     }
     #addIcon{
-        position: absolute;
-    top: 50%;
-    left: 80%;
+    position: absolute;
+    top: 65%;
+    left: 0;
     transform: translate(-50%, -50%);
     z-index: 1;
         
@@ -38,7 +38,7 @@
     }
 
     .carousel-item img{
-        width: 400px;
+        width: auto;
         height: 400px;
         object-fit: cover;
     }
@@ -53,7 +53,7 @@
 <body>
  
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5 text-light" id="exampleModalToggleLabel">Create new post</h1>
@@ -73,11 +73,11 @@
                             {{-- images uploaded dynamicaly saved here :) --}}                                    
                                 </div>
                              </div>
-                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="display: none">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                               </button>
-                              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" style="display: none">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                               </button>
@@ -86,10 +86,10 @@
                     </div>
 
                     {{-- Upload btn for first time --}}
-                    <div class="col-md-6 text-center m-5">
+                    <div class="col-md-6 text-center m-5" id="addFiles">
                         <i  id="icon" class="far fa-images fa-5x mt-3" style="color: white;"></i>
                         <div class="custom-file mt-5">
-                            <label class="btn btn-primary" id="addFiles">
+                            <label class="btn btn-primary">
                                 Select from your device
                                 <input type="file" id="filebtn" class="custom-file-input m-3 ms-5 text-light images" name="files[]" multiple onchange="previewImages()" style="display: none">   
                             </label>
@@ -106,13 +106,12 @@
                     
                     <div class="col-md-5 position-absolute top-0 end-0"  id="caption" style="display: none;">   
                     {{-- profile caption's details --}}
-                        {{-- <div class="row"> --}}
-
+                        {{-- <div class="row"> --}} 
                             <div class="d-flex align-items-center">
-                                <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:40px;height:40px" alt="Avatar">
-                                    <i class="fas fa-user-alt text-info"></i>
+                                <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:50px;height:50px" alt="Avatar">
+                                    <img height="50" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar">
                                 </div>
-                                <p class="fw-bold text-light ms-2 mt-3">{{$user->fullName}}</p>
+                                <p class="fw-bold text-light ms-3 mt-1">{{$user->userName}}</p>
                             </div>
                             
                         {{-- </div> --}}
@@ -183,44 +182,44 @@
                 }
             }
         });
-   
+        // console.log(files);
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
             let reader = new FileReader();
             
             reader.onload = function(e) {
-               
             let sliderElement = document.createElement('div');    
             let imgElement = document.createElement('img');
             imgElement.classList.add('d-block');
             sliderElement.appendChild(imgElement);
-            sliderElement.classList.add('carousel-item')
+            sliderElement.classList.add('carousel-item');
            
             imgElement.src = e.target.result;
             previewContainer.appendChild(sliderElement);
 
             if (i === 0) {
-                sliderElement.classList.add('active');
-            }
-            if(files.length == 1){
-                
-                carouselControlPrev.style.display = "none";
-                carouselControlsNext.style.display = "none";
+            sliderElement.classList.add('active');
+        } else {
+            sliderElement.classList.remove('active'); // Ensure only one image is active
+        }
+            if(files.length > 1){
+
+                carouselControlPrev.style.display = "block";
+                carouselControlsNext.style.display = "block";
             
             }
-            
+            console.log(i);
             }
-            console.log(files);
-        
+            
             reader.readAsDataURL(file);
-            
+        }
             imgIcon.remove();
             caption.style.display = 'block';
             submitBtn.style.display = 'block';
             imgSlider.classList.remove('d-none');
             imgSlider.classList.add('d-block');
-            console.log(document.getElementById('filebtn').files);
-        }
+            // console.log(document.getElementById('filebtn').files);
+        
         // chanage add files button to icons on image
         document.getElementById('addFiles').style.display = 'none';
         document.getElementById('addIcon').style.display = 'block';

@@ -50,7 +50,9 @@
                 <div>
                     <div class="d-flex align-items-center">
                         <div class="pe-3">
-                            {{-- <img src="{{asset($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model --> --}}
+                        @if($post->user->profile)
+                            <img src="{{Storage::url($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                        @endif
                         </div>           
                         <div>
                             <div class="fw-bold">
@@ -71,7 +73,9 @@
                     {{-- post caption --}}
                         <div class="d-flex">
                             <div class="pe-3">
-                                <img src="{{ url('/images/download.jpg') }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                                @if ($post->user->profile)
+                                <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                                @endif
                             </div>    
                             <div class="flex-grow-1">
                                 <div class="d-flex justify-content-between">
@@ -84,13 +88,10 @@
                                         <p class="text-light">
                                            {{$post->caption}}
                                            @foreach ($post->tags as $tag)
-                                           <span class="text-light">
+                                           <span class="text-light ">
                                                <a href="{{ route("tags", ["id" => $tag->id]) }}" class="hash-tag">#{{ $tag->name }}</a>
                                            </span>
                                        @endforeach
-                                       
-                                               
-                                           {{-- <p class="text-light">{{$post->caption}}</p>   --}}
                                         </p>
                                     </div>
                                     <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
