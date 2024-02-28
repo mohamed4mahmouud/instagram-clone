@@ -7,9 +7,15 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Jobs\ResetPasswordJob;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 
 class ResetPasswordController extends Controller
 {
+
+    public function index()
+    {
+        return view('user.forgetpass');
+    }
 
     public function sendEmailToResetPassword(Request $request)
     {
@@ -18,9 +24,12 @@ class ResetPasswordController extends Controller
             $resetToken = Str::random(60);
             $user->reset_password_token = $resetToken;
             $user->save();
-            ResetPasswordJob::dispatch($user->email , $user->fullname, $user->reset_password_token);
+            ResetPasswordJob::dispatch($user->email , $user->fullName, $user->reset_password_token);
+            return redirect()->route('password.request');
+        }else{
+            $errorMessage = 'invalid email';
+            return view('user.forgetpass')->with(['errorMessage' => $errorMessage]);
         }
-        return redirect()->route('user.forgetpass');
     }
 
 
@@ -30,21 +39,24 @@ class ResetPasswordController extends Controller
         if($user){
             $user->reset_password_token = null;
             $user->save();
-            return redirect()->route('user.resetPassForm');
+            return view('user.resetPassForm');
         }
     }
 
     public function addNewPassword(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
-        if($user){
-            $request->validate([
-                'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            ]);
-            $user->password = bcrypt($request->password);
-            $user->save();
-            return redirect('dashboard');
+        try {
+            $user = User::where('email', $request->email)->first();
+            if($user){
+                $request->validate([
+                    'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                ]);
+                $user->password = bcrypt($request->password);
+                $user->save();
+                return redirect('dashboard');
+            }
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
         }
-
     }
 }

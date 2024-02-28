@@ -6,9 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ProfileController;
-
-
-
+use App\Http\Controllers\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +23,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// login route
-Route::get('/userlogin', function(){
-    return view('user.login');
-});
 
 
 
@@ -71,7 +65,8 @@ Route::middleware('auth')->group(function () {
 
 
 
-
+Route::get('/forgot-password', [ResetPasswordController::class, 'index'])->name('password.request');
+//Route::get('/reset-password', [ResetPasswordController::class,'getResetForm'])->name('reset.form');
 
 route::get('/profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
 route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->name('saved');

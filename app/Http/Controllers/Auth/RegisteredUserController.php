@@ -15,6 +15,7 @@ use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
 {
@@ -67,8 +68,8 @@ class RegisteredUserController extends Controller
             VerifyEmailJob::dispatch($user->fullname,$user->email,$user->verification_token);
 
             return redirect(RouteServiceProvider::HOME);
-        } catch (Exception $e) {
-            dd($e);
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
         }
 
 

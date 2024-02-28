@@ -34,7 +34,8 @@ class AuthenticatedSessionController extends Controller
 
         if (!$user || !$user->hasVerifiedEmail()) {
             // If the user does not exist or their email is not verified, redirect with an error message
-            return redirect()->route('login')->with('error', 'Please verify your email before logging in.');
+            $error = 'Please verify your email before logging in.';
+            return redirect()->route('login')->with(['error'=> $error]);
         }
 
         // If the user exists and their email is verified, attempt to authenticate them
@@ -44,7 +45,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(RouteServiceProvider::HOME);
         } else {
             // Authentication failed, redirect with an error message
-            return redirect()->route('login')->with('error', 'Invalid credentials.');
+            return redirect()->route('login')->with('error', 'Invalid email or password.');
         }
     }
 
