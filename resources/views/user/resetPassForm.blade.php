@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password" name="password_confirmation">
+                    <input type="password" class="form-control" placeholder=" Confirm Password" name="password_confirmation">
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">reset password</button>

@@ -9,8 +9,8 @@
 
     <style>
         body {
-            background-color: #121212; 
-            color: #fff; 
+            background-color: #121212;
+            color: #fff;
         }
 
         .container {
@@ -21,7 +21,7 @@
         }
 
         .login-container {
-            background-color: #232222; 
+            background-color: #232222;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -50,7 +50,7 @@
             margin-bottom: 15px;
             border: 1px solid #555;
             border-radius: 4px;
-            color: #343a40; 
+            color: #343a40;
             background-color: #343a40;
         } */
         .form-control{
@@ -89,6 +89,10 @@
         a:hover {
             color: #2980b9;
         }
+
+        .err{
+            margin-top:5px ;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +110,11 @@
 
                 <button type="submit" class="btn btn-primary">{{ __('Email Password Reset Link') }}</button>
             </form>
+            @if(isset($errorMessage))
+                <div class="alert alert-danger err">
+                    {{ $errorMessage }}
+                </div>
+            @endif
         </div>
     </div>
 
