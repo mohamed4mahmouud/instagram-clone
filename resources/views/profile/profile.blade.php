@@ -82,12 +82,32 @@
     .overlay .fa-solid {
     margin-right: 5px; 
     }
+    .counts .counts-btn:hover{
+        cursor: pointer;
+    }
     .counts li:hover{
         background-color: #000000;
-        cursor: pointer;
     }
     .counts li{
         margin-right: 30px;
+    }
+    .modal-content{
+        background-color: #262626;
+    }
+    .modal-title{
+        margin-left: auto;
+    }
+    .btn-close{
+        margin-left: auto;
+    }
+    .follower-avatar{
+        margin-right: 20px;
+    }
+    .rm-btn{
+        background-color: #464646;
+        color: white;
+        font-weight: bold;
+        margin-left: auto;
     }
 </style>
 
@@ -103,7 +123,9 @@
                 {{-- Username --}}
                 <h1 class="d-inline">{{ $user->userName }}</h1>
                 {{-- Edit Profile Button --}}
-                <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
+                @if($user->id == 6)
+                    <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
+                @endif
                 {{-- Bio --}}
                 @if($profile->bio)
                 <p>Bio: {{ $profile->bio }}</p>
@@ -111,8 +133,8 @@
                 {{-- Counts --}}
                 <ul class="list-inline counts">
                     <li class="d-inline-block">{{ $user->posts_count }} Posts</li>
-                    <li class="d-inline-block"><a href=""></a>{{ $user->followers_count }} followers</a></li>
-                    <li class="d-inline-block">{{ $user->following_count }} following</li>
+                    <li class="d-inline-block counts-btn" id="followersBtn" data-bs-toggle="modal" data-bs-target="#followersModal">{{ $user->followers_count }} followers</li>
+                    <li class="d-inline-block counts-btn" id="followingBtn" data-bs-toggle="modal" data-bs-target="#followingModal">{{ $user->following_count }} following</li>
                 </ul>
                 {{-- Website --}}
                 @if($profile->website)
@@ -152,19 +174,84 @@
         
         {{-- Posts --}}
         <div class="container posts-container">
+            @if($posts->isEmpty())
+                <div class="text-center mt-3">
+                    <img src="{{ URL('images/no_posts.png') }}" alt="" class="mt-5">
+                    <h1 class="mt-3">No Posts Yet</h1>
+                </div>
+            @else
             <div class="row mb-1">
                 @foreach($posts as $post)
                 <div class="col-md-4 mb-1 posts">
                     <div class="post">
-                        <a href="#"><img src="{{$post->images }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
+                        <a href="#"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
                     </div>
                 </div>
             @endforeach
             </div>
+            @endif
         </div>
         <div class="d-flex justify-content-center mt-3">
             {{ $posts->links() }}  
-        </div>     
+        </div>
+        <!-- Followers Modal -->
+        <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable  ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="followersModalLabel">Followers</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="max-height: 350px; overflow-y: auto;">
+                        @foreach($followers as $follower)
+                        {{-- @dd($follower) --}}
+                        <div class="person mb-3">
+                            <div class="person-info d-flex justify-content-between">
+                                <div class="person-container d-inline-block ">
+                                    <div class="person-img d-inline-block">
+                                        <img src="{{ asset('storage/'. $follower->follower->profile->avatar) }}" alt="Avatar" class="rounded-circle shadow-4 follower-avatar"
+                                        style="width: 50px;">
+                                    </div>
+                                    <div class="person-name d-inline-block">
+                                        <a href="{{ route('profile', ['user' => $follower->follower]) }}" class="text-white text-decoration-none">{{ $follower->follower->userName }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Following Modal -->
+        <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable  ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="followingModalLabel">Following</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="max-height: 350px; overflow-y: auto;">
+                        @foreach($followings as $following)
+                        <div class="person mb-3">
+                            <div class="person-info d-flex justify-content-between">
+                                <div class="person-container d-inline-block ">
+                                    <div class="person-img d-inline-block">
+                                        <img src="{{ asset('storage/'. $following->followee->profile->avatar) }}" alt="Avatar" class="rounded-circle shadow-4 follower-avatar"
+                                        style="width: 50px;">
+                                    </div>
+                                    <div class="person-name d-inline-block">
+                                        <a href="{{ route('profile', ['user' => $following->followee]) }}" class="text-white text-decoration-none">{{ $following->followee->userName }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         const postsTab = document.getElementById('postsTab');

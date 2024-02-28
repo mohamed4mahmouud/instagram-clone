@@ -66,6 +66,9 @@ class UserController extends Controller
     public function search(Request $request){
         $searchString=$request->search;
         $users = User::with('profile')->where('userName', 'like', '%' . $searchString . '%')->take(5)->get();
+        foreach ($users as $user){
+            $user->avatar = $user->profile->avatar;
+        }
         return['users'=>$users];
     }
 }
