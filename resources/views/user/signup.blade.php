@@ -21,7 +21,7 @@
         .sign-up-container {
             background: #232222;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-            width: 350px;
+            width: 400px;
             margin: 10px auto;
             padding: 40px;
         }
@@ -69,7 +69,7 @@
             width: 110px;
             position: relative;
             bottom: 10px;
-            left: 160px;
+            left: 210px;
         }
         .form-group {
             margin-bottom: 6px!important;
@@ -99,7 +99,7 @@
         .login {
             background: #232222;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-            width: 350px;
+            width: 400px;
             margin: 10px auto;
             padding: 20px;
         }
@@ -111,7 +111,7 @@
         border-radius: 4px;
         background-color: #2e2d2d;
         color: #999;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 
     select option {
@@ -133,8 +133,11 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="sign-up-container text-center">
+            <div class="col-6 mt-5">
+                <img src="{{ asset('/images/instagram1.gif') }}">
+            </div>
+            <div class="col-6 mb-3">
+                <div class="sign-up-container col-12 text-center">
                     <img src="{{ asset('/images/logo.png') }}">
                     <p class="info">Sign up to see photo and videos from your friends.</p>
                     <button type="submit" class="btn btn-primary">Log in with Facebook</button>

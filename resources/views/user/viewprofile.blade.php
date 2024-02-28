@@ -31,7 +31,7 @@
         border-radius: 50%;
         overflow: hidden;
         width: 70px;
-        height: 70px; 
+        height: 70px;
         object-fit: cover;
     }
     .userimg {
@@ -58,19 +58,32 @@
     #bio::placeholder {
         color: #9d9d9d;
     }
+    .accounts {
+        background-color: #262626;
+        border-radius: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 22%;
+        height: 200px;
+        padding: 20px;
+    }
 
     </style>
 </head>
 <body>
 <div class="container">
         <div class="row justify-content-center">
+        <div class="col-6 me-5 mt-5 accounts">
+                    <h5>Accounts Centre</h5>
+                    <a class="d-block" href="{{ route('user.changeEmail') }}">Change E-mail</a>
+                    <a class="d-block" href="{{ route('user.changePassword') }}">Change Password</a>
+                </div>
             <div class="col-md-8 mt-5">
                     <div class="font-weight-bolder"><h4>{{ __('Edit Profile') }}</h4></div>
                     <div>
                         <form method="POST" action="{{ route('user.viewprofile') }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            
                             <div class="row mt-5 mb-2 userimg">
                                 <div class="col-md-2 mt-2 ps-4">
                                     <img id="avatarimg" src="{{ Storage::url($profile->avatar ?? old('avatar')) }}">
@@ -85,7 +98,7 @@
                                     </label>
                                 </div>
                             </div>
-            
+
                                 <label for="website" class="col-md-4 col-form-label text-md-right text-white">{{ __('Website') }}</label>
 
                                 <div class="col-md-6 w-75">
@@ -97,16 +110,6 @@
                                 <div class="col-md-6 w-75">
                                     <textarea id="bio" class="form-control" name="bio" placeholder="Bio">{{ $profile->bio ?? old('bio') }}</textarea>
                                 </div>
-
-                                <div class="row mt-2">
-                                    <label for="email" class="col-md-4 col-form-label text-md-right text-white">{{ __('Email') }}</label>
-
-                                    <div class="col-md-6 w-75">
-                                        <input id="email" type="email" class="form-control" name="email" placeholder="Email" value="{{ $user->email ?? old('email') }}">
-                                    </div>
-                                </div>
-
-
                                 <div class="row mt-2">
                                     <label for="full_name" class="col-md-4 col-form-label text-md-right text-white">{{ __('Full Name') }}</label>
 
@@ -134,40 +137,9 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <!-- <h4>{{ __('Change Password') }}</h4> -->
-
-    <div class="col-md-6 w-75 mt-2">
-        <label for="current_password" class="form-label">{{ __('Current Password') }}</label>
-        <input id="current_password" type="password" class="form-control @error('current_password') is-invalid @enderror" name="current_password" required>
-
-        @error('current_password')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-
-    <div class="col-md-6 w-75">
-        <label for="new_password" class="form-label">{{ __('New Password') }}</label>
-        <input id="new_password" type="password" class="form-control @error('new_password') is-invalid @enderror" name="new_password" required>
-
-        @error('new_password')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-
-    <!-- <div class="mb-3">
-        <label for="new_password_confirmation" class="form-label">{{ __('Confirm New Password') }}</label>
-        <input id="new_password_confirmation" type="password" class="form-control" name="new_password_confirmation" required>
-    </div> -->
-
-
                                 <div class="col-md-6 offset-md-4 mt-4">
                                     <button type="submit" class="btn btn-primary">
-                                    {{ __('Upload Profile') }}
+                                    {{ __('Save Changes') }}
                                 </button>
                                 </div>
                         </form>

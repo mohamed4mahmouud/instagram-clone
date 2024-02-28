@@ -6,11 +6,16 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Profile;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
+use App\Jobs\VerifyEmailJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
+use App\Jobs\VerifyEmailAfterUpdateJob;
+use App\Mail\VerifyEmailAfterUpdate;
 use Illuminate\Support\Facades\Redirect;
+
 
 class ProfileController extends Controller
 {
@@ -25,7 +30,7 @@ class ProfileController extends Controller
             'user' => $user,
             'profile' => $profile]);
     }
-    
+
     public function edit(Request $request): View
     {
         $user = Auth::user();
@@ -46,7 +51,7 @@ class ProfileController extends Controller
             'website' => 'url|max:255',
         ]);
 
-        $profile = new Profile();
+        // $profile = new Profile();
 
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
@@ -55,8 +60,10 @@ class ProfileController extends Controller
 
         $profile->bio = $request->input('bio');
         $profile->website = $request->input('website');
-        // $profile->save();
-        $user->profile->save($profile);
+        
+        // $profile->user()->associate($user->id);
+        $profile->save();
+        
         // event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
@@ -76,42 +83,29 @@ class ProfileController extends Controller
         $user = Auth::user();
         // dd($user);
         $profile = $user->profile;
+        // dd($profile);
 
         $request->validate([
             'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'bio' => 'max:255',
             'website' => 'url|max:255',
         ]);
-     
+
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
             $profile->avatar = $avatarPath;
         }
-    
+
         $profile->bio = $request->input('bio');
-       
+
         $profile->website = $request->input('website');
 
-        if (!Hash::check($request->current_password, $user->password)) {
-            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
-        }
+        $user->update([
+            'fullName' => $request->input('fullName'),
+            'phone' => $request->input('phone'),
+            'gender' => $request->input('gender'),
+        ]);
 
-        if ($request->filled('new_password')) {
-            $user-> fullName = $request->input('fullName');
-            $user-> phone = $request->input('phone');
-            $user-> email = $request->input('email');
-            $user-> gender = $request->input('gender');
-            $user-> password = $request->input('password');
-            
-        } else {
-            $user-> fullName = $request->input('fullName');
-            $user-> phone = $request->input('phone');
-            $user-> email = $request->input('email');
-            $user-> gender = $request->input('gender');
-            $user-> password = $request->input('password');
-           
-        }
-        
         $profile->save();
 
         // return view('welcome');
@@ -143,7 +137,7 @@ class ProfileController extends Controller
     {
     $user = User::findOrFail($userId);
     $profile = $user->profile;
-    
+
     $posts = $user->posts()->paginate(9);
     foreach ($posts as $post) {
         // $post->images = json_decode($post->images, true)['image'];
@@ -158,5 +152,41 @@ class ProfileController extends Controller
     public function savedPosts($userId)
     {
         return 'savedPosts';
+    }
+
+    public function sendEmail(Request $request)
+    {
+
+        $user = User::Where('email', $request->email)->first();
+        $verificationToken = Str::random(60);
+        $user->verification_token = $verificationToken;
+        $user->save();
+        VerifyEmailAfterUpdateJob::dispatch($request->new_email, $user->userName, $user->verification_token);
+        //dd($user->verification_token);
+        return redirect()->route('user.changeEmail');
+    }
+
+    public function verifyEmailAfterUpdate(string $token , string $email)
+    {
+        $user = User::where('verification_token', $token)->first();
+
+        if($user){
+            $user->verification_token = null;
+            $user->email_verified_at = now();
+            $user->email = $email;
+            $user->save();
+            return redirect()->route('posts.index');
+        }
+    }
+
+    public function updatePassword(Request $request) {
+        $user = Auth::user();
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
     }
 }

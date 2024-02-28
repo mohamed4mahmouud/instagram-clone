@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Jobs\ResetPasswordJob;
 use Illuminate\Validation\Rules;
-use App\Providers\RouteServiceProvider;
 
 class ResetPasswordController extends Controller
 {
