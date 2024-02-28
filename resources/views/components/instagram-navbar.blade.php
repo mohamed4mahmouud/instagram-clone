@@ -1,16 +1,16 @@
         @section('navbar')
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black border-end border-secondary pt-5">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black border-end border-dark pt-5 fixed-top">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="/"
                         class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <img src="{{ URL('images/logo.png') }}" alt="Instagram logo" height="50">
+                        <img src="{{ URL('images/logo.png') }}" alt="Instagram logo" height="45">
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto col-lg-12 mb-0 align-items-center align-items-sm-start"
                         id="menu">
                         <li>
-                            <a href="#" class="nav-link  align-middle px-0">
+                            <a href="#" class="nav-link align-middle px-0">
                                 <i class="fa-solid fa-house fa-lg text-white"></i><span
-                                    class="ms-1 d-none d-sm-inline text-white">Home</span>
+                                    class="ms-2 d-none d-sm-inline text-white">Home</span>
                             </a>
                         </li>
                         <li>
@@ -18,23 +18,23 @@
                                 data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"
                                 class="nav-link px-0 align-middle">
                                 <i class="fa-solid fa-magnifying-glass fa-lg text-white"></i>
-                                <span class="ms-1 d-none d-sm-inline text-white">Search</span> </a>
+                                <span class="ms-2 d-none d-sm-inline text-white">Search</span> </a>
 
                         </li>
                         <li>
                             <a href="#" class="nav-link px-0 align-middle">
                                 <i class="fa-regular fa-compass pe-1 fa-lg text-white"></i><span
-                                    class="ms-1 d-none d-sm-inline text-white">Explore</span></a>
+                                    class="ms-2 d-none d-sm-inline text-white">Explore</span></a>
                         </li>
                         <li>
                             <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
                                 <i class="fa-regular fa-heart fa-lg text-white"></i><span
-                                    class="ms-1 d-none d-sm-inline text-white">Notifications</span></a>
+                                    class="ms-2 d-none d-sm-inline text-white">Notifications</span></a>
                         </li>
                         <li>
                             <a href=""class="nav-link px-0 align-middle" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
                                 <i class="fa-regular fa-square-plus fa-lg text-white"></i> <span
-                                    class="ms-1 d-none d-sm-inline text-white">Add Post</span> </a>
+                                    class="ms-2 d-none d-sm-inline text-white">Add Post</span> </a>
                                   {{-- <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button> --}}
                                         @include('posts.create')
                         </li>
@@ -78,11 +78,11 @@
                     listitem.classList.add('nav-item');
                     listitem.classList.add('col-lg-12');
                     listitem.classList.add('pe-4')
-                    listitem.classList.add('ps-4')
+                    listitem.classList.add('ps-1')
                     listitem.classList.add('mt-4')
-                    listitem.classList.add('mb-4')
+                    // listitem.classList.add('mb-4')
                     listitem.classList.add('pt-2')
-                    listitem.classList.add('pb-2')
+                    // listitem.classList.add('pb-2')
                     listitem.classList.add('h5')
                     listitem.classList.add('rounded')
                 });

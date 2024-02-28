@@ -67,6 +67,14 @@
         height: 200px;
         padding: 20px;
     }
+    .text-gray {
+    color: gray;
+    transition: color 0.3s ease; 
+}
+
+.text-gray:hover {
+    color: #cfcece;
+}
 
     </style>
 </head>
@@ -74,9 +82,9 @@
 <div class="container">
         <div class="row justify-content-center">
         <div class="col-6 me-5 mt-5 accounts">
-                    <h5>Accounts Centre</h5>
-                    <a class="d-block" href="{{ route('user.changeEmail') }}">Change E-mail</a>
-                    <a class="d-block" href="{{ route('user.changePassword') }}">Change Password</a>
+                    <h5>Accounts Center</h5>
+                    <a class="d-block text-decoration-none mt-3 mb-3 text-gray" href="{{ route('user.changeEmail') }}">Change E-mail</a>
+                    <a class="d-block text-decoration-none text-gray" href="{{ route('user.changePassword') }}">Change Password</a>
                 </div>
             <div class="col-md-8 mt-5">
                     <div class="font-weight-bolder"><h4>{{ __('Edit Profile') }}</h4></div>

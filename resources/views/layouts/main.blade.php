@@ -19,6 +19,9 @@
         li:hover {
             background-color: rgb(59, 58, 58)
         }
+        .page-content {
+            margin-left: 300px;
+        }
     </style>
     @yield('css')
 </head>
@@ -35,7 +38,7 @@
             @section('navbar')
                 @include('components.instagram-navbar')
             @show
-            <div class="col-md-7">
+            <div class="col-md-7 page-content">
                 @yield('stories')
                 @yield('newsfeed')
 
