@@ -40,7 +40,7 @@ class VerifyEmailAfterUpdate extends Mailable
     {
         return new Content(
             view: 'Mails.verifyemail',
-            with:['token'=> $this->token , 'email'=> $this->email],
+            with:['token'=> $this->token , 'email'=> $this->email , 'name'=> $this->name],
         );
     }
 
