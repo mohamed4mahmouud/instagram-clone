@@ -364,7 +364,6 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="d-flex story">
-
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
                                                     class="rounded-circle" height="40" alt="avatar" />
                                                 <div class="mt-2">
@@ -384,16 +383,35 @@
 
                             </div>
                             {{-- Image --}}
-                            <div class="bg-image hover-overlay shadow-1-strong rounded-0" data-mdb-ripple-init
-                                data-mdb-ripple-color="light">
-                                @foreach ($post->images as $img)
-                                <img src="{{Storage::url($img) }}" class="w-100" alt="Louvre" />
-
-                                @endforeach
-                                <a href="#!">
-                                    <div class="mask" style="background-color: hsla(0, 0%, 98%, 0.2)"></div>
-                                </a>
+                            <div id="carouselExample" class="carousel slide">
+                                <div class="carousel-inner">
+                                    @for ($i = 0; $i < count($post->images); $i++)
+                                    @if ($i==0)
+                                        <div class="carousel-item active">
+                                            <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                                        </div>
+                                    @endif
+                                        @if ($i>0)
+                                        <div class="carousel-item">
+                                            <img src="{{ Storage::url($post->images[$i]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                                        </div>    
+                                        @endif
+                                    
+                                     @endfor
+                                    </div>
+                                    @if (count($post->images)>1)
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                        
+                                    @endif
                             </div>
+                            
                             {{-- Interactions --}}
 
                             <div class="card-body">
@@ -447,7 +465,7 @@
                                             <i class="fa-regular fa-paper-plane fa-lg text-white ms-2"></i>
                                         </div>
                                         <div class="col-md-4 text-end">
-                                            <i class="fa-regular fa-bookmark text-white"></i>
+                                            <i data-post-id="{{$post->id}}" class="fa-regular fa-bookmark text-white"></i>
                                         </div>
                                     </div>
                                     {{-- Liked by --}}
@@ -608,5 +626,17 @@
                 }
             });
 
+            let savePosts= document.querySelectorAll('.fa-bookmark');
+            // console.log(savePosts);
+            savePosts.forEach(savePost => {
+                savePost.onclick = async function() {
+                    const postId=this.getAttribute('data-post-id');
+                    const res=await fetch("http://localhost:8000/posts/"+postId+"/save");
+                    let resData=await res.json();
+                   console.log(resData);
+                    
+                }
+            });
         </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     @endsection

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Post;
+use App\Models\Follower;
 use App\Models\Profile;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -44,7 +46,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-
+        $profile = $user ->profile;
         $request->validate([
             'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'bio' => 'max:255',
@@ -60,10 +62,10 @@ class ProfileController extends Controller
 
         $profile->bio = $request->input('bio');
         $profile->website = $request->input('website');
-        
+
         // $profile->user()->associate($user->id);
         $profile->save();
-        
+
         // event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
@@ -79,33 +81,38 @@ class ProfileController extends Controller
         // if ($request->user()->isDirty('email')) {
         //     $request->user()->email_verified_at = null;
         // }
+        // dd($request);
         $user = Auth::user();
         // dd($user);
         $profile = $user->profile;
-        // dd($profile);
+        $profile->user;
+        // dd($profile->user->gender);
 
-        $request->validate([
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'bio' => 'max:255',
-            'website' => 'url|max:255',
-        ]);
-
+        // $request->validate([
+        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     'bio' => 'max:255',
+        //     'website' => 'url|max:255',
+        // ]);
+        
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
             $profile->avatar = $avatarPath;
         }
+        
 
         $profile->bio = $request->input('bio');
 
         $profile->website = $request->input('website');
 
-        $user->update([
-            'fullName' => $request->input('fullName'),
-            'phone' => $request->input('phone'),
-            'gender' => $request->input('gender'),
-        ]);
+        $profile->user->fullName= $request->input('fullName');
+        $profile->user->phone = $request->input('phone');
+        $profile->user->gender = $request->input('gender');
+
+        
+        // dd($user);
 
         $profile->save();
+        $profile->user-> save();
 
         // return view('welcome');
         return redirect()->route('user.viewprofile')->with('status', 'Profile updated successfully.');
@@ -136,16 +143,19 @@ class ProfileController extends Controller
     {
     $user = User::findOrFail($userId);
     $profile = $user->profile;
-
+    $followers = Follower::where('followee_id', $userId)->get();
+    $followings = Follower::where('follower_id', $userId)->get();
     $posts = $user->posts()->paginate(9);
+    $images=[];
+    // dd(json_decode($posts[0]->images, true));
     foreach ($posts as $post) {
-        // $post->images = json_decode($post->images, true)['image'];
         $post->images = json_decode($post->images, true);
-        $created_at = Carbon::parse($post->created_at);
-        $post->timeDifference = $created_at->diffForHumans();
     }
+    // $post->images=$images;
+    // dd($post->images[0]);
+    // dd($images);
 
-    return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts]);
+    return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }
 
     public function savedPosts($userId)
@@ -184,8 +194,7 @@ class ProfileController extends Controller
             return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
 
-        $user->update([
-            'password' => Hash::make($request->new_password),
-        ]);
+        $user-> password = Hash::make($request->new_password);
+        
     }
 }
