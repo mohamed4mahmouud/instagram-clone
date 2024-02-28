@@ -62,10 +62,10 @@ class ProfileController extends Controller
 
         $profile->bio = $request->input('bio');
         $profile->website = $request->input('website');
-        
+
         // $profile->user()->associate($user->id);
         $profile->save();
-        
+
         // event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
