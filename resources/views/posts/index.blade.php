@@ -365,10 +365,10 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="d-flex story">
-                                                <img src="{{ $post->user->profile->avatar }}" class="rounded-circle"
-                                                    height="40" alt="avatar" />
+                                                <img src="{{ Storage::url($post->user->profile->avatar) }}" class="rounded-circle "
+                                                    height="40" width="40" alt="avatar" />
                                                 <div class="mt-2">
-                                                    <a href="{{ route('profile', ['user' => $user->id]) }}"
+                                                    <a href="{{ route('profile', ['user' => $post->user->id]) }}"
                                                         class="text-white">
                                                         <strong
                                                             class="strong mt-5 ms-2">{{ $post->user->userName }}</strong>
@@ -571,7 +571,8 @@
             {{-- Author profile --}}
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50"
+                    <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50" width="50"
+                    
                         alt="avatar" />
                 </div>
                 <div class="col-md-9">

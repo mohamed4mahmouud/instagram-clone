@@ -51,10 +51,12 @@
                 <i class="fa-solid fa-table-cells"></i> Posts {{ Str::endsWith(url()->current(), 'saved') }}
                 <div class="indicator"></div>
             </a>
+            @if($user->id == Auth::id())
             <a href="{{ route('saved', ['user' => $user]) }}" id="savedTab" class="text-white text-decoration-none ms-5  position-relative">
                 <i class="fa-regular fa-bookmark"></i> Saved
                 <div class="indicator"></div>
             </a>
+            @endif
         </div>
     </div>
     
