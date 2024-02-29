@@ -25,7 +25,7 @@
             padding-bottom: 5px;
         }
         .page-content {
-            margin-left: 250px;
+            margin-left: 350px;
         }
         .page-content1{
             margin-left: 350px;
