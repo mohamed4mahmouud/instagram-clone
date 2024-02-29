@@ -1,93 +1,9 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-    body {
-        background-color: #121212;
-        color: #fff;
-    }
-
-    .form-control {
-        background-color: #262626;
-        color: #fff;
-        border: 1px solid #2f3136;
-    }
-
-    .btn-primary {
-        background-color: #0095f6;
-        color: #fff;
-        border: 1px solid #0095f6;
-    }
-
-    .btn-primary:hover {
-        background-color: #007bb5;
-        border: 1px solid #007bb5;
-    }
-    #avatarimg {
-        border-radius: 50%;
-        overflow: hidden;
-        width: 70px;
-        height: 70px;
-        object-fit: cover;
-    }
-    .userimg {
-        background-color: #262626;
-        border-radius: 15px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        width: 77%;
-    }
-    .usrname {
-        font-weight: bold;
-    }
-    #website {
-        color: #9d9d9d;
-    }
-    #website::placeholder {
-        color: #9d9d9d;
-    }
-    #bio {
-        border: 1px solid #2f2f2f;
-        background-color: #121212;
-        color: #9d9d9d;
-    }
-    #bio::placeholder {
-        color: #9d9d9d;
-    }
-    .accounts {
-        background-color: #262626;
-        border-radius: 15px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        width: 22%;
-        height: 200px;
-        padding: 20px;
-    }
-    .text-gray {
-    color: gray;
-    transition: color 0.3s ease; 
-}
-
-.text-gray:hover {
-    color: #cfcece;
-}
-
-    </style>
-</head>
+@extends('layouts.main')
 <body>
-<div class="container">
-        <div class="row justify-content-center">
-        <div class="col-6 me-5 mt-5 accounts">
-                    <h5>Accounts Center</h5>
-                    <a class="d-block text-decoration-none mt-3 mb-3 text-gray" href="{{ route('user.changeEmail') }}">Change E-mail</a>
-                    <a class="d-block text-decoration-none text-gray" href="{{ route('user.changePassword') }}">Change Password</a>
-                </div>
-            <div class="col-md-8 mt-5">
-                    <div class="font-weight-bolder"><h4>{{ __('Edit Profile') }}</h4></div>
+<div class="container page-content1">
+        <div class="row">
+            <div class="col-8 mt-5">
+                    <div class="font-weight-bolder text-white"><h4>{{ __('Edit Profile') }}</h4></div>
                     <div>
                         <form method="POST" action="{{ route('user.viewprofile') }}" enctype="multipart/form-data">
                             @csrf
@@ -152,11 +68,17 @@
                                         </button>
                                     </div>
                         </form>
+                        
                     </div>
                 </div>
             </div>
+            <div class="col-6 mt-5 accounts">
+                        <h5 class=" text-white">Accounts Center</h5>
+                        <a class="d-block text-decoration-none mt-3 mb-3 text-gray" href="{{ route('user.changeEmail') }}">Change E-mail</a>
+                        <a class="d-block text-decoration-none text-gray" href="{{ route('user.changePassword') }}">Change Password</a>
+            </div>
         </div>
-    </div>
+</div>
     <script>
     document.getElementById('avatar').addEventListener('change', function (event) {
         var input = event.target;
@@ -173,6 +95,4 @@
     });
 
 </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
