@@ -152,7 +152,12 @@ class PostsController extends Controller
         //iam using user with id for testing right now
 
         // $user = Auth::user();
+<<<<<<< HEAD
         
+=======
+        $user = User::find(6);
+        // return ["msg"=>$user];
+>>>>>>> 86a3faca53515b843942f437d2d83179f1e6e8a6
         $like = Like::where([
             'user_id' => $request->user,
             'post_id' => $request->post
@@ -211,7 +216,7 @@ class PostsController extends Controller
     public function savePost(Request $request){
         //save post to a random user
         
-        $user = Auth::user();
+        $user = User::find(6);
         $savedPost = SavedPost::where([
             'user_id' => $user->id,
             'post_id' => $request->postId

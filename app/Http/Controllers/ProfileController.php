@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\SavedPost;
 use App\Models\Post;
 use App\Models\Follower;
 use App\Models\Profile;
@@ -146,7 +147,6 @@ class ProfileController extends Controller
     $followers = Follower::where('followee_id', $userId)->get();
     $followings = Follower::where('follower_id', $userId)->get();
     $posts = $user->posts()->paginate(9);
-    $images=[];
     // dd(json_decode($posts[0]->images, true));
     foreach ($posts as $post) {
         $post->images = json_decode($post->images, true);
@@ -158,9 +158,20 @@ class ProfileController extends Controller
     return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }
 
-    public function savedPosts($userId)
+    public function savedPosts()
     {
-        return 'savedPosts';
+        $user = User::find(6);
+        $profile = $user->profile;
+        $followers = Follower::where('followee_id', $user->id)->get();
+        $followings = Follower::where('follower_id', $user->id)->get();
+        $savedPosts = SavedPost::where('user_id', $user->id)->get();
+        $postsId = $savedPosts->pluck('post_id');
+        // dd($postsId);
+        $posts = Post::whereIn('id', $postsId)->get();
+        foreach ($posts as $post) {
+            $post->images = json_decode($post->images, true);
+        }
+        return view('profile.saved', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }
 
     public function sendEmail(Request $request)

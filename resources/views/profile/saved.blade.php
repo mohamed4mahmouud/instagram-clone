@@ -47,11 +47,11 @@
     <div class="row mt-3 mb-3">
         <hr class="mt-4">
         <div class="col d-flex justify-content-center mt-2 position-relative">
-            <a href="{{ route('profile', ['user' => $user]) }}" id="postsTab" class="text-white text-decoration-none tab-selected position-relative">
-                <i class="fa-solid fa-table-cells"></i> Posts {{ Str::endsWith(url()->current(), 'saved') }}
+            <a href="{{ route('profile', ['user' => $user]) }}" id="postsTab" class="text-white text-decoration-none position-relative">
+                <i class="fa-solid fa-table-cells"></i> Posts 
                 <div class="indicator"></div>
             </a>
-            <a href="{{ route('saved', ['user' => $user]) }}" id="savedTab" class="text-white text-decoration-none ms-5  position-relative">
+            <a href="{{ route('saved', ['user' => $user]) }}" id="savedTab" class="text-white text-decoration-none ms-5 tab-selected position-relative">
                 <i class="fa-regular fa-bookmark"></i> Saved
                 <div class="indicator"></div>
             </a>
@@ -69,11 +69,11 @@
     @endforeach
 @endsection
 
-@section('pagination')
+{{-- @section('pagination')
     <div class="d-flex justify-content-center mt-3">
         {{ $posts->links() }}  
     </div>
-@endsection
+@endsection --}}
 
 @section('modal')
     <!-- Followers Modal -->
@@ -137,7 +137,6 @@
         </div>
     </div>
 @endsection
-
 @section('script')
     <script>
         const postsTab = document.getElementById('postsTab');
@@ -176,5 +175,7 @@
         window.addEventListener('load', setActiveTab);
     </script>
 @endsection
+
+
 
 
