@@ -336,14 +336,17 @@
             <div class="col-md-12">
                 <div class="col-md-12 story-container" id="story">
                     <ul>
+                        @foreach ($user->following as $following)
                         <li>
                             {{-- List your followings stories here --}}
                             <div class="story">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" class="rounded-circle"
-                                    height="60" alt="avatar" />
+                                <img src="{{Storage::url($following->profile->avatar)}}" class="rounded-circle"
+                                    height="60" width="60" alt="avatar" />
                             </div>
-                            <span class="text-white">Willi wanka</span>
+                            <span class="text-white">{{$following->userName}}</span>
                         </li>
+                            
+                        @endforeach
                     </ul>
 
                 </div>
