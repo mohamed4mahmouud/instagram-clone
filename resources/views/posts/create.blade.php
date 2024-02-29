@@ -1,4 +1,5 @@
-
+<head>
+<style>
         body{
             background-color: #121212;
         }
@@ -46,6 +47,7 @@
   width: 100%;
   text-align: center;
 }
+
      
     </style>
 

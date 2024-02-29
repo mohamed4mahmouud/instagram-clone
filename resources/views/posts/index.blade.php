@@ -419,7 +419,7 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                                 <div class="heartbox"> 
-                                                    <input type="checkbox" data-post-id='{{$post-> id }}' class="checkbox" class="checkbox" id="checkbox-{{$post->id}}"/>
+                                                    <input type="checkbox" data-post-id='{{$post-> id }}' data-user-id='{{$user->id}}' class="checkbox" class="checkbox" id="checkbox-{{$post->id}}"/>
                                                     <label for="checkbox-{{$post->id}}"> 
                                                         <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
                                                             <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
@@ -543,18 +543,18 @@
             {{-- Author profile --}}
             <div class="row">
                 <div class="col-md-3">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp" class="rounded-circle"
+                    <img src="{{Storage::url($user->profile->avatar)}}" class="rounded-circle"
                         height="50" alt="avatar" />
                 </div>
                 <div class="col-md-9">
                     <ul class="ml-0 ps-1 mt-1 list-unstyled">
                         <li>
                             <p class="ml-3 text-secondary text-opacity-70 mb-0 mt-1">
-                                <strong>Billy the goat</strong>
+                                <strong>{{$user->userName}}</strong>
                             </p>
                         </li>
                         <li>
-                            <span class="ml-3 text-secondary text-opacity-70">Bill will</span>
+                            <span class="ml-3 text-secondary text-opacity-70">{{$user->fullName}}</span>
                         </li>
                     </ul>
                 </div>
@@ -590,7 +590,7 @@
             likeBtns.forEach(likeBtn => {
                 likeBtn.onclick = async function() {
                     let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
-                        'data-post-id') + '/like');
+                        'data-post-id') + '/like/'+ likeBtn.getAttribute('data-user-id'));
                     let data = await res.json();
                     // TODO: change heart icon to be filled with LOVE @farah
                     console.log(data);

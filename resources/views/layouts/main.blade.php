@@ -18,11 +18,18 @@
     <link rel="icon" href="{{url('/images/instagramfavicon.png')}}">
     <style>
         li:hover {
-            background-color: rgb(59, 58, 58)
+            background-color: rgb(59, 58, 58);
+            padding-bottom: 5px;
         }
         .page-content {
             margin-left: 300px;
         }
+        .fixed-navbar {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: 2000;
+                }
     </style>
     @yield('css')
 </head>

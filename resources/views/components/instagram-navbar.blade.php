@@ -1,5 +1,5 @@
-        @section('navbar')
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black border-end border-dark pt-5 fixed-top">
+            @section('navbar')
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black border-end border-dark pt-5 fixed-navbar">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="/"
                         class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -39,7 +39,7 @@
                         <li>
                             <a href="#" class="d-flex align-items-center text-white text-decoration-none"
                                 id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                <img src="{{Storage::url($user->profile->avatar)}}" alt="hugenerd" width="30" height="30"
                                     class="rounded-circle me-2">
                                 <span class="d-none d-sm-inline text-white">Profile</span>
                             </a>
@@ -64,7 +64,7 @@
                     <div id="Searchresult" class="text-white">
                         {{-- Search Result div --}}
                         <hr>
-                        <p> a7la mesa 3lek yabo el asyaf</p>
+                        <p>Seeking your Instagram doppelgänger? Search away and cross your fingers for a photogenic match! 🔍🤞😄</p>
                     </div>
                 </div>
             </div>

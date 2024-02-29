@@ -145,11 +145,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6 offset-md-4 mt-4">
-                                    <button type="submit" class="btn btn-primary">
-                                    {{ __('Save Changes') }}
-                                </button>
-                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-12 text-md-left">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Save Changes') }}
+                                        </button>
+                                    </div>
                         </form>
                     </div>
                 </div>
