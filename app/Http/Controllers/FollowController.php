@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 
 class FollowController extends Controller
 {
-    public function follow(Request $request, User $user)
+    public function follow(Request $request)
     {
-        $authenticatedUser = User::find(6); 
+        $user=User::find($request->user);
+        $authenticatedUser = User::find(13); 
 
         if ($authenticatedUser) {
             $authenticatedUser->follow($user);
@@ -18,9 +19,10 @@ class FollowController extends Controller
         return back();
     }
 
-    public function unfollow(Request $request, User $user)
+    public function unfollow(Request $request)
     {
-        $authenticatedUser = User::find(6);
+        $user=User::find($request->user);
+        $authenticatedUser =$authenticatedUser = User::find(13); 
 
         if ($authenticatedUser) {
             $authenticatedUser->unfollow($user);
@@ -30,4 +32,5 @@ class FollowController extends Controller
 
         return back();
     }
+    
 }

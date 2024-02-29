@@ -9,7 +9,7 @@
 
 @section('profile_content')
     {{-- Edit Profile Button --}}
-    @if($user->id == 6)
+    @if($user->id == Auth::id())
         <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
     @endif
     {{-- Bio --}}
@@ -27,11 +27,11 @@
         <p>Website: <a href="#">{{ $profile->website }}</a></p>
     @endif
     {{-- Follow Button --}}
-    @if($user->id !== 6)
-        @if ($user->isFollowed())
+    @if($user->id != Auth::id())
+        @if ($user->isFollowed(Auth::id()))
             <form action="{{ route('unfollow', $user) }}" method="POST">
             @csrf
-             @method('DELETE')
+            @method('DELETE')
             <button type="submit" class="btn btn-danger">Unfollow</button>
             </form>
         @else

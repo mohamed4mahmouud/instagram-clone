@@ -27,9 +27,10 @@ class PostsController extends Controller
     public function index()
     {
         // $posts=User::find(1)->posts();
-        $user = User::find(6);
-        $posts = $user->posts;
-        foreach ($posts as $post) {
+        $user = User::find(Auth::id());
+        $followedUsersIds=$user->following()->pluck('followee_id');
+        $latestPosts = Post::whereIn('user_id', $followedUsersIds)->latest()->take(3)->get();
+        foreach ($latestPosts as $post) {
             $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);
             foreach ($post->comments as $comment) {
@@ -41,7 +42,7 @@ class PostsController extends Controller
 
         // $user = User::find(7);
         // dd($user);
-        return view('posts.index', ['posts' => $posts, 'user' => $user]);
+        return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
 
     /**
