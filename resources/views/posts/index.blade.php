@@ -368,7 +368,7 @@
                                                 <img src="{{ $post->user->profile->avatar }}" class="rounded-circle"
                                                     height="40" alt="avatar" />
                                                 <div class="mt-2">
-                                                    <a href="{{ route('profile', ['user' => $user->id]) }}"
+                                                    <a href="{{ route('profile', ['user' =>$post->user->id]) }}"
                                                         class="text-white text-decoration-none">
                                                         <strong class="strong mt-5 ms-2">{{ $user->userName }}</strong>
                                                     </a>

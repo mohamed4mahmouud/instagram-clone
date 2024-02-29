@@ -42,7 +42,7 @@ class FacebookLoginController extends Controller
             $newUser->save();
             
             $profile = new Profile();
-            $profile->user()->associate($user->id);
+            $profile->user()->associate($newUser->id);
             $profile->save();
 
             // Log in the new user.
