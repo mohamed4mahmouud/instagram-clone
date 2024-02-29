@@ -25,7 +25,8 @@ class User extends Authenticatable
         'verification_token',
         'reset_password_token',
         'followers_count',
-        'following_count'
+        'following_count',
+        'facebook_id'
 
     ];
 
