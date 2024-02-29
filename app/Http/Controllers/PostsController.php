@@ -152,12 +152,7 @@ class PostsController extends Controller
         //iam using user with id for testing right now
 
         // $user = Auth::user();
-<<<<<<< HEAD
         
-=======
-        $user = User::find(6);
-        // return ["msg"=>$user];
->>>>>>> 86a3faca53515b843942f437d2d83179f1e6e8a6
         $like = Like::where([
             'user_id' => $request->user,
             'post_id' => $request->post
