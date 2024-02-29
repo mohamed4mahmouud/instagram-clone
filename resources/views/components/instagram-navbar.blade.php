@@ -8,7 +8,7 @@
                     <ul class="nav nav-pills flex-column mb-sm-auto col-lg-12 mb-0 align-items-center align-items-sm-start"
                         id="menu">
                         <li>
-                            <a href="#" class="nav-link align-middle px-0">
+                            <a href="http://127.0.0.1:8000/posts" class="nav-link align-middle px-0">
                                 <i class="fa-solid fa-house fa-lg text-white"></i><span
                                     class="ms-2 d-none d-sm-inline text-white">Home</span>
                             </a>
@@ -52,7 +52,7 @@
                 
             </div>
             {{-- Search Canvas --}}
-            <div class="offcanvas offcanvas-start ms-5 px-0" data-bs-scroll="true" data-bs-backdrop="false" tabindex="0"
+            <div class="offcanvas offcanvas-start ms-5 px-0 searchbar" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
                 id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header bg-black ">
                     <h5 class="offcanvas-title text-white" id="offcanvasScrollingLabel">Search</h5>

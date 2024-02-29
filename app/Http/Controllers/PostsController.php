@@ -151,14 +151,6 @@ class PostsController extends Controller
     public function likePost(Request $request)
     {
 
-        // TODO :
-        // User that is logged in will be used instead to put his like
-        // for the sake of the test right now
-        //iam using user with id for testing right now
-
-        $user = Auth::user();
-        // $user = User::find(6);
-        // return ["msg"=>$user];
         $like = Like::where([
             'user_id' => $request->user,
             'post_id' => $request->post
