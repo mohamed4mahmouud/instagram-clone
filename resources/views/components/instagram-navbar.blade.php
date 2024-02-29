@@ -38,8 +38,8 @@
                                        
                         </li>
                         <li>
-                            <a href="#" class="d-flex align-items-center text-white text-decoration-none"
-                                id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="{{route('profile',['user'=>Auth::id()])}}" class="d-flex align-items-center text-white text-decoration-none"
+                                id="dropdownUser1" aria-expanded="false">
                                 <img src="{{Storage::url($user->profile->avatar)}}" alt="hugenerd" width="30" height="30"
                                     class="rounded-circle me-2">
                                 <span class="d-none d-sm-inline text-white">Profile</span>

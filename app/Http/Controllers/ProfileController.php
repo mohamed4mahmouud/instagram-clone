@@ -160,7 +160,7 @@ class ProfileController extends Controller
 
     public function savedPosts()
     {
-        $user = User::find(6);
+        $user = User::find(Auth::id());
         $profile = $user->profile;
         $followers = Follower::where('followee_id', $user->id)->get();
         $followings = Follower::where('follower_id', $user->id)->get();
