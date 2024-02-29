@@ -36,6 +36,12 @@
                     left: 0;
                     z-index: 2000;
                 }
+                .searchbar{
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: 2200;
+                }
                 .form-control {
         background-color: #262626;
         color: #fff;
