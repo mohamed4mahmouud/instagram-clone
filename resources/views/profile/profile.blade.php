@@ -63,7 +63,7 @@
     @foreach($posts as $post)
                     <div class="col-md-4 mb-1 posts">
                         <div class="post">                     
-                            <a href="" data-bs-target="#exampleModalToggle2-{{$post->id}}" data-bs-toggle="modal"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
+                            <a href="" data-bs-target="#exampleModalToggle{{$post->id}}" data-bs-toggle="modal"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
                         </div>
                     </div>
     @endforeach
@@ -178,7 +178,6 @@
     </script>
 @endsection
 
-{{-- @foreach($posts as $post) --}}
+
 @include('posts.show')
 
-{{-- @endforeach --}}

@@ -8,14 +8,14 @@
 </style>
 
 @foreach ($posts as $post)
-<div class="modal fade" id="exampleModalToggle2-{{$post->id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+<div class="modal fade" id="exampleModalToggle{{$post->id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-xl">
       <div class="modal-content">
         <div class="modal-body">
             <div class="row">
                 <div class="col-8">
                    {{--posts image slider--}}
-                    <div id="carouselExample2-{{$post->id}}" class="carousel slide">
+                    <div id="carouselExample{{$post->id}}" class="carousel slide">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
@@ -31,11 +31,11 @@
                             @endif
                          </div>
                          @if (count ($post->images) > 1)
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2-{{$post->id}}" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample{{$post->id}}" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2-{{$post->id}}" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample{{$post->id}}" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>

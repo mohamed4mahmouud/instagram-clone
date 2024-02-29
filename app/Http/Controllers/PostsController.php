@@ -27,7 +27,7 @@ class PostsController extends Controller
     public function index()
     {
         // $posts=User::find(1)->posts();
-        $user = User::find(6);
+        $user = Auth::user();
         $posts = $user->posts;
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true);
