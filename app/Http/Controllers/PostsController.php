@@ -117,7 +117,7 @@ class PostsController extends Controller
         foreach ($matches[1] as $tag) {
 
         }
-
+        // dd(!empty($post->caption));
         $user=Auth::user();
         return view('posts.show' , ['post' => $post, 'user'=>$user]);
 
