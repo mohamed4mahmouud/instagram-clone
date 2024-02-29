@@ -345,7 +345,7 @@
                             </div>
                             <span class="text-white">{{$following->userName}}</span>
                         </li>
-                            
+
                         @endforeach
                     </ul>
 
@@ -575,7 +575,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50" width="50"
-                    
+
                         alt="avatar" />
                 </div>
                 <div class="col-md-9">
