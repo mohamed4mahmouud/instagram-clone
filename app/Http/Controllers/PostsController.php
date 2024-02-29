@@ -118,8 +118,8 @@ class PostsController extends Controller
            
         }
        
-
-        return view('posts.show' , ['post' => $post]);
+        $user=Auth::user();
+        return view('posts.show' , ['post' => $post, 'user'=>$user]);
 
     }
 
