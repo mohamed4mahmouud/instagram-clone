@@ -126,7 +126,9 @@ class ProfileController extends Controller
     foreach ($posts as $post) {
         $post->images = json_decode($post->images, true);
     }
-
+    // $post->images=$images;
+    // dd($post->images[0]);
+    // dd($post->comments);
 
     return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }

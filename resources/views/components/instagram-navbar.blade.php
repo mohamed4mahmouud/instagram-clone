@@ -49,6 +49,7 @@
                     <hr>
 
                 </div>
+                
             </div>
             {{-- Search Canvas --}}
             <div class="offcanvas offcanvas-start ms-5 px-0 searchbar" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
@@ -86,4 +87,6 @@
                     listitem.classList.add('rounded')
                 });
             </script>
+           
         @endsection
+        
