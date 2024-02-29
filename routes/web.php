@@ -26,6 +26,7 @@ use App\Http\Controllers\ResetPasswordController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
+    Route::put('/viewprofile', [ProfileController::class, 'update'])->name('user.viewprofile');
     Route::get('verifyemail/{token}',[ProfileController::class,'verifyEmailAfterUpdate'])->name('verifyemail');
     Route::post('update-email',[ProfileController::class,'updateEmail'])->name('updateemail');
     Route::put('/changePassword', [ProfileController::class, 'updatePassword'])->name('user.changePassword');
@@ -36,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 // Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
-Route::put('/viewprofile', [ProfileController::class, 'update'])->name('user.viewprofile');
+
 
 
 Route::get('/instagram', function () {
