@@ -7,7 +7,7 @@
 }
 </style>
 
-@foreach ($posts as $post)
+{{-- @foreach ($posts as $post) --}}
 <div class="modal fade" id="exampleModalToggle{{$post->id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-xl">
       <div class="modal-content">
@@ -178,7 +178,7 @@
       </div>
     </div>
   </div>
-  @endforeach
+  {{-- @endforeach --}}
 {{--  --}}
     
      <script>

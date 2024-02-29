@@ -57,6 +57,7 @@
             </a>
         </div>
     </div>
+    
 @endsection
 
 @section('posts')
@@ -70,7 +71,6 @@
  
     
 @endsection
-
 @section('pagination')
     <div class="d-flex justify-content-center mt-3">
         {{ $posts->links() }}  
@@ -176,8 +176,10 @@
 
         window.addEventListener('load', setActiveTab);
     </script>
+    @include('posts.create')
 @endsection
 
-
+@forEach($posts as $post)
 @include('posts.show')
+@endforeach
 
