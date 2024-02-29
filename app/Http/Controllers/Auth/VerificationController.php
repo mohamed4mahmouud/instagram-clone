@@ -10,14 +10,16 @@ class VerificationController extends Controller
 
     public function show(Request $request)
     {
-        // If the user's email is already verified, redirect them to the home page
-        if ($request->user()->hasVerifiedEmail()) {
+        // Check if there is a user authenticated
+        if ($request->user() && $request->user()->hasVerifiedEmail()) {
+            // If the user's email is already verified, redirect them to the home page
             return redirect()->route('home');
         }
 
-        // If the user's email is not verified, return a view displaying the verification notice
-        return view('auth.verify-email');
+        // If there is no authenticated user or the email is not verified, return a view displaying the verification notice
+        return view('user.login');
     }
+
     public function verify(string $token)
     {
         $user = User::where('verification_token', $token)->first();
