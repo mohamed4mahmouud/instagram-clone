@@ -159,15 +159,17 @@
                                     {{-- Liked by --}}
                                     @if ($post->like_count)
                                     @foreach ($post->likes->take(1) as $like)
+                                                <div class="mt-4">
                                                 <img src="{{Storage::url($like->user->profile->avatar)}}"
                                                     class="rounded-circle" height="30" width="30" alt="avatar" />
-                                                        <small>Liked by <strong>
+                                                        <small class="mt-5">Liked by <strong>
                                                             {{ $like->user->userName }}
                                                         @endforeach
 
                                                     </strong> {{ $post->like_count - 1 ? 'and' : '' }}
                                                     <strong>{{ $post->like_count - 1 ? $post->like_count - 1 : '' }}</strong>{{ $post->like_count > 1 ? ' others' : '' }}</small>
-                                            @endif
+                                                </div>
+                                                @endif
                                 </div>
                             </div>
 
