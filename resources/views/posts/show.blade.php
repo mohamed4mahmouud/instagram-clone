@@ -70,7 +70,9 @@
                                         <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
                                             <span class="text-light">{{ $post->user->fullName }}</span>
                                         </a>
+                                        @if($user->id != Auth::id())
                                         <a href="#" class="text-decoration-none ps-3">Follow</a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div>
