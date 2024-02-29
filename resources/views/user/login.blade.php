@@ -105,7 +105,7 @@
                         <input type="password" name="password" id="password" class="form-control" placeholder="Password" >
                     </div>
                     @if (session('error'))
-                            <div class="alert alert-danger">
+                            <div class="alert text-danger text-start">
                                 {{ session('error') }}
                             </div>
                         @endif

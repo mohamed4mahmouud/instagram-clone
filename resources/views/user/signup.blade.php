@@ -165,10 +165,10 @@
                             <option value="other">Other</option>
                         </select>
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
+                        <div class="alert text-danger">
+                            <ul class="list-unstyled">
                                 @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
+                                    <li class="text-start">{{ $error }}</li>
                                 @endforeach
                             </ul>
                         </div>
