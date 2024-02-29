@@ -9,7 +9,7 @@
 
 @section('profile_content')
     {{-- Edit Profile Button --}}
-    @if($user->id == 17)
+    @if($user->id == 6)
         <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
     @endif
     {{-- Bio --}}
@@ -27,7 +27,7 @@
         <p>Website: <a href="#">{{ $profile->website }}</a></p>
     @endif
     {{-- Follow Button --}}
-    @if($user->id !== 17)
+    @if($user->id !== 6)
         @if ($user->isFollowed())
             <form action="{{ route('unfollow', $user) }}" method="POST">
             @csrf
@@ -47,11 +47,11 @@
     <div class="row mt-3 mb-3">
         <hr class="mt-4">
         <div class="col d-flex justify-content-center mt-2 position-relative">
-            <a href="{{ route('profile', ['user' => $user]) }}" id="postsTab" class="text-white text-decoration-none tab-selected position-relative">
-                <i class="fa-solid fa-table-cells"></i> Posts {{ Str::endsWith(url()->current(), 'saved') }}
+            <a href="{{ route('profile', ['user' => $user]) }}" id="postsTab" class="text-white text-decoration-none position-relative">
+                <i class="fa-solid fa-table-cells"></i> Posts 
                 <div class="indicator"></div>
             </a>
-            <a href="{{ route('saved', ['user' => $user]) }}" id="savedTab" class="text-white text-decoration-none ms-5  position-relative">
+            <a href="{{ route('saved', ['user' => $user]) }}" id="savedTab" class="text-white text-decoration-none ms-5 tab-selected position-relative">
                 <i class="fa-regular fa-bookmark"></i> Saved
                 <div class="indicator"></div>
             </a>
@@ -62,20 +62,18 @@
 @section('posts')
     @foreach($posts as $post)
                     <div class="col-md-4 mb-1 posts">
-                        <div class="post">                     
-                            <a href="" data-bs-target="#exampleModalToggle2-{{$post->id}}" data-bs-toggle="modal"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
+                        <div class="post">
+                            <a href="#"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
                         </div>
                     </div>
     @endforeach
- 
-    
 @endsection
 
-@section('pagination')
+{{-- @section('pagination')
     <div class="d-flex justify-content-center mt-3">
         {{ $posts->links() }}  
     </div>
-@endsection
+@endsection --}}
 
 @section('modal')
     <!-- Followers Modal -->
@@ -178,7 +176,6 @@
     </script>
 @endsection
 
-{{-- @foreach($posts as $post) --}}
-@include('posts.show')
 
-{{-- @endforeach --}}
+
+

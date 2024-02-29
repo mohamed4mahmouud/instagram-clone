@@ -27,7 +27,7 @@ class PostsController extends Controller
     public function index()
     {
         // $posts=User::find(1)->posts();
-        $user = Auth::user();
+        $user = User::find(6);
         $posts = $user->posts;
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true);
@@ -161,7 +161,7 @@ class PostsController extends Controller
         //iam using user with id for testing right now
 
         // $user = Auth::user();
-        $user = User::find(10);
+        $user = User::find(6);
         // return ["msg"=>$user];
         $like = Like::where([
             'user_id' => $user->id,
@@ -222,7 +222,7 @@ class PostsController extends Controller
     public function savePost(Request $request){
         //save post to a random user
         
-        $user = Auth::user();
+        $user = User::find(6);
         $savedPost = SavedPost::where([
             'user_id' => $user->id,
             'post_id' => $request->postId

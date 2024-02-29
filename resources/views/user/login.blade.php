@@ -9,8 +9,8 @@
 
     <style>
         body {
-            background-color: #121212; 
-            color: #fff; 
+            background-color: #121212;
+            color: #fff;
         }
 
         .container {
@@ -21,7 +21,7 @@
         }
 
         .login-container {
-            background-color: #232222; 
+            background-color: #232222;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -46,7 +46,7 @@
             margin-top: 20px;
         }
 
-    
+
         .form-control{
             background-color: #2e2d2d;
             border: none;
@@ -88,7 +88,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">   
+        <div class="row">
             <div class="col-6 me-5">
                 <img src="{{ asset('/images/instagram1.gif') }}">
             </div>
@@ -99,12 +99,16 @@
                     @csrf
 
                     <div class="mb-3">
-                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter your email" required>
+                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="Enter your email" >
                     </div>
-
                     <div class="mb-3">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" >
                     </div>
+                    @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                     <div class="mb-3 text-end">
                         <!-- <a href="{{ route('password.request') }}">Forget Password?</a> -->
                         @if (Route::has('password.request'))
