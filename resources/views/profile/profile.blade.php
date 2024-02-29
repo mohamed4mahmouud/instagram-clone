@@ -93,7 +93,7 @@
                         <div class="person-info d-flex justify-content-between">
                             <div class="person-container d-inline-block ">
                                 <div class="person-img d-inline-block">
-                                    <img src="{{ asset('storage/'. $follower->follower->profile->avatar) }}" alt="Avatar" class="rounded-circle shadow-4 follower-avatar"
+                                    <img src="{{ Storage::url($follower->follower->profile->avatar) }}" alt="Avatar" class="rounded-circle shadow-4 follower-avatar"
                                     style="width: 50px;">
                                 </div>
                                 <div class="person-name d-inline-block">
