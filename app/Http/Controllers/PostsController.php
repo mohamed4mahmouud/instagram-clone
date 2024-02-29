@@ -25,7 +25,7 @@ class PostsController extends Controller
      * Display a listing of the resource.
      */
     // public $user;
-    
+
     public function index()
     {
         $user = Auth::user();
@@ -95,7 +95,7 @@ class PostsController extends Controller
         }
       return redirect()->route('posts.index');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -109,12 +109,12 @@ class PostsController extends Controller
         $created_at = Carbon::parse($post->comments[0]->created_at);
         $post->timeDifference = $created_at->diffForHumans();
         }
-        
+
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         foreach ($matches[1] as $tag) {
-           
+
         }
-       
+
 
         return view('posts.show' , ['post' => $post]);
 
@@ -152,12 +152,8 @@ class PostsController extends Controller
         //iam using user with id for testing right now
 
         // $user = Auth::user();
-<<<<<<< HEAD
-        
-=======
         $user = User::find(6);
         // return ["msg"=>$user];
->>>>>>> 86a3faca53515b843942f437d2d83179f1e6e8a6
         $like = Like::where([
             'user_id' => $request->user,
             'post_id' => $request->post
@@ -211,11 +207,11 @@ class PostsController extends Controller
         }
 
         return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
-        
+
     }
     public function savePost(Request $request){
         //save post to a random user
-        
+
         $user = User::find(6);
         $savedPost = SavedPost::where([
             'user_id' => $user->id,

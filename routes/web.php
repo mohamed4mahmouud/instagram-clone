@@ -7,6 +7,7 @@ use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FacebookLoginController;
 use App\Http\Controllers\ResetPasswordController;
 
 /*
@@ -83,5 +84,9 @@ Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
 Route::get('/tags/{id}',[PostsController::class,'tagsView'])->name('tags');
 Route::get('/users/{search}',[UserController::class,'search']);
 Route::get('/posts/{postId}/save',[PostsController::class, 'savePost'])->name('posts.save');
+
+// FacebookLoginController redirect and callback urls
+Route::get('/auth/facebook', [FacebookLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('/auth/facebook/callback', [FacebookLoginController::class, 'handleFacebookCallback']);
 
 require __DIR__.'/auth.php';
