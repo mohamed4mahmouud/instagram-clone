@@ -48,6 +48,7 @@
         .user-name {
             font-size: 12px;
         }
+
         .heartbox {
             position: sticky;
             display: inline;
@@ -239,18 +240,18 @@
         }
 
         .heartbox svg #heart {
-    transform-origin: center;
-    animation: animateHeartOut .3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
-}
+            transform-origin: center;
+            animation: animateHeartOut .3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
 
-.checkbox:checked+label svg #heartgroup1 #heart1,
-.checkbox:checked+label svg #heartgroup1 #heart2,
-/* Add similar rules for other heart groups */
-{
-    transform: scale(0.5) translate(0, -30px);
-    transform-origin: 0 0 0;
-    transition: 0.5s transform 0.3s;
-}
+        .checkbox:checked+label svg #heartgroup1 #heart1,
+        .checkbox:checked+label svg #heartgroup1 #heart2,
+        /* Add similar rules for other heart groups */
+            {
+            transform: scale(0.5) translate(0, -30px);
+            transform-origin: 0 0 0;
+            transition: 0.5s transform 0.3s;
+        }
 
         @keyframes animateCircle {
             40% {
@@ -364,12 +365,13 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="d-flex story">
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-                                                    class="rounded-circle" height="40" alt="avatar" />
+                                                <img src="{{ $post->user->profile->avatar }}" class="rounded-circle"
+                                                    height="40" alt="avatar" />
                                                 <div class="mt-2">
                                                     <a href="{{ route('profile', ['user' => $user->id]) }}"
                                                         class="text-white">
-                                                        <strong class="strong mt-5 ms-2">{{ $user->userName }}</strong>
+                                                        <strong
+                                                            class="strong mt-5 ms-2">{{ $post->user->userName }}</strong>
                                                     </a>
                                                 </div>
                                             </div>
@@ -386,86 +388,112 @@
                             <div id="carouselExample" class="carousel slide">
                                 <div class="carousel-inner">
                                     @for ($i = 0; $i < count($post->images); $i++)
-                                    @if ($i==0)
-                                        <div class="carousel-item active">
-                                            <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
-                                        </div>
-                                    @endif
-                                        @if ($i>0)
-                                        <div class="carousel-item">
-                                            <img src="{{ Storage::url($post->images[$i]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
-                                        </div>    
+                                        @if ($i == 0)
+                                            <div class="carousel-item active">
+                                                <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100"
+                                                    style="width: 400px; height: 600px;">
+                                            </div>
                                         @endif
-                                    
-                                     @endfor
-                                    </div>
-                                    @if (count($post->images)>1)
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                        @if ($i > 0)
+                                            <div class="carousel-item">
+                                                <img src="{{ Storage::url($post->images[$i]) }}" class="d-block w-100"
+                                                    style="width: 400px; height: 600px;">
+                                            </div>
+                                        @endif
+                                    @endfor
+                                </div>
+                                @if (count($post->images) > 1)
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                        data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Previous</span>
                                     </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                        data-bs-slide="next">
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Next</span>
                                     </button>
-                                        
-                                    @endif
+                                @endif
                             </div>
-                            
+
                             {{-- Interactions --}}
 
                             <div class="card-body">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-8">
-                                                <div class="heartbox"> 
-                                                    <input type="checkbox" data-post-id='{{$post-> id }}' data-user-id='{{$user->id}}' class="checkbox" class="checkbox" id="checkbox-{{$post->id}}"/>
-                                                    <label for="checkbox-{{$post->id}}"> 
-                                                        <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg">
-                                                            <g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)">
-                                                                <path
-                                                                    d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z"
-                                                                    id="heart" fill="#AAB8C2" />
-                                                                <circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5" />
-                                                                <g id="heartgroup7" opacity="0" transform="translate(7 6)">
-                                                                    <circle id="heart1" fill="#9CD8C3" cx="2" cy="6" r="2" />
-                                                                    <circle id="heart2" fill="#8CE8C3" cx="5" cy="2" r="2" />
-                                                                </g>
-                                                                <g id="heartgroup6" opacity="0" transform="translate(0 28)">
-                                                                    <circle id="heart1" fill="#CC8EF5" cx="2" cy="7" r="2" />
-                                                                    <circle id="heart2" fill="#91D2FA" cx="3" cy="2" r="2" />
-                                                                </g>
-                                                                <g id="heartgroup3" opacity="0" transform="translate(52 28)">
-                                                                    <circle id="heart2" fill="#9CD8C3" cx="2" cy="7" r="2" />
-                                                                    <circle id="heart1" fill="#8CE8C3" cx="4" cy="2" r="2" />
-                                                                </g>
-                                                                <g id="heartgroup2" opacity="0" transform="translate(44 6)">
-                                                                    <circle id="heart2" fill="#CC8EF5" cx="5" cy="6" r="2" />
-                                                                    <circle id="heart1" fill="#CC8EF5" cx="2" cy="2" r="2" />
-                                                                </g>
-                                                                <g id="heartgroup5" opacity="0" transform="translate(14 50)">
-                                                                    <circle id="heart1" fill="#91D2FA" cx="6" cy="5" r="2" />
-                                                                    <circle id="heart2" fill="#91D2FA" cx="2" cy="2" r="2" />
-                                                                </g>
-                                                                <g id="heartgroup4" opacity="0" transform="translate(35 50)">
-                                                                    <circle id="heart1" fill="#F48EA7" cx="6" cy="5" r="2" />
-                                                                    <circle id="heart2" fill="#F48EA7" cx="2" cy="2" r="2" />
-                                                                </g>
-                                                                <g id="heartgroup1" opacity="0" transform="translate(24)">
-                                                                    <circle id="heart1" fill="#9FC7FA" cx="2.5" cy="3" r="2" />
-                                                                    <circle id="heart2" fill="#9FC7FA" cx="7.5" cy="2" r="2" />
-                                                                </g>
+                                            <div class="heartbox">
+                                                <input type="checkbox" data-post-id='{{ $post->id }}'
+                                                    data-user-id='{{ $user->id }}' class="checkbox" class="checkbox"
+                                                    id="checkbox-{{ $post->id }}" />
+                                                <label for="checkbox-{{ $post->id }}">
+                                                    <svg id="heart-svg" viewBox="467 392 58 57"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="Group" fill="none" fill-rule="evenodd"
+                                                            transform="translate(467 392)">
+                                                            <path
+                                                                d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z"
+                                                                id="heart" fill="#AAB8C2" />
+                                                            <circle id="main-circ" fill="#E2264D" opacity="0"
+                                                                cx="29.5" cy="29.5" r="1.5" />
+                                                            <g id="heartgroup7" opacity="0" transform="translate(7 6)">
+                                                                <circle id="heart1" fill="#9CD8C3" cx="2"
+                                                                    cy="6" r="2" />
+                                                                <circle id="heart2" fill="#8CE8C3" cx="5"
+                                                                    cy="2" r="2" />
                                                             </g>
-                                                        </svg> 
-                                                    </label> 
-                                                </div>
+                                                            <g id="heartgroup6" opacity="0" transform="translate(0 28)">
+                                                                <circle id="heart1" fill="#CC8EF5" cx="2"
+                                                                    cy="7" r="2" />
+                                                                <circle id="heart2" fill="#91D2FA" cx="3"
+                                                                    cy="2" r="2" />
+                                                            </g>
+                                                            <g id="heartgroup3" opacity="0"
+                                                                transform="translate(52 28)">
+                                                                <circle id="heart2" fill="#9CD8C3" cx="2"
+                                                                    cy="7" r="2" />
+                                                                <circle id="heart1" fill="#8CE8C3" cx="4"
+                                                                    cy="2" r="2" />
+                                                            </g>
+                                                            <g id="heartgroup2" opacity="0"
+                                                                transform="translate(44 6)">
+                                                                <circle id="heart2" fill="#CC8EF5" cx="5"
+                                                                    cy="6" r="2" />
+                                                                <circle id="heart1" fill="#CC8EF5" cx="2"
+                                                                    cy="2" r="2" />
+                                                            </g>
+                                                            <g id="heartgroup5" opacity="0"
+                                                                transform="translate(14 50)">
+                                                                <circle id="heart1" fill="#91D2FA" cx="6"
+                                                                    cy="5" r="2" />
+                                                                <circle id="heart2" fill="#91D2FA" cx="2"
+                                                                    cy="2" r="2" />
+                                                            </g>
+                                                            <g id="heartgroup4" opacity="0"
+                                                                transform="translate(35 50)">
+                                                                <circle id="heart1" fill="#F48EA7" cx="6"
+                                                                    cy="5" r="2" />
+                                                                <circle id="heart2" fill="#F48EA7" cx="2"
+                                                                    cy="2" r="2" />
+                                                            </g>
+                                                            <g id="heartgroup1" opacity="0" transform="translate(24)">
+                                                                <circle id="heart1" fill="#9FC7FA" cx="2.5"
+                                                                    cy="3" r="2" />
+                                                                <circle id="heart2" fill="#9FC7FA" cx="7.5"
+                                                                    cy="2" r="2" />
+                                                            </g>
+                                                        </g>
+                                                    </svg>
+                                                </label>
+                                            </div>
                                             <a href="#comment-{{ $post->id }}"><i
                                                     data-comment-form-id='{{ $post->id }}'
                                                     class="fa-regular fa-comment fa-lg text-white ms-2 me-2"></i></a>
                                             <i class="fa-regular fa-paper-plane fa-lg text-white ms-2"></i>
                                         </div>
                                         <div class="col-md-4 text-end">
-                                            <i data-post-id="{{$post->id}}" class="fa-regular fa-bookmark text-white"></i>
+                                            <i data-post-id="{{ $post->id }}"
+                                                class="fa-regular fa-bookmark text-white"></i>
                                         </div>
                                     </div>
                                     {{-- Liked by --}}
@@ -520,8 +548,8 @@
                                         <hr>
                                         <div class="col-md-11">
                                             <div class="form-outline" data-mdb-input-init>
-                                                <input type="text" id="comment-{{ $post->id }}" class="form-control"
-                                                    placeholder="leave a comment ..." />
+                                                <input type="text" id="comment-{{ $post->id }}"
+                                                    class="form-control" placeholder="leave a comment ..." />
                                             </div>
                                         </div>
                                         <div class="col-md-1">
@@ -543,18 +571,18 @@
             {{-- Author profile --}}
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{Storage::url($user->profile->avatar)}}" class="rounded-circle"
-                        height="50" alt="avatar" />
+                    <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50"
+                        alt="avatar" />
                 </div>
                 <div class="col-md-9">
                     <ul class="ml-0 ps-1 mt-1 list-unstyled">
                         <li>
                             <p class="ml-3 text-secondary text-opacity-70 mb-0 mt-1">
-                                <strong>{{$user->userName}}</strong>
+                                <strong>{{ $user->userName }}</strong>
                             </p>
                         </li>
                         <li>
-                            <span class="ml-3 text-secondary text-opacity-70">{{$user->fullName}}</span>
+                            <span class="ml-3 text-secondary text-opacity-70">{{ $user->fullName }}</span>
                         </li>
                     </ul>
                 </div>
@@ -571,7 +599,8 @@
                 <div class="col-md-8">
                     <ul class="ml-0 ps-1 mt-1 ms-2 list-unstyled">
                         <li>
-                            <small class="user-name text-secondary text-opacity-70"><strong>bill_the_programmer</strong></small>
+                            <small
+                                class="user-name text-secondary text-opacity-70"><strong>bill_the_programmer</strong></small>
                         </li>
                         <li>
                             <span class="user-name text-secondary text-opacity-70">Followed by johnyQT</span>
@@ -590,11 +619,11 @@
             likeBtns.forEach(likeBtn => {
                 likeBtn.onclick = async function() {
                     let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
-                        'data-post-id') + '/like/'+ likeBtn.getAttribute('data-user-id'));
+                        'data-post-id') + '/like/' + likeBtn.getAttribute('data-user-id'));
                     let data = await res.json();
-                    // TODO: change heart icon to be filled with LOVE @farah
+
                     console.log(data);
-                    //Handle the likes increment or decrement on the browser View
+
                 }
             });
 
@@ -626,17 +655,20 @@
                 }
             });
 
-            let savePosts= document.querySelectorAll('.fa-bookmark');
+            let savePosts = document.querySelectorAll('.fa-bookmark');
             // console.log(savePosts);
             savePosts.forEach(savePost => {
                 savePost.onclick = async function() {
-                    const postId=this.getAttribute('data-post-id');
-                    const res=await fetch("http://localhost:8000/posts/"+postId+"/save");
-                    let resData=await res.json();
-                   console.log(resData);
-                    
+                    const postId = this.getAttribute('data-post-id');
+                    const res = await fetch("http://localhost:8000/posts/" + postId + "/save");
+                    let resData = await res.json();
+                    console.log(resData);
+
                 }
             });
         </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+    @include('posts.create')
     @endsection

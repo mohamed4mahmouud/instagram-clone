@@ -28,9 +28,11 @@ class PostsController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $posts = $user->posts;
-        foreach ($posts as $post) {
+        // $posts=User::find(1)->posts();
+        $user = User::find(Auth::id());
+        $followedUsersIds=$user->following()->pluck('followee_id');
+        $latestPosts = Post::whereIn('user_id', $followedUsersIds)->latest()->take(3)->get();
+        foreach ($latestPosts as $post) {
             $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);
             foreach ($post->comments as $comment) {
@@ -40,7 +42,8 @@ class PostsController extends Controller
             $post->timeDifference = $created_at->diffForHumans();
         }
 
-        return view('posts.index', ['posts' => $posts, 'user' => $user]);
+
+        return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
 
     /**
@@ -71,6 +74,7 @@ class PostsController extends Controller
             }
         }
         $post->images=json_encode($images);
+        event(new PostAdd($post));
         $post->save();
 
         // tag store
@@ -93,6 +97,7 @@ class PostsController extends Controller
                 $postTag->save();
                 }
         }
+
       return redirect()->route('posts.index');
     }
 
@@ -115,8 +120,8 @@ class PostsController extends Controller
 
         }
 
-
-        return view('posts.show' , ['post' => $post]);
+        $user=Auth::user();
+        return view('posts.show' , ['post' => $post, 'user'=>$user]);
 
     }
 
@@ -205,14 +210,14 @@ class PostsController extends Controller
             $post->images = json_decode($post->images, true);
             // dd( $tag->name );
         }
-
-        return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
+        $user=Auth::user();
+        return view('posts.tags',["posts"=>$postTag , "tag"=>$tag, "user"=>$user]);
 
     }
     public function savePost(Request $request){
         //save post to a random user
 
-        $user = User::find(6);
+        $user = User::find(Auth::id());
         $savedPost = SavedPost::where([
             'user_id' => $user->id,
             'post_id' => $request->postId
