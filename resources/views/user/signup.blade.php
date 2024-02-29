@@ -140,7 +140,7 @@
                 <div class="sign-up-container col-12 text-center">
                     <img src="{{ asset('/images/logo.png') }}">
                     <p class="info">Sign up to see photo and videos from your friends.</p>
-                    <button type="submit" class="btn btn-primary">Log in with Facebook</button>
+                    <a href="{{ route('auth.facebook') }}"><button type="submit" class="btn btn-primary">Log in with Facebook</button></a>
                     <p class="or">OR</p>
                     <form action="{{ route('register') }}" method="post">
                         @csrf
