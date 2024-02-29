@@ -153,7 +153,7 @@ class ProfileController extends Controller
     }
     // $post->images=$images;
     // dd($post->images[0]);
-    // dd($images);
+    // dd($post->comments);
 
     return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }
