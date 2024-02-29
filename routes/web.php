@@ -75,7 +75,7 @@ route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->n
 route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
 route::delete('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
 
-Route::resource('posts',PostsController::class);
+Route::resource('posts',PostsController::class)->middleware('auth');
 Route::get('/posts/{post}/like/{user}',[PostsController::class, 'likePost'])->name('Posts.like');
 Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
 

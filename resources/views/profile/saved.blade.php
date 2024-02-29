@@ -9,8 +9,8 @@
 
 @section('profile_content')
     {{-- Edit Profile Button --}}
-    @if($user->id == 6)
-        <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
+    @if(true)
+        <a href="{{route('user.viewprofile')}}"><button class="btn edit-btn ms-5 mb-4">Edit Profile</button></a>
     @endif
     {{-- Bio --}}
     @if($profile->bio)
@@ -27,20 +27,7 @@
         <p>Website: <a href="#">{{ $profile->website }}</a></p>
     @endif
     {{-- Follow Button --}}
-    @if($user->id !== 6)
-        @if ($user->isFollowed())
-            <form action="{{ route('unfollow', $user) }}" method="POST">
-            @csrf
-             @method('DELETE')
-            <button type="submit" class="btn btn-danger">Unfollow</button>
-            </form>
-        @else
-            <form action="{{ route('follow', $user) }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-primary">Follow</button>
-            </form>
-        @endif
-    @endif
+    
 @endsection
 
 @section('posts_nav')

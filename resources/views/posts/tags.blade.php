@@ -41,12 +41,12 @@
     {{-- @endforeach --}}
     @endforeach
     
+    @include('posts.create');
 @endsection
         {{-- open view posts modal --}}
         @foreach($tag->posts as $post)
         @include('posts.show')
         @endforeach
-        
 
 
 
