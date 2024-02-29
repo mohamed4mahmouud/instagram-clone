@@ -24,10 +24,11 @@ class PostsController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public $user;
+    
     public function index()
     {
-        // $posts=User::find(1)->posts();
-        $user = User::find(6);
+        $user = Auth::user();
         $posts = $user->posts;
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true);
@@ -39,8 +40,6 @@ class PostsController extends Controller
             $post->timeDifference = $created_at->diffForHumans();
         }
 
-        // $user = User::find(7);
-        // dd($user);
         return view('posts.index', ['posts' => $posts, 'user' => $user]);
     }
 
@@ -63,9 +62,7 @@ class PostsController extends Controller
         ]);
         // post cption and images store
         $post->caption= $request->input('caption');
-        // $post->user_id= User::all()->random()->id;
         $post->user_id = Auth::user()->id;
-        // dd($post->user_id);
         $images=[];
         for ($i=0; $i<count($request->file('files')) ; $i++) {
             if ($request ->hasFile('files')&& $request->file('files')[$i]->isValid()) {
@@ -112,16 +109,12 @@ class PostsController extends Controller
         $created_at = Carbon::parse($post->comments[0]->created_at);
         $post->timeDifference = $created_at->diffForHumans();
         }
-        // $tagIds = [];
-        // foreach ($post->tags as $tag)
-        // $tagIds[] = $tag->id;
-
-        // dd($tagIds);
+        
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         foreach ($matches[1] as $tag) {
-            // dd();
+           
         }
-        // dd($post->tags->id);
+       
 
         return view('posts.show' , ['post' => $post]);
 
@@ -159,13 +152,16 @@ class PostsController extends Controller
         //iam using user with id for testing right now
 
         // $user = Auth::user();
+<<<<<<< HEAD
+        
+=======
         $user = User::find(6);
         // return ["msg"=>$user];
+>>>>>>> 86a3faca53515b843942f437d2d83179f1e6e8a6
         $like = Like::where([
-            'user_id' => $user->id,
+            'user_id' => $request->user,
             'post_id' => $request->post
         ])->first();
-        // return ['msg'=>$like];
 
         if ($like) {
             event(new RemovePostLike($like));
@@ -173,7 +169,7 @@ class PostsController extends Controller
             return ['msg' => 'like removed' . $like];
         } else {
             $like = new Like();
-            $like->user_id = $user->id;
+            $like->user_id = $request->user;
             $like->post_id = $request->post;
             $like->save();
             event(new AddLike($like));
@@ -185,7 +181,7 @@ class PostsController extends Controller
     {
         $comment = new Comment();
         $comment->post_id = $request->post;
-        $comment->user_id = User::find(12)->id;
+        $comment->user_id = Auth::id();
         $comment->body = $request->json()->get('comment');
         $comment->saveOrFail();
         event(new PostComment($comment));
