@@ -9,7 +9,7 @@
 
 @section('profile_content')
     {{-- Edit Profile Button --}}
-    @if($user->id == 6)
+    @if($user->id == 17)
         <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
     @endif
     {{-- Bio --}}
@@ -27,7 +27,7 @@
         <p>Website: <a href="#">{{ $profile->website }}</a></p>
     @endif
     {{-- Follow Button --}}
-    @if($user->id !== 6)
+    @if($user->id !== 17)
         @if ($user->isFollowed())
             <form action="{{ route('unfollow', $user) }}" method="POST">
             @csrf
@@ -62,11 +62,13 @@
 @section('posts')
     @foreach($posts as $post)
                     <div class="col-md-4 mb-1 posts">
-                        <div class="post">
-                            <a href="#"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
+                        <div class="post">                     
+                            <a href="" data-bs-target="#exampleModalToggle2-{{$post->id}}" data-bs-toggle="modal"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
                         </div>
                     </div>
     @endforeach
+ 
+    
 @endsection
 
 @section('pagination')
@@ -135,7 +137,6 @@
         </div>
     </div>
 @endsection
-
 @section('script')
     <script>
         const postsTab = document.getElementById('postsTab');
@@ -175,4 +176,7 @@
     </script>
 @endsection
 
+{{-- @foreach($posts as $post) --}}
+@include('posts.show')
 
+{{-- @endforeach --}}

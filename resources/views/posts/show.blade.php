@@ -1,175 +1,173 @@
-@extends('layouts.main');
-@section('newsfeed');
-@section('css')
-    <style>
-        .bg-black::placeholder {
-        color: white;
+<style>
+.modal-content{
+    background-color: #121212;
+}
+.hash-tag{
+    text-decoration: none;
+}
+</style>
 
-    }
-    .hash-tag{
-        text-decoration: none;
-    }
-    </style>
-@endsection
-</head>
-<body>
-    <body class="bg-black">
-      <div class="container mt-5">
-        <div class="row">
-            <div class="col-8">
-               {{--posts image slider--}}
-                <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+@foreach ($posts as $post)
+<div class="modal fade" id="exampleModalToggle2-{{$post->id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-8">
+                   {{--posts image slider--}}
+                    <div id="carouselExample2-{{$post->id}}" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="{{ Storage::url($post->images[0]) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                             </div>
+                             @if (count ($post->images) > 1)
+                             @foreach ($post->images as $index => $img)
+                             @if($index >0)
+                            <div class="carousel-item">
+                                <img src="{{ Storage::url($img) }}" class="d-block w-100" style="width: 400px; height: 600px;">
+                            </div>
+                            @endif
+                            @endforeach
+                            @endif
                          </div>
                          @if (count ($post->images) > 1)
-                         @foreach ($post->images as $index => $img)
-                         @if($index >0)
-                        <div class="carousel-item">
-                            <img src="{{ Storage::url($img) }}" class="d-block w-100" style="width: 400px; height: 600px;">
-                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2-{{$post->id}}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2-{{$post->id}}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                         @endif
-                        @endforeach
-                        @endif
-                     </div>
-                     @if (count ($post->images) > 1)
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                    @endif
-                </div>
-            </div>
-
-            <div class="col-4">
-                <div>
-                    <div class="d-flex align-items-center">
-                        <div class="pe-3">
-                        @if($post->user->profile)
-                            <img src="{{Storage::url($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
-                        @endif
-                        </div>           
-                        <div>
-                            <div class="fw-bold">
-                                <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
-                                    <span class="text-light">{{$post->user->fullName}}</span>
-                                </a>
-                                <a href="#" class="text-decoration-none ps-3">Follow</a>
-                            </div>
-                        </div>
-                        <div>
-                            <i class="fa-solid fa-ellipsis ms-5" style="color: #ffffff;"></i>
-                        </div>
                     </div>
-
-                    <hr class="text-light">
-
-                    {{-- comments section --}}
-                    {{-- post caption --}}
-                        <div class="d-flex">
+                </div>
+    
+                <div class="col-4">
+                    <div>
+                        <div class="d-flex align-items-center">
                             <div class="pe-3">
-                                @if ($post->user->profile)
-                                <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
-                                @endif
-                            </div>    
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="fw-bold text-light">
-                                            <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
-                                            <span class="text-light">{{ $post->user->fullName }}</span>
-                                            </a>
-                                        </span>
-                                        <p class="text-light">
-                                           {{$post->caption}}
-                                           @foreach ($post->tags as $tag)
-                                           <span class="text-light ">
-                                               <a href="{{ route("tags", ["id" => $tag->id]) }}" class="hash-tag">#{{ $tag->name }}</a>
-                                           </span>
-                                       @endforeach
-                                        </p>
-                                    </div>
-                                    <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
+                            @if($post->user->profile)
+                                <img src="{{Storage::url($post->user->profile->avatar)}}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                            @endif
+                            </div>           
+                            <div>
+                                <div class="fw-bold">
+                                    <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
+                                        <span class="text-light">{{$post->user->fullName}}</span>
+                                    </a>
+                                    <a href="#" class="text-decoration-none ps-3">Follow</a>
                                 </div>
-                                <p class="text-white-50">{{$post->created_at->diffForHumans()}}</p>
+                            </div>
+                            <div>
+                                <i class="fa-solid fa-ellipsis ms-5" style="color: #ffffff;"></i>
                             </div>
                         </div>
-
-                        {{-- other comments --}}
-                        @if (!$post->comments->isEmpty())
-                        @foreach ($post->comments as $comment)
-                        <div class="d-flex">
-                            <div class="pe-3">
-                                <img src="{{ url('/images/download.jpg') }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
-                            </div>    
-                            <div class="flex-grow-1">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <span class="fw-bold text-light">
-                                            <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">                
-                                            <span class="text-light">{{$comment->user->fullName}}</span>
-                                            </a>
-                                        </span>
-                                        <span class="text-light ms-1">{{ $comment->body }}</span>
-                                    
-                                    </div>
-                                    <i class="fa-regular fa-heart fa-sm mt-3" style="color: #ffffff;"></i>
-                                </div>
-                                <p class="text-white-50 mt-2">{{$post->timeDifference}}</p>
-                            </div>
-                        </div>
-                        @endforeach
-                        @endif
-                    
-                    <hr class="text-light">
-                    {{-- Reactions Bar  --}}
-                    <div class="card-body">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <i
-                                        data-post-id='{{ $post->id }}'
-                                        class="fa-regular fa-heart fa-lg text-white ms-0"></i>
-                                    <a href="#comment-{{ $post->id }}"><i
-                                        class="fa-regular fa-comment fa-lg text-white ms-3"></i></a>
-                                    <i class="fa-regular fa-paper-plane fa-lg text-white ms-3"></i>
-                                </div>
-                                <div class="col-md-4 text-end">
-                                    <i class="fa-regular fa-bookmark text-white"></i>
-                                </div>
-                            </div>
-                            {{-- Liked by --}}
-                             @if (!$post->likes->isEmpty())
-                            <div class="row text-white">
-                                <div class="col-md-12 mt-4">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-                                        class="rounded-circle" height="30" alt="avatar" />
-                                    <small>Liked by <strong>{{$post->likes[0]->user->fullName}}</strong> and
-                                        <strong>{{$post->like_count}}</strong> others</small>
-                                        <div class="col-md-12 mt-2">
-                                            <span class="my-1 text-secondary">{{ $post->timeDifference }}</span>
+    
+                        <hr class="text-light">
+    
+                        {{-- comments section --}}
+                        {{-- post caption --}}
+                            <div class="d-flex">
+                                <div class="pe-3">
+                                    @if ($post->user->profile)
+                                    <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                                    @endif
+                                </div>    
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span class="fw-bold text-light">
+                                                <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
+                                                <span class="text-light">{{ $post->user->fullName }}</span>
+                                                </a>
+                                            </span>
+                                            <p class="text-light">
+                                               {{$post->caption}}
+                                               @foreach ($post->tags as $tag)
+                                               <span class="text-light ">
+                                                   <a href="{{ route("tags", ["id" => $tag->id]) }}" class="hash-tag">#{{ $tag->name }}</a>
+                                               </span>
+                                           @endforeach
+                                            </p>
                                         </div>
-                                        @endif
+                                        <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
+                                    </div>
+                                    <p class="text-white-50">{{$post->created_at->diffForHumans()}}</p>
                                 </div>
                             </div>
-
-                            {{-- Comments form --}}
-                            <div class="row mt-2">
-                                <hr>
-                                <div class="col-md-11">
-                                    <div class="form-outline" data-mdb-input-init>
-                                        <input type="text" id="comment-{{ $post->id }}" class="form-control bg-black text-light"
-                                            placeholder="leave a comment ..."/>
+    
+                            {{-- other comments --}}
+                            @if (!$post->comments->isEmpty())
+                            @foreach ($post->comments as $comment)
+                            <div class="d-flex">
+                                <div class="pe-3">
+                                    <img src="{{ url('/images/download.jpg') }}" alt="profile image" class="rounded-circle w-100" style="max-width: 40px"> <!-- Using the profileImage() method in Profile.php model -->
+                                </div>    
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <span class="fw-bold text-light">
+                                                <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">                
+                                                <span class="text-light">{{$comment->user->fullName}}</span>
+                                                </a>
+                                            </span>
+                                            <span class="text-light ms-1">{{ $comment->body }}</span>
+                                        
+                                        </div>
+                                        <i class="fa-regular fa-heart fa-sm mt-3" style="color: #ffffff;"></i>
+                                    </div>
+                                    <p class="text-white-50 mt-2">{{$post->timeDifference}}</p>
+                                </div>
+                            </div>
+                            @endforeach
+                            @endif
+                        
+                        <hr class="text-light">
+                        {{-- Reactions Bar  --}}
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <i
+                                            data-post-id='{{ $post->id }}'
+                                            class="fa-regular fa-heart fa-lg text-white ms-0"></i>
+                                        <a href="#comment-{{ $post->id }}"><i
+                                            class="fa-regular fa-comment fa-lg text-white ms-3"></i></a>
+                                        <i class="fa-regular fa-paper-plane fa-lg text-white ms-3"></i>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <i class="fa-regular fa-bookmark text-white"></i>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
-                                    <button type="button" data-post-id="{{ $post->id }}"
-                                        class="btn post-comment-btn btn-outline-info">Post</button>
+                                {{-- Liked by --}}
+                                 @if (!$post->likes->isEmpty())
+                                <div class="row text-white">
+                                    <div class="col-md-12 mt-4">
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
+                                            class="rounded-circle" height="30" alt="avatar" />
+                                        <small>Liked by <strong>{{$post->likes[0]->user->fullName}}</strong> and
+                                            <strong>{{$post->like_count}}</strong> others</small>
+                                            <div class="col-md-12 mt-2">
+                                                <span class="my-1 text-secondary">{{ $post->timeDifference }}</span>
+                                            </div>
+                                            @endif
+                                    </div>
+                                </div>
+    
+                                {{-- Comments form --}}
+                                <div class="row mt-2">
+                                    <hr>
+                                    <div class="col-md-9">
+                                        <div class="form-outline" data-mdb-input-init>
+                                            <input type="text" id="comment-{{ $post->id }}" class="form-control bg-black text-light"
+                                                placeholder="leave a comment ..."/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" data-post-id="{{ $post->id }}"
+                                            class="btn post-comment-btn btn-outline-info">Post</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +175,12 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
+  </div>
+  @endforeach
+{{--  --}}
+    
      <script>
             let likeBtns = document.querySelectorAll(".fa-heart")
             likeBtns.forEach(likeBtn => {
@@ -233,4 +236,4 @@
 
         </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-@endsection
+{{-- @endsection --}}

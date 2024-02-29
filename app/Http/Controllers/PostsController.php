@@ -74,6 +74,7 @@ class PostsController extends Controller
             }
         }
         $post->images=json_encode($images);
+        event(new PostAdd($post));
         $post->save();
 
         // tag store
@@ -96,6 +97,7 @@ class PostsController extends Controller
                 $postTag->save();
                 }
         }
+
       return redirect()->route('posts.index');
     }
     
@@ -121,7 +123,7 @@ class PostsController extends Controller
         foreach ($matches[1] as $tag) {
             // dd();
         }
-        // dd($post->tags->id);
+        // dd($post->id);
 
         return view('posts.show' , ['post' => $post]);
 
