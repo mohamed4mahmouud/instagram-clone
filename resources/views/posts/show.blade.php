@@ -55,7 +55,7 @@
                                 <div class="pe-3">
                                     @if ($post->user->profile)
                                         <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image"
-                                            class="rounded-circle w-100" style="max-width: 40px">
+                                        class="rounded-circle" height="40" width="40" alt="avatar">
                                         <!-- Using the profileImage() method in Profile.php model -->
                                     @endif
                                 </div>
@@ -80,7 +80,7 @@
                                 <div class="pe-3">
                                     @if ($post->user->profile)
                                         <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image"
-                                            class="rounded-circle w-100" style="max-width: 40px">
+                                        class="rounded-circle" height="40" width="40" alt="avatar">
                                         <!-- Using the profileImage() method in Profile.php model -->
                                     @endif
                                 </div>
@@ -115,7 +115,7 @@
                                         <div class="pe-3">
                                             <img src="{{ Storage::url($comment->user->profile->avatar) }}"
                                                 alt="profile image" class="rounded-circle w-100"
-                                                style="max-width: 40px">
+                                                height="40" width="40">
                                             <!-- Using the profileImage() method in Profile.php model -->
                                         </div>
                                         <div class="flex-grow-1">
@@ -161,7 +161,7 @@
                                     @foreach ($post->likes->take(1) as $like)
                                                 <div class="mt-4">
                                                 <img src="{{Storage::url($like->user->profile->avatar)}}"
-                                                    class="rounded-circle" height="30" width="30" alt="avatar" />
+                                                    class="rounded-circle" height="40" width="40" alt="avatar" />
                                                         <small class="mt-5">Liked by <strong>
                                                             {{ $like->user->userName }}
                                                         @endforeach
