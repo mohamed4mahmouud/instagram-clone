@@ -339,10 +339,10 @@
                         @foreach ($user->following as $following)
                         <li>
                             {{-- List your followings stories here --}}
-                            <div class="story">
+                            <a href="{{route('profile',['user'=>$following->id])}}"><div class="story">
                                 <img src="{{Storage::url($following->profile->avatar)}}" class="rounded-circle"
                                     height="60" width="60" alt="avatar" />
-                            </div>
+                            </div></a>
                             <span class="text-white">{{$following->userName}}</span>
                         </li>
                             

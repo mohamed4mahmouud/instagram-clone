@@ -9,7 +9,7 @@
 </style>
 
 {{-- @foreach ($posts as $post) --}}
-<div class="modal fade" id="exampleModalToggle{{ $post->id }}" aria-hidden="true"
+<div onload="attachLogic()" class="modal fade" id="exampleModalToggle{{ $post->id }}" aria-hidden="true"
     aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
@@ -146,7 +146,7 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <i data-post-id='{{ $post->id }}' data-user-id='{{ $user->id }}'
-                                                class="fa-regular fa-heart fa-lg text-white ms-0"></i>
+                                                class="fa-regular like fa-heart fa-lg text-white ms-0"></i>
                                             <a href="#comment-{{ $post->id }}"><i
                                                     class="fa-regular fa-comment fa-lg text-white ms-3"></i></a>
                                             <i class="fa-regular fa-paper-plane fa-lg text-white ms-3"></i>
@@ -199,7 +199,9 @@
 {{--  --}}
 
 <script>
-    let likeBtns = document.querySelectorAll(".fa-heart")
+        window.addEventListener('DOMContentLoaded',function () {
+    let likeBtns = document.querySelectorAll(".like")
+    console.log(likeBtns);
     likeBtns.forEach(likeBtn => {
         likeBtn.onclick = async function() {
             let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
@@ -210,6 +212,8 @@
             //Handle the likes increment or decrement on the browser View
         }
     });
+});
+
 
 
     //TODO: Dynamic load Posts comments and likes
