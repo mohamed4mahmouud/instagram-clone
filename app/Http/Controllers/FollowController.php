@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
-    public function follow(Request $request, User $user)
+    public function follow(Request $request)
     {
-        $authenticatedUser = Auth::user(); 
+        $user=User::find($request->user);
+        $authenticatedUser = User::find(Auth::id());
 
         if ($authenticatedUser) {
             $authenticatedUser->follow($user);
@@ -19,9 +20,10 @@ class FollowController extends Controller
         return back();
     }
 
-    public function unfollow(Request $request, User $user)
+    public function unfollow(Request $request)
     {
-        $authenticatedUser = Auth::user();
+        $user=User::find($request->user);
+        $authenticatedUser = User::find(Auth::id());
 
         if ($authenticatedUser) {
             $authenticatedUser->unfollow($user);
@@ -31,4 +33,5 @@ class FollowController extends Controller
 
         return back();
     }
+
 }

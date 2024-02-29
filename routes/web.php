@@ -7,6 +7,7 @@ use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FacebookLoginController;
 use App\Http\Controllers\ResetPasswordController;
 
 /*
@@ -75,7 +76,7 @@ route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->n
 route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
 route::delete('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
 
-Route::resource('posts',PostsController::class);
+Route::resource('posts',PostsController::class)->middleware('auth');
 Route::get('/posts/{post}/like/{user}',[PostsController::class, 'likePost'])->name('Posts.like');
 Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
 
@@ -83,5 +84,9 @@ Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
 Route::get('/tags/{id}',[PostsController::class,'tagsView'])->name('tags');
 Route::get('/users/{search}',[UserController::class,'search']);
 Route::get('/posts/{postId}/save',[PostsController::class, 'savePost'])->name('posts.save');
+
+// FacebookLoginController redirect and callback urls
+Route::get('/auth/facebook', [FacebookLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('/auth/facebook/callback', [FacebookLoginController::class, 'handleFacebookCallback']);
 
 require __DIR__.'/auth.php';

@@ -25,7 +25,8 @@ class User extends Authenticatable
         'verification_token',
         'reset_password_token',
         'followers_count',
-        'following_count'
+        'following_count',
+        'facebook_id'
 
     ];
 
@@ -81,9 +82,9 @@ class User extends Authenticatable
         return $this->following()->where('followee_id', $user->id)->exists();
     }
 
-    public function isFollowed()
+    public function isFollowed(string $id)
     {
-        $authenticatedUser = User::find(6);
+        $authenticatedUser = User::find($id);
 
         if ($authenticatedUser) {
             return $authenticatedUser->isFollowing($this);
