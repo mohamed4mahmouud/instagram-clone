@@ -501,7 +501,7 @@
                                         <div class="col-md-8 mt-1">
                                             @if ($post->like_count)
                                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-                                                    class="rounded-circle" height="30" alt="avatar" />
+                                                    class="rounded-circle mb-1 me-1" height="20" alt="avatar" />
                                                 <small>Liked by <strong>
                                                         @foreach ($post->likes->take(1) as $like)
                                                             {{ $like->user->userName }}

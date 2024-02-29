@@ -51,7 +51,7 @@
                 </div>
             </div>
             {{-- Search Canvas --}}
-            <div class="offcanvas offcanvas-start ms-5 px-0" data-bs-scroll="true" data-bs-backdrop="false" tabindex="0"
+            <div class="offcanvas offcanvas-start ms-5 px-0 searchbar" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
                 id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header bg-black ">
                     <h5 class="offcanvas-title text-white" id="offcanvasScrollingLabel">Search</h5>

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Profile;
 use Illuminate\Support\Str;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 
 class FacebookLoginController extends Controller
@@ -39,6 +40,10 @@ class FacebookLoginController extends Controller
             $newUser->facebook_id = $user->id;
             $newUser->password = bcrypt(request(Str::random())); // Set some random password
             $newUser->save();
+            
+            $profile = new Profile();
+            $profile->user()->associate($user->id);
+            $profile->save();
 
             // Log in the new user.
             auth()->login($newUser, true);

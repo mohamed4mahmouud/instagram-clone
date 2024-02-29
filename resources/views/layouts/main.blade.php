@@ -17,12 +17,18 @@
     <link rel="stylesheet" href="{{asset('css/navbar.css')}}">
     <link rel="icon" href="{{url('/images/instagramfavicon.png')}}">
     <style>
+        body {
+            overflow-x: hidden;
+        }
         li:hover {
             background-color: rgb(59, 58, 58);
             padding-bottom: 5px;
         }
         .page-content {
-            margin-left: 300px;
+            margin-left: 250px;
+        }
+        .page-content1{
+            margin-left: 350px;
         }
         .fixed-navbar {
                     position: fixed;
@@ -30,6 +36,77 @@
                     left: 0;
                     z-index: 2000;
                 }
+                .searchbar{
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: 2200;
+                }
+                .form-control {
+        background-color: #262626;
+        color: #fff;
+        border: 1px solid #2f3136;
+    }
+
+    .btn-primary {
+        background-color: #0095f6;
+        color: #fff;
+        border: 1px solid #0095f6;
+    }
+
+    .btn-primary:hover {
+        background-color: #007bb5;
+        border: 1px solid #007bb5;
+    }
+    #avatarimg {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+    }
+    .userimg {
+        background-color: #262626;
+        border-radius: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 77%;
+    }
+    .usrname {
+        font-weight: bold;
+    }
+    #website {
+        color: #9d9d9d;
+    }
+    #website::placeholder {
+        color: #9d9d9d;
+    }
+    #bio {
+        border: 1px solid #2f2f2f;
+        background-color: #121212;
+        color: #9d9d9d;
+    }
+    #bio::placeholder {
+        color: #9d9d9d;
+    }
+    .accounts {
+        background-color: #262626;
+        border-radius: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 22%;
+        height: 200px;
+        padding: 20px;
+        margin-left: -100px;
+    }
+    .text-gray {
+    color: gray;
+    transition: color 0.3s ease; 
+}
+
+.text-gray:hover {
+    color: #cfcece;
+}
     </style>
     @yield('css')
 </head>
