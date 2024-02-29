@@ -8,7 +8,7 @@
     }
     .custom-container {
     max-width: 935px; 
-    margin: 0 0 0 150px; 
+    margin: 0 0 0 400px; 
     padding: 0;
     }
     
