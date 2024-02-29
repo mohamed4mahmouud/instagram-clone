@@ -110,14 +110,14 @@
                         {{-- <div class="row"> --}}
                             <div class="d-flex align-items-center">
                                 <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:50px;height:50px" alt="Avatar">
-                                    <img height="50px" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar">
+                                    <img height="60" width="60" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar">
                                 </div>
                                 <p class="fw-bold text-light ms-3 mt-1">{{$user->userName}}</p>
                             </div>
 
                         {{-- </div> --}}
                      {{-- Caption --}}
-                        <div class="form-floating">
+                        <div class="form-floating mt-3">
                         <textarea  name="caption" class="form-control text-light" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px; background-color:#262626;border: none; "></textarea>
                         <label for="floatingTextarea2" style="color:#9d9d9d">Write a caption here...</label>
                       </div>
