@@ -41,7 +41,6 @@ class PostsController extends Controller
             $post->timeDifference = $created_at->diffForHumans();
         }
 
-
         return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
 
