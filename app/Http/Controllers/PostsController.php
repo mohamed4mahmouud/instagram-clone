@@ -74,6 +74,7 @@ class PostsController extends Controller
             }
         }
         $post->images=json_encode($images);
+        event(new PostAdd($post));
         $post->save();
 
         // tag store
@@ -96,6 +97,7 @@ class PostsController extends Controller
                 $postTag->save();
                 }
         }
+
       return redirect()->route('posts.index');
     }
     
@@ -208,8 +210,8 @@ class PostsController extends Controller
             $post->images = json_decode($post->images, true);
             // dd( $tag->name );
         }
-
-        return view('posts.tags',["posts"=>$postTag , "tag"=>$tag]);
+        $user=Auth::user();
+        return view('posts.tags',["posts"=>$postTag , "tag"=>$tag, "user"=>$user]);
         
     }
     public function savePost(Request $request){

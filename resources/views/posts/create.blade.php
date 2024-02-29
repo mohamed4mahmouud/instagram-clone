@@ -53,7 +53,7 @@
 </head>
 <body>
  
-<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" >
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -69,16 +69,16 @@
                      {{-- images preview --}}
                     <div class="col-7" >
                         <div id="carouselExampleIndicators" class="carousel slide d-none">  
-                            <div class="carousel-inner">
+                            <div class="carousel-inner" id="carousel-inner">
                                 <div class="carousel-item">
                             {{-- images uploaded dynamicaly saved here :) --}}                                    
                                 </div>
                              </div>
-                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="display: none">
+                             <button class="carousel-control-prev" id="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="display: none">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                               </button>
-                              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" style="display: none">
+                              <button class="carousel-control-next" id="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next" style="display: none">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                               </button>
@@ -110,9 +110,9 @@
                         {{-- <div class="row"> --}} 
                             <div class="d-flex align-items-center">
                                 <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:50px;height:50px" alt="Avatar">
-                                    {{-- <img height="50" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar"> --}}
+                                    <img height="50" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar">
                                 </div>
-                                {{-- <p class="fw-bold text-light ms-3 mt-1">{{$user->userName}}</p> --}}
+                                <p class="fw-bold text-light ms-3 mt-1">{{$user->userName}}</p>
                             </div>
                             
                         {{-- </div> --}}
@@ -159,13 +159,13 @@
 <script>
     function previewImages() {
     
-        var previewContainer = document.querySelector('.carousel-inner');
+       var previewContainer = document.getElementById('carousel-inner');
         imgIcon = document.getElementById('icon');
         caption = document.getElementById('caption');
         submitBtn = document.getElementById('submitBtn');
         imgSlider = document.getElementById('carouselExampleIndicators');
-        carouselControlPrev = document.querySelector(".carousel-control-prev");
-        carouselControlsNext = document.querySelector(".carousel-control-next");
+        carouselControlPrev = document.getElementById("carousel-control-prev");
+        carouselControlsNext = document.getElementById("carousel-control-next");
 
         ImagesUplaodedView = document.getElementById('ImagePrev');
         ImagesUplaodedView.classList.remove('justify-content-center');

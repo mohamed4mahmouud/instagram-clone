@@ -10,7 +10,7 @@
 @section('profile_content')
     {{-- Edit Profile Button --}}
     @if($user->id == Auth::id())
-        <button class="btn edit-btn ms-5 mb-4">Edit Profile</button>
+    <a href="{{route('user.viewprofile')}}"><button class="btn edit-btn ms-5 mb-4">Edit Profile</button></a>
     @endif
     {{-- Bio --}}
     @if($profile->bio)
@@ -57,18 +57,20 @@
             </a>
         </div>
     </div>
+    
 @endsection
 
 @section('posts')
     @foreach($posts as $post)
                     <div class="col-md-4 mb-1 posts">
-                        <div class="post">
-                            <a href="#"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
+                        <div class="post">                     
+                            <a href="" data-bs-target="#exampleModalToggle{{$post->id}}" data-bs-toggle="modal"><img src="{{ Storage::url($post->images[0]) }}" alt="{{ $post->caption }}"><div class="overlay"><i class="fa-solid fa-heart"></i>{{ $post->like_count }}  <i class="fa-solid fa-comment"></i> {{ $post->comments_count }}</div></a>
                         </div>
                     </div>
     @endforeach
+ 
+    
 @endsection
-
 @section('pagination')
     <div class="d-flex justify-content-center mt-3">
         {{ $posts->links() }}  
@@ -137,7 +139,6 @@
         </div>
     </div>
 @endsection
-
 @section('script')
     <script>
         const postsTab = document.getElementById('postsTab');
@@ -175,6 +176,10 @@
 
         window.addEventListener('load', setActiveTab);
     </script>
+    @include('posts.create')
 @endsection
 
+@forEach($posts as $post)
+@include('posts.show')
+@endforeach
 
