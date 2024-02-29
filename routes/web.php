@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostsController;
@@ -36,13 +38,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-// Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
 
 
 
-Route::get('/instagram', function () {
-    return view('posts.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/instagram', [PostsController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
