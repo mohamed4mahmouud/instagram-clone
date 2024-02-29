@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\LikesController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ProfileController;
@@ -21,9 +19,7 @@ use App\Http\Controllers\ResetPasswordController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 
 
@@ -32,17 +28,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/viewprofile', [ProfileController::class, 'show'])->name('user.viewprofile');
     Route::get('verifyemail/{token}',[ProfileController::class,'verifyEmailAfterUpdate'])->name('verifyemail');
     Route::post('update-email',[ProfileController::class,'updateEmail'])->name('updateemail');
+    Route::put('/changePassword', [ProfileController::class, 'updatePassword'])->name('user.changePassword');
+    Route::get('/', function () {
+        return view('posts.index');
+    });
 });
 
 
 // Route::put('/viewprofile', [UserController::class, 'update'])->name('ay7aga');
 Route::put('/viewprofile', [ProfileController::class, 'update'])->name('user.viewprofile');
 
-Route::put('/changePassword', [ProfileController::class, 'updatePassword'])->name('user.changePassword');
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('/instagram', function () {
+    return view('posts.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
