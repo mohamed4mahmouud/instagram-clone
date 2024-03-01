@@ -170,7 +170,7 @@
                                     @if ($post->like_count)
                                     @foreach ($post->likes->take(1) as $like)
                                                 <div class="mt-4">
-                                                <img src=""
+                                                <img src="{{Storage::url($post->likes[0]->user->profile->avatar)}}"
                                                     class="rounded-circle" height="40" width="40" alt="avatar" />
                                                         <small class="mt-5">Liked by <strong>
                                                             {{ $like->user->userName }}

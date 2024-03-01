@@ -124,30 +124,7 @@ class PostsController extends Controller
         return view('posts.show' , ['post' => $post, 'user'=>$user]);
 
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
     public function likePost(Request $request)
     {
         $user = User::find($request->user);
