@@ -96,7 +96,7 @@
                             <div class="person-container d-inline-block ">
                                 <div class="person-img d-inline-block">
                                     <img src="{{ Storage::url($follower->follower->profile->avatar) }}" alt="Avatar" class="rounded-circle shadow-4 follower-avatar"
-                                    style="width: 50px;">
+                                    width="50" height="50">
                                 </div>
                                 <div class="person-name d-inline-block">
                                     <a href="{{ route('profile', ['user' => $follower->follower]) }}" class="text-white text-decoration-none">{{ $follower->follower->userName }}</a>
