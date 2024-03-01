@@ -6,12 +6,18 @@
     .hash-tag {
         text-decoration: none;
     }
+    .fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    /* right: 0; */
+    width: 100%;
+}
 </style>
 
 {{-- @foreach ($posts as $post) --}}
 <div class="modal fade" id="exampleModalToggle{{ $post->id }}" aria-hidden="true"
-    aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+    aria-labelledby="exampleModalToggleLabel" tabindex="-1" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" >
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
@@ -49,13 +55,13 @@
                         </div>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-4" style="position: relative;">
                         <div>
                             <div class="d-flex align-items-center">
                                 <div class="pe-3">
                                     @if ($post->user->profile)
                                         <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image"
-                                            class="rounded-circle w-100" style="max-width: 40px">
+                                        class="rounded-circle" height="40" width="40" alt="avatar">
                                         <!-- Using the profileImage() method in Profile.php model -->
                                     @endif
                                 </div>
@@ -71,16 +77,16 @@
                                     <i class="fa-solid fa-ellipsis ms-5" style="color: #ffffff;"></i>
                                 </div>
                             </div>
-
-                            <hr class="text-light">
-
                             {{-- comments section --}}
                             {{-- post caption --}}
+                            @if(!empty($post->caption))
+                            <hr class="text-light">
+
                             <div class="d-flex">
                                 <div class="pe-3">
                                     @if ($post->user->profile)
                                         <img src="{{ Storage::url($post->user->profile->avatar) }}" alt="profile image"
-                                            class="rounded-circle w-100" style="max-width: 40px">
+                                        class="rounded-circle" height="40" width="40" alt="avatar">
                                         <!-- Using the profileImage() method in Profile.php model -->
                                     @endif
                                 </div>
@@ -104,10 +110,11 @@
                                         </div>
                                         <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
                                     </div>
+                                    
                                     <p class="text-white-50">{{ $post->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
-
+                            @endif
                             {{-- other comments --}}
                             @if (!$post->comments->isEmpty())
                                 @foreach ($post->comments as $comment)
@@ -115,7 +122,7 @@
                                         <div class="pe-3">
                                             <img src="{{ Storage::url($comment->user->profile->avatar) }}"
                                                 alt="profile image" class="rounded-circle w-100"
-                                                style="max-width: 40px">
+                                                height="40" width="40">
                                             <!-- Using the profileImage() method in Profile.php model -->
                                         </div>
                                         <div class="flex-grow-1">
@@ -139,6 +146,7 @@
                                 @endforeach
                             @endif
 
+                            <div class="fixed-bottom" style="position: absolute; bottom: 0; right: 0;">
                             <hr class="text-light">
                             {{-- Reactions Bar  --}}
                             <div class="card-body">
@@ -159,21 +167,22 @@
                                     {{-- Liked by --}}
                                     @if ($post->like_count)
                                     @foreach ($post->likes->take(1) as $like)
-                                                <img src="{{Storage::url($like->user->profile->avatar)}}"
-                                                    class="rounded-circle" height="30" width="30" alt="avatar" />
-                                                        <small>Liked by <strong>
+                                                <div class="mt-4">
+                                                <img src=""
+                                                    class="rounded-circle" height="40" width="40" alt="avatar" />
+                                                        <small class="mt-5">Liked by <strong>
                                                             {{ $like->user->userName }}
                                                         @endforeach
 
                                                     </strong> {{ $post->like_count - 1 ? 'and' : '' }}
                                                     <strong>{{ $post->like_count - 1 ? $post->like_count - 1 : '' }}</strong>{{ $post->like_count > 1 ? ' others' : '' }}</small>
-                                            @endif
+                                                </div>
+                                                @endif
                                 </div>
                             </div>
-
                             {{-- Comments form --}}
                             <div class="row mt-2">
-                                <hr>
+                                <hr class="text-light">
                                 <div class="col-md-9">
                                     <div class="form-outline" data-mdb-input-init>
                                         <input type="text" id="comment-{{ $post->id }}"
@@ -186,6 +195,8 @@
                                         class="btn post-comment-btn btn-outline-info">Post</button>
                                 </div>
                             </div>
+                            </div>   
+                            {{-- end of fixed bar --}}
                         </div>
                     </div>
                 </div>

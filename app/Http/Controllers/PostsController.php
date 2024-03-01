@@ -5,7 +5,6 @@ use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Like;
 use App\Models\Post;
-
 use App\Models\User;
 use App\Events\AddLike;
 use App\Events\PostAdd;
@@ -43,7 +42,6 @@ class PostsController extends Controller
             }
             $post->timeDifference = $created_at->diffForHumans();
         }
-
 
         return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
@@ -121,7 +119,7 @@ class PostsController extends Controller
         foreach ($matches[1] as $tag) {
 
         }
-
+        // dd(!empty($post->caption));
         $user=Auth::user();
         return view('posts.show' , ['post' => $post, 'user'=>$user]);
 

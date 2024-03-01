@@ -345,7 +345,7 @@
                             </div>
                             <span class="text-white">{{$following->userName}}</span>
                         </li>
-                            
+
                         @endforeach
                     </ul>
 
@@ -503,7 +503,7 @@
                                     <div class="row text-white">
                                         <div class="col-md-8 mt-1">
                                             @if ($post->like_count)
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
+                                                <img src="{{$post->like->user->avatar}}"
                                                     class="rounded-circle mb-1 me-1" height="20" alt="avatar" />
                                                 <small>Liked by <strong>
                                                         @foreach ($post->likes->take(1) as $like)
@@ -575,7 +575,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50" width="50"
-                    
+
                         alt="avatar" />
                 </div>
                 <div class="col-md-9">
@@ -674,5 +674,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
-    @include('posts.create')
     @endsection

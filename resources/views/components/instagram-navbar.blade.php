@@ -1,4 +1,4 @@
-            @section('navbar')
+@section('navbar')
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black border-end border-dark pt-5 fixed-navbar">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="/"
@@ -35,7 +35,7 @@
                                     class="ms-2 d-none d-sm-inline text-white">Add Post</span> </a>
                                   {{-- <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Open first modal</button> --}}
                                        {{-- @include('posts.create') --}}
-                                       
+
                         </li>
                         <li>
                             <a href="{{route('profile',['user'=>Auth::id()])}}" class="d-flex align-items-center text-white text-decoration-none"
@@ -44,6 +44,14 @@
                                     class="rounded-circle me-2">
                                 <span class="d-none d-sm-inline text-white">Profile</span>
                             </a>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}" class="text-white">
+                                @csrf
+                                <button type="submit" class="btn btn-link p-0 text-white text-decoration-none">
+                                    <i class="fa-solid fa-sign-out-alt fa-lg me-2"></i>{{ __('Log Out') }}
+                                </button>
+                            </form>
                         </li>
                     </ul>
                     <hr>
@@ -114,4 +122,5 @@
                     listitem.classList.add('rounded')
                 });
             </script>
+
         @endsection

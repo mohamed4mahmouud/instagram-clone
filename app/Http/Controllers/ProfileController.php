@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\SavedPost;
 use App\Models\Post;
 use App\Models\Follower;
-use App\Models\Profile;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
-use App\Jobs\VerifyEmailJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use App\Jobs\VerifyEmailAfterUpdateJob;
-use App\Mail\VerifyEmailAfterUpdate;
 use Illuminate\Support\Facades\Redirect;
 
 
@@ -54,8 +50,6 @@ class ProfileController extends Controller
             'website' => 'url|max:255',
         ]);
 
-        // $profile = new Profile();
-
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
             $profile->avatar = $avatarPath;
@@ -63,11 +57,7 @@ class ProfileController extends Controller
 
         $profile->bio = $request->input('bio');
         $profile->website = $request->input('website');
-
-        // $profile->user()->associate($user->id);
         $profile->save();
-
-        // event(new ProfileUpdated($user));
 
         return Redirect::route('user.viewprofile')->with('status', 'profile-created');
     }
@@ -77,29 +67,15 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        // $request->user()->fill($request->validated());
-
-        // if ($request->user()->isDirty('email')) {
-        //     $request->user()->email_verified_at = null;
-        // }
-        // dd($request);
         $user = Auth::user();
-        // dd($user);
         $profile = $user->profile;
         $profile->user;
-        // dd($profile->user->gender);
 
-        // $request->validate([
-        //     'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        //     'bio' => 'max:255',
-        //     'website' => 'url|max:255',
-        // ]);
-        
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatar', 'public');
             $profile->avatar = $avatarPath;
         }
-        
+
 
         $profile->bio = $request->input('bio');
 
@@ -109,13 +85,12 @@ class ProfileController extends Controller
         $profile->user->phone = $request->input('phone');
         $profile->user->gender = $request->input('gender');
 
-        
-        // dd($user);
+
+
 
         $profile->save();
         $profile->user-> save();
 
-        // return view('welcome');
         return redirect()->route('user.viewprofile')->with('status', 'Profile updated successfully.');
     }
 
@@ -147,13 +122,13 @@ class ProfileController extends Controller
     $followers = Follower::where('followee_id', $userId)->get();
     $followings = Follower::where('follower_id', $userId)->get();
     $posts = $user->posts()->paginate(9);
-    // dd(json_decode($posts[0]->images, true));
+
     foreach ($posts as $post) {
         $post->images = json_decode($post->images, true);
     }
     // $post->images=$images;
     // dd($post->images[0]);
-    // dd($images);
+    // dd($post->comments);
 
     return view('profile.profile', ['user' => $user, 'profile' => $profile, 'posts' => $posts, 'followers' => $followers, 'followings' => $followings]);
     }
@@ -166,7 +141,6 @@ class ProfileController extends Controller
         $followings = Follower::where('follower_id', $user->id)->get();
         $savedPosts = SavedPost::where('user_id', $user->id)->get();
         $postsId = $savedPosts->pluck('post_id');
-        // dd($postsId);
         $posts = Post::whereIn('id', $postsId)->get();
         foreach ($posts as $post) {
             $post->images = json_decode($post->images, true);
@@ -182,7 +156,6 @@ class ProfileController extends Controller
         $user->verification_token = $verificationToken;
         $user->save();
         VerifyEmailAfterUpdateJob::dispatch($request->new_email, $user->userName, $user->verification_token);
-        //dd($user->verification_token);
         return redirect()->route('user.changeEmail');
     }
 
@@ -206,6 +179,5 @@ class ProfileController extends Controller
         }
 
         $user-> password = Hash::make($request->new_password);
-        
     }
 }

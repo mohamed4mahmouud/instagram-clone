@@ -15,7 +15,7 @@
         left: 15px;
         width: 100%;
         height: 100%;
-        opacity: 0; 
+        opacity: 0;
         cursor: pointer;  */
     }
     #addIcon{
@@ -24,18 +24,18 @@
     left: 0;
     transform: translate(-50%, -50%);
     z-index: 1;
-        
+
     }
-    
+
     /* .carousel-item{
         position: relative;
         width: 100%;
         height: 100%;
-          
+
     } */
     .modal-header {
         border-bottom: 2px solid #363636;
-        
+
     }
 
     .carousel-item img{
@@ -47,12 +47,12 @@
   width: 100%;
   text-align: center;
 }
-     
+
     </style>
 
 </head>
 <body>
- 
+
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" >
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
@@ -65,13 +65,13 @@
                 @csrf
 
                 <div class="form-group row justify-content-center position-relative" id="ImagePrev">
-                
+
                      {{-- images preview --}}
                     <div class="col-7" >
-                        <div id="carouselExampleIndicators" class="carousel slide d-none">  
+                        <div id="carouselExampleIndicators" class="carousel slide d-none">
                             <div class="carousel-inner" id="carousel-inner">
                                 <div class="carousel-item">
-                            {{-- images uploaded dynamicaly saved here :) --}}                                    
+                            {{-- images uploaded dynamicaly saved here :) --}}
                                 </div>
                              </div>
                              <button class="carousel-control-prev" id="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev" style="display: none">
@@ -92,7 +92,7 @@
                         <div class="custom-file mt-5">
                             <label class="btn btn-primary">
                                 Select from your device
-                                <input type="file" id="filebtn" class="custom-file-input m-3 ms-5 text-light images" name="files[]" multiple onchange="previewImages()" style="display: none">   
+                                <input type="file" id="filebtn" class="custom-file-input m-3 ms-5 text-light images" name="files[]" multiple onchange="previewImages()" style="display: none">
                             </label>
                         </div>
                     </div>
@@ -100,21 +100,21 @@
                     <div class="col-md-6 text-center m-5" id="addIcon" style="display: none" >
                         <div class="custom-file mt-5">
                             <label class="fa-regular fa-clone fa-2x">
-                                <input type="file" class="custom-file-input m-3 ms-5 text-light images" name="files[]" multiple onchange="previewImages()" style="display: none">   
+                                <input type="file" class="custom-file-input m-3 ms-5 text-light images" name="files[]" multiple onchange="previewImages()" style="display: none">
                             </label>
                         </div>
                     </div>
-                    
-                    <div class="col-md-5 position-absolute top-0 end-0"  id="caption" style="display: none;">   
+
+                    <div class="col-md-5 position-absolute top-0 end-0"  id="caption" style="display: none;">
                     {{-- profile caption's details --}}
-                        {{-- <div class="row"> --}} 
+                        {{-- <div class="row"> --}}
                             <div class="d-flex align-items-center">
                                 <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:50px;height:50px" alt="Avatar">
-                                    <img height="50" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar">
+                                    <img height="50px" class="rounded-circle" src="{{Storage::url($user->profile->avatar)}}" alt="userName Avatar">
                                 </div>
                                 <p class="fw-bold text-light ms-3 mt-1">{{$user->userName}}</p>
                             </div>
-                            
+
                         {{-- </div> --}}
                      {{-- Caption --}}
                         <div class="form-floating">
@@ -154,11 +154,11 @@
       </div>
     </div>
   </div> --}}
- 
+
 
 <script>
     function previewImages() {
-    
+
        var previewContainer = document.getElementById('carousel-inner');
         imgIcon = document.getElementById('icon');
         caption = document.getElementById('caption');
@@ -172,7 +172,7 @@
 
 
         previewContainer.innerHTML = ''; // Clear previous previews
-        
+
         // var files = document.getElementById('filebtn').files;
         var fileInputs = document.querySelectorAll('.images');
         var files = [];
@@ -187,14 +187,14 @@
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
             let reader = new FileReader();
-            
+
             reader.onload = function(e) {
-            let sliderElement = document.createElement('div');    
+            let sliderElement = document.createElement('div');
             let imgElement = document.createElement('img');
             imgElement.classList.add('d-block');
             sliderElement.appendChild(imgElement);
             sliderElement.classList.add('carousel-item');
-           
+
             imgElement.src = e.target.result;
             previewContainer.appendChild(sliderElement);
 
@@ -207,11 +207,11 @@
 
                 carouselControlPrev.style.display = "block";
                 carouselControlsNext.style.display = "block";
-            
+
             }
             console.log(i);
             }
-            
+
             reader.readAsDataURL(file);
         }
             imgIcon.remove();
@@ -220,16 +220,16 @@
             imgSlider.classList.remove('d-none');
             imgSlider.classList.add('d-block');
             // console.log(document.getElementById('filebtn').files);
-        
+
         // chanage add files button to icons on image
         document.getElementById('addFiles').style.display = 'none';
         document.getElementById('addIcon').style.display = 'block';
 
-        
+
     }
- 
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  
+
 </body>
 </html>
