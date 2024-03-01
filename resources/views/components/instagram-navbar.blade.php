@@ -25,9 +25,9 @@
                                     class="ms-2 d-none d-sm-inline text-white">Explore</span></a>
                         </li>
                         <li>
-                            <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                                <i class="fa-regular fa-heart fa-lg text-white"></i><span
-                                    class="ms-2 d-none d-sm-inline text-white">Notifications</span></a>
+                            <a href="#notificationOffcanvas" data-bs-toggle="offcanvas" class="nav-link px-0 align-middle">
+                                <i class="fa-regular fa-bell fa-lg text-white"></i><span class="ms-2 d-none d-sm-inline text-white">Notifications</span>
+                            </a>
                         </li>
                         <li>
                             <a href="" id="addPostBtn" class="nav-link px-0 align-middle" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
@@ -75,6 +75,34 @@
                         <hr>
                         <p>Seeking your Instagram doppelgänger? Search away and cross your fingers for a photogenic match! 🔍🤞😄</p>
                     </div>
+                </div>
+            </div>
+            {{-- Notification Canvas --}}
+            <div class="offcanvas offcanvas-start ms-5 px-0 notification-modal Notificationbar" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+                id="notificationOffcanvas" aria-labelledby="notificationOffcanvasLabel">
+                <div class="offcanvas-header bg-black">
+                    <h5 class="offcanvas-title text-white ms-2" id="notificationOffcanvasLabel">Notifications</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body bg-black">
+                    <ul class="list-group">
+                        @forelse ($user->notifications as $notification)
+                            @if(isset($notification->data['like_id']))
+                                <li class="list-group-item bg-secondary text-white">{{ ($notification->data['userName']) }} liked your post</li>
+                            @elseif(isset($notification->data['comment_id']))
+                                <li class="list-group-item bg-secondary text-white">{{ $notification->data['userName'] }} commented on your post</li>
+                            @else
+                                <li class="list-group-item bg-secondary text-white">No Notification Yet</li>
+                            @endif
+                            @empty
+                            <li class="list-group-item bg-secondary text-white">No Notification Yet</li>
+                        @endforelse
+
+
+                        {{-- @foreach($user->notifications as $notification)
+                            <li class="list-group-item bg-secondary text-white">{{ $notification->message }}</li>
+                        @endforeach --}}
+                    </ul>
                 </div>
             </div>
             <script src="{{ asset('js/navbar.js') }}"></script>
