@@ -86,7 +86,7 @@
                 </div>
                 <div class="offcanvas-body bg-black">
                     <ul class="list-group">
-                        @forelse ($user->notifications as $notification)
+                        {{-- @forelse ($user->notifications as $notification)
                             @if(isset($notification->data['like_id']))
                                 <li class="list-group-item bg-secondary text-white">{{ ($notification->data['userName']) }} liked your post</li>
                             @elseif(isset($notification->data['comment_id']))
@@ -96,7 +96,7 @@
                             @endif
                             @empty
                             <li class="list-group-item bg-secondary text-white">No Notification Yet</li>
-                        @endforelse
+                        @endforelse --}}
 
 
                         {{-- @foreach($user->notifications as $notification)
