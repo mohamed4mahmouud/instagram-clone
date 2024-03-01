@@ -42,6 +42,12 @@
                     left: 0;
                     z-index: 2200;
                 }
+                .Notificationbar{
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: 2200;
+                }
                 .form-control {
         background-color: #262626;
         color: #fff;

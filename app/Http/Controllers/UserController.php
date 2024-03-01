@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -63,12 +64,14 @@ class UserController extends Controller
         //
     }
 
-    public function search(Request $request){
-        $searchString=$request->search;
+    public function search(Request $request)
+    {
+        $searchString = $request->search;
         $users = User::with('profile')->where('userName', 'like', '%' . $searchString . '%')->take(5)->get();
-        foreach ($users as $user){
+        foreach ($users as $user) {
             $user->avatar = $user->profile->avatar;
         }
-        return['users'=>$users];
+        return ['users' => $users];
     }
+
 }
