@@ -114,7 +114,7 @@
                                     <div class="d-flex">
                                         <div class="pe-3">
                                             <img src="{{ Storage::url($comment->user->profile->avatar) }}"
-                                                alt="profile image" class="rounded-circle w-100"
+                                                alt="profile image" class="rounded-circle"
                                                 height="40" width="40">
                                             <!-- Using the profileImage() method in Profile.php model -->
                                         </div>
@@ -214,14 +214,6 @@
             //Handle the likes increment or decrement on the browser View
         }
     });
-});
-
-
-
-    //TODO: Dynamic load Posts comments and likes
-
-
-
     let postComments = document.querySelectorAll('.post-comment-btn')
     postComments.forEach(postComment => {
         postComment.onclick = async function() {
@@ -243,7 +235,7 @@
             let resData = await res.json();
             console.log(resData);
         }
-
+    
     });
     let savePosts = document.querySelectorAll('.fa-bookmark');
     // console.log(savePosts);
@@ -253,9 +245,17 @@
             const res = await fetch("http://localhost:8000/posts/" + postId + "/save");
             let resData = await res.json();
             console.log(resData);
-
+    
         }
     });
+});
+
+
+
+    //TODO: Dynamic load Posts comments and likes
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">

@@ -30,7 +30,7 @@ class PostsController extends Controller
         // $posts=User::find(1)->posts();
         $user = User::find(Auth::id());
         $followedUsersIds=$user->following()->pluck('followee_id');
-        $latestPosts = Post::whereIn('user_id', $followedUsersIds)->latest()->take(3)->get();
+        $latestPosts = Post::whereIn('user_id', $followedUsersIds)->latest()->take(9)->get();
         foreach ($latestPosts as $post) {
             $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);

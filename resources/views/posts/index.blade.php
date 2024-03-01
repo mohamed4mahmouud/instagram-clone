@@ -336,17 +336,20 @@
             <div class="col-md-12">
                 <div class="col-md-12 story-container" id="story">
                     <ul>
-                        @foreach ($user->following as $following)
-                        <li>
-                            {{-- List your followings stories here --}}
-                            <a href="{{route('profile',['user'=>$following->id])}}"><div class="story">
-                                <img src="{{Storage::url($following->profile->avatar)}}" class="rounded-circle"
-                                    height="60" width="60" alt="avatar" />
-                            </div></a>
-                            <span class="text-white">{{$following->userName}}</span>
-                        </li>
-                            
-                        @endforeach
+                        @if ($user)
+                            @foreach ($user->following as $following)
+                                <li>
+                                    {{-- List your followings stories here --}}
+                                    <a href="{{ route('profile', ['user' => $following->id]) }}">
+                                        <div class="story">
+                                            <img src="{{ Storage::url($following->profile->avatar) }}" class="rounded-circle"
+                                                height="60" width="60" alt="avatar" />
+                                        </div>
+                                    </a>
+                                    <span class="text-white">{{ $following->userName }}</span>
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
 
                 </div>
@@ -368,8 +371,8 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <div class="d-flex story">
-                                                <img src="{{ Storage::url($post->user->profile->avatar) }}" class="rounded-circle "
-                                                    height="40" width="40" alt="avatar" />
+                                                <img src="{{ Storage::url($post->user->profile->avatar) }}"
+                                                    class="rounded-circle " height="40" width="40" alt="avatar" />
                                                 <div class="mt-2">
                                                     <a href="{{ route('profile', ['user' => $post->user->id]) }}"
                                                         class="text-white">
@@ -503,8 +506,9 @@
                                     <div class="row text-white">
                                         <div class="col-md-8 mt-1">
                                             @if ($post->like_count)
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
-                                                    class="rounded-circle mb-1 me-1" height="20" alt="avatar" />
+                                                <img src="{{ Storage::url($user->profile->avatar) }}"
+                                                    class="rounded-circle mb-1 me-1" height="20" width="20"
+                                                    alt="avatar" />
                                                 <small>Liked by <strong>
                                                         @foreach ($post->likes->take(1) as $like)
                                                             {{ $like->user->userName }}
@@ -520,7 +524,7 @@
                                         <div class="col-md-12 mt-1">
                                             <p class="text-white">
                                                 <strong class="text-white">
-                                                    {{ $user->userName }}
+                                                    {{ $post->user->userName }}
                                                 </strong>
                                                 {{ $post->caption }}
                                             </p>
@@ -574,9 +578,8 @@
             {{-- Author profile --}}
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50" width="50"
-                    
-                        alt="avatar" />
+                    <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50"
+                        width="50" alt="avatar" />
                 </div>
                 <div class="col-md-9">
                     <ul class="ml-0 ps-1 mt-1 list-unstyled">
@@ -674,5 +677,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
-    @include('posts.create')
+        @include('posts.create')
     @endsection
