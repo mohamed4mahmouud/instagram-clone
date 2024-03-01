@@ -98,7 +98,6 @@
                             <li class="list-group-item bg-secondary text-white">No Notification Yet</li>
                         @endforelse
 
-
                         {{-- @foreach($user->notifications as $notification)
                             <li class="list-group-item bg-secondary text-white">{{ $notification->message }}</li>
                         @endforeach --}}
