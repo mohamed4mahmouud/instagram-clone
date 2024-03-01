@@ -118,7 +118,7 @@
                             </div>
                             @endif
                             {{-- other comments --}}
-                            @if (!$post->comments->isEmpty())
+                            @if (!empty($post->comments))
                                 @foreach ($post->comments as $comment)
                                     <div class="d-flex">
                                         <div class="pe-3">
