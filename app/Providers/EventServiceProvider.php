@@ -14,7 +14,8 @@ use Illuminate\Auth\Events\Registered;
 use App\Listeners\IncrementPostCommentCount;
 use App\Listeners\IncrementPostCountatUserTable;
 use App\Listeners\IncrementPostLikesCount;
-
+use App\Listeners\SendPostCommentNotification;
+use App\Listeners\SendPostLikeNotification;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -30,14 +31,16 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         PostComment::class=>[
-            IncrementPostCommentCount::class
+            IncrementPostCommentCount::class,
+            SendPostCommentNotification::class
         ],
         TagPost::class=>[
             IncrementTagPostCount::class
         ],
 
         AddLike::class=>[
-            IncrementPostLikesCount::class
+            IncrementPostLikesCount::class,
+            SendPostLikeNotification::class,
         ],
         RemovePostLike::class=>[
             DecrementPostLikeCount::class

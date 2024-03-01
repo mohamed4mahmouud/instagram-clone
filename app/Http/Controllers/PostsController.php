@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use App\Events\RemovePostLike;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\NotificationLikeAdded;
+use App\Notifications\NotificationCommentAdded;
 
 class PostsController extends Controller
 {
@@ -148,6 +150,7 @@ class PostsController extends Controller
     }
     public function likePost(Request $request)
     {
+        $user = User::find($request->user);
 
         $like = Like::where([
             'user_id' => $request->user,
@@ -164,19 +167,21 @@ class PostsController extends Controller
             $like->post_id = $request->post;
             $like->save();
             event(new AddLike($like));
+            $user->notify(new NotificationLikeAdded($like));
             return ['msg' => 'liked successfully'];
         }
     }
 
     public function commentPost(Request $request)
     {
+        $user = User::find($request->user);
         $comment = new Comment();
         $comment->post_id = $request->post;
         $comment->user_id = Auth::id();
         $comment->body = $request->json()->get('comment');
         $comment->saveOrFail();
         event(new PostComment($comment));
-
+        $user->notify(new NotificationCommentAdded($comment));
         return response()->json(['message' => 'Commented on post ' . $comment]);
     }
 

@@ -47,13 +47,13 @@ Route::get('/instagram', [PostsController::class, 'index'])->middleware(['auth',
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
-    route::get('/changePassword', function() {
+    route::get('/changePassword', function () {
         return view('user.changePassword');
-        })->name('user.changePassword');
+    })->name('user.changePassword');
 
-        route::get('/changeEmail', function() {
-            return view('user.changeEmail');
-            })->name('user.changeEmail');
+    route::get('/changeEmail', function () {
+        return view('user.changeEmail');
+    })->name('user.changeEmail');
 
 
 
@@ -75,17 +75,19 @@ route::get('/profile/{user}/saved', [ProfileController::class, 'savedPosts'])->n
 route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
 route::delete('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
 
-Route::resource('posts',PostsController::class)->middleware('auth');
-Route::get('/posts/{post}/like/{user}',[PostsController::class, 'likePost'])->name('Posts.like');
-Route::post('/post/{post}/comment',[PostsController::class, 'commentPost'])->name('Posts.comment');
+Route::resource('posts', PostsController::class)->middleware('auth');
+Route::get('/posts/{post}/like/{user}', [PostsController::class, 'likePost'])->name('Posts.like');
+Route::post('/post/{post}/comment', [PostsController::class, 'commentPost'])->name('Posts.comment');
+Route::get('/notifications', [UserController::class, 'notification']);
 
-Route::get('/dummytestpage',[PostsController::class,'test'])->name('test');
-Route::get('/tags/{id}',[PostsController::class,'tagsView'])->name('tags');
-Route::get('/users/{search}',[UserController::class,'search']);
-Route::get('/posts/{postId}/save',[PostsController::class, 'savePost'])->name('posts.save');
+
+Route::get('/dummytestpage', [PostsController::class, 'test'])->name('test');
+Route::get('/tags/{id}', [PostsController::class, 'tagsView'])->name('tags');
+Route::get('/users/{search}', [UserController::class, 'search']);
+Route::get('/posts/{postId}/save', [PostsController::class, 'savePost'])->name('posts.save');
 
 // FacebookLoginController redirect and callback urls
 Route::get('/auth/facebook', [FacebookLoginController::class, 'redirectToFacebook'])->name('auth.facebook');
 Route::get('/auth/facebook/callback', [FacebookLoginController::class, 'handleFacebookCallback']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
