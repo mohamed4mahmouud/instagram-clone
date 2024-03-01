@@ -42,7 +42,7 @@ class PostsController extends Controller
             }
             $post->timeDifference = $created_at->diffForHumans();
         }
-
+        // dd($post->likes[0]->user->profile->avatar);
         return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
 
