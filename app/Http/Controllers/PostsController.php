@@ -36,8 +36,8 @@ class PostsController extends Controller
         $latestPosts = Post::whereIn('user_id', $followedUsersIds)->latest()->take(9)->get();
 
         //dd($post->likes);
-        if(isset($user->following)){
-            $latestPosts = Post::all();
+        if($user->following->count()==0){
+            $latestPosts = Post::all()->random(5);
         }
         foreach ($latestPosts as $post) {
             $post->images = json_decode($post->images, true);
@@ -48,7 +48,7 @@ class PostsController extends Controller
             }
             $post->timeDifference = $created_at->diffForHumans();
         }
-        //dd($latestPosts);
+        // dd($latestPosts);
         return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
 
@@ -121,6 +121,7 @@ class PostsController extends Controller
             $post->timeDifference = $created_at->diffForHumans();
         }
 
+    
         preg_match_all('/#(\w+)/', $post->caption, $matches);
         $tags = $matches[1];
         // $caption_with_tags = preg_replace('/#(\w+)/', '<span class="tag">#$1</span>', $post->caption);
