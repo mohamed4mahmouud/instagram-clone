@@ -180,14 +180,13 @@ class PostsController extends Controller
         $comment->body = $request->commentbody;
         $comment->saveOrFail();
         event(new PostComment($comment));
-        // $user->notify(new NotificationCommentAdded($comment));
+        $user->notify(new NotificationCommentAdded($comment));
         return response()->json(['message' => 'Commented on post ' . $comment]);
     }
 
     public function test()
     {
-        $posts = Post::with('comments')->get();
-        dd($posts[5]->comments_count);
+        dd(Auth::user());
     }
 
     public function tagsView(string $id)
@@ -228,4 +227,6 @@ class PostsController extends Controller
         }
         return ['MSG' => 'Post saved successfully'];
     }
+
+
 }
