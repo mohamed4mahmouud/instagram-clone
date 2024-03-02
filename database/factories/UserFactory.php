@@ -51,6 +51,12 @@ class UserFactory extends Factory
 {
     return $this->afterCreating(function (User $user) {
         $user->profile()->create(Profile::factory()->make()->toArray());
+        $followersCount = mt_rand(1,100);
+        $userstofollow = User::inRandomOrder()->limit($followersCount)->get();
+        $userstofollow->each(function(User $follower) use ($user) {
+            $user->followers()->attach($follower);
+        });
+
     });
 }
 }
