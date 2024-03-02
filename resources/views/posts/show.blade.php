@@ -123,7 +123,7 @@
                                     <div class="d-flex">
                                         <div class="pe-3">
                                             <img src="{{ Storage::url($comment->user->profile->avatar) }}"
-                                                alt="profile image" class="rounded-circle w-100"
+                                                alt="profile image" class="rounded-circle"
                                                 height="40" width="40">
                                             <!-- Using the profileImage() method in Profile.php model -->
                                         </div>
@@ -156,7 +156,7 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <i data-post-id='{{ $post->id }}' data-user-id='{{ $user->id }}'
-                                                class="fa-regular fa-heart fa-lg text-white ms-0"></i>
+                                                class="fa-regular like fa-heart fa-lg text-white ms-0"></i>
                                             <a href="#comment-{{ $post->id }}"><i
                                                     class="fa-regular fa-comment fa-lg text-white ms-3"></i></a>
                                             <i class="fa-regular fa-paper-plane fa-lg text-white ms-3"></i>
@@ -212,23 +212,17 @@
 {{--  --}}
 
 <script>
-    let likeBtns = document.querySelectorAll(".fa-heart")
+        window.addEventListener('DOMContentLoaded',function () {
+    let likeBtns = document.querySelectorAll(".like")
+    console.log(likeBtns);
     likeBtns.forEach(likeBtn => {
         likeBtn.onclick = async function() {
             let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
                 'data-post-id') + '/like/' + likeBtn.getAttribute('data-user-id'));
             let data = await res.json();
-            // TODO: change heart icon to be filled with LOVE @farah
             console.log(data);
-            //Handle the likes increment or decrement on the browser View
         }
     });
-
-
-    //TODO: Dynamic load Posts comments and likes
-
-
-
     let postComments = document.querySelectorAll('.post-comment-btn')
     postComments.forEach(postComment => {
         postComment.onclick = async function() {
@@ -250,19 +244,23 @@
             let resData = await res.json();
             console.log(resData);
         }
-
+    
     });
     let savePosts = document.querySelectorAll('.fa-bookmark');
-    // console.log(savePosts);
     savePosts.forEach(savePost => {
         savePost.onclick = async function() {
             const postId = this.getAttribute('data-post-id');
             const res = await fetch("http://localhost:8000/posts/" + postId + "/save");
             let resData = await res.json();
             console.log(resData);
-
+    
         }
     });
+});
+
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">

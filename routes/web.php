@@ -77,7 +77,7 @@ route::delete('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('
 
 Route::resource('posts', PostsController::class)->middleware('auth');
 Route::get('/posts/{post}/like/{user}', [PostsController::class, 'likePost'])->name('Posts.like');
-Route::post('/post/{post}/comment', [PostsController::class, 'commentPost'])->name('Posts.comment');
+Route::get('/post/{user}/{post}/comment/{commentbody}', [PostsController::class, 'commentPost'])->name('Posts.comment');
 Route::get('/notifications', [UserController::class, 'notification']);
 
 
