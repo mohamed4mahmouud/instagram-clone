@@ -34,6 +34,11 @@ class PostsController extends Controller
         $user = User::find(Auth::id());
         $followedUsersIds = $user->following()->pluck('followee_id');
         $latestPosts = Post::whereIn('user_id', $followedUsersIds)->latest()->take(9)->get();
+
+        //dd($post->likes);
+        if(isset($user->following)){
+            $latestPosts = Post::all();
+        }
         foreach ($latestPosts as $post) {
             $post->images = json_decode($post->images, true);
             $created_at = Carbon::parse($post->created_at);
@@ -43,7 +48,7 @@ class PostsController extends Controller
             }
             $post->timeDifference = $created_at->diffForHumans();
         }
-        // dd($post->likes);
+        //dd($latestPosts);
         return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
 
@@ -124,7 +129,7 @@ class PostsController extends Controller
         return view('posts.show' , ['post' => $post, 'user'=>$user]);
 
     }
-    
+
     public function likePost(Request $request)
     {
         $user = User::find($request->user);
