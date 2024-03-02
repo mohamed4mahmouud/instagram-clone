@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -24,8 +26,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'fullname' => fake()->name(),
-            'username' => fake()->unique()->name(),
+            'fullName' => fake()->name(),
+            'userName' => fake()->unique()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -45,4 +47,16 @@ class UserFactory extends Factory
            
         ]);
     }
+    public function configure()
+{
+    return $this->afterCreating(function (User $user) {
+        $user->profile()->create(Profile::factory()->make()->toArray());
+        $followersCount = mt_rand(1,100);
+        $userstofollow = User::inRandomOrder()->limit($followersCount)->get();
+        $userstofollow->each(function(User $follower) use ($user) {
+            $user->followers()->attach($follower);
+        });
+
+    });
+}
 }

@@ -21,16 +21,13 @@ class PostFactory extends Factory
     public function definition(): array
     {
         $userByRandom = User::all()->random();
-        $images=[
-            'image'=>fake()->imageUrl()
-        ];
         return [
             // 'title'=>fake()->title(),
             'caption'=>fake()->sentence(),
             // 'enabled'=>fake()->boolean(70),
             // 'slug' => Str::slug($this->faker->title),
             'user_id'=>$userByRandom->id,
-            'images'=>json_encode($images)
+            'images'=>json_encode(['images/2MogqfapxvioWkUdfs7LV8MkSlUetCuvSskp99eX.webp'])
         ];
     }
 }
