@@ -75,7 +75,7 @@
                                 <div>
                                     <div class="fw-bold d-flex align-items-center">
                                         <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
-                                            <span class="text-light">{{ $post->user->fullName }}</span>
+                                            <span class="text-light">{{ $post->user->userName }}</span>
                                         </a>
                                         @if($user->id != Auth::id())
                                             @if($user->isFollowed(Auth::id()))
@@ -111,11 +111,13 @@
                                         <div>
                                             <span class="fw-bold text-light">
                                                 <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
-                                                    <span class="text-light">{{ $post->user->fullName }}</span>
+                                                    <span class="text-light">{{ $post->user->userName }}</span>
                                                 </a>
                                             </span>
                                             <p class="text-light">
-                                                {{-- {{ $post->caption }} --}}
+                                                @if ($post->tags->count()==0)
+                                                    {{$post->caption}}
+                                                @endif
                                                 @foreach ($post->tags as $tag)
                                                     <span class="text-light ">
                                                             {!! preg_replace('/#(\w+)/', '<a class="hash-tag" href=" '. route('tags', ['id' => $tag->id] ) .'">$0</a>', $post->caption) !!}
@@ -123,7 +125,7 @@
                                                 @endforeach
                                             </p>
                                         </div>
-                                        <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
+                                        
                                     </div>
 
                                     <p class="text-white-50">{{ $post->created_at->diffForHumans() }}</p>
@@ -133,7 +135,7 @@
                             {{-- other comments --}}
                             @if (!empty($post->comments))
                                 @foreach ($post->comments as $comment)
-                                    <div class="d-flex">
+                                    <div class="d-flex pt-4">
                                         <div class="pe-3">
                                             <img src="{{ Storage::url($comment->user->profile->avatar) }}"
                                                 alt="profile image" class="rounded-circle"
@@ -147,7 +149,7 @@
                                                         <a class="text-decoration-none"
                                                             href="/profile/{{ $post->user->id }}">
                                                             <span
-                                                                class="text-light">{{ $comment->user->fullName }}</span>
+                                                                class="text-light">{{ $comment->user->userName }}</span>
                                                         </a>
                                                     </span>
                                                     <span class="text-light ms-1">{{ $comment->body }}</span>
@@ -168,7 +170,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <i data-post-id='{{ $post->id }}' data-user-id='{{ $user->id }}'
+                                            <i data-post-id='{{ $post->id }}' data-user-id='{{ Auth::id() }}'
                                                 class="fa-regular like fa-heart fa-lg text-white ms-0"></i>
                                             <a href="#comment-{{ $post->id }}"><i
                                                     class="fa-regular fa-comment fa-lg text-white ms-3"></i></a>

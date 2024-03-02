@@ -8,7 +8,7 @@
         div #story {
             background-color: black;
             margin: auto;
-            border: 1px solid red;
+            border: 1px solid grey;
             border-radius: 5px;
             height: 110px;
             overflow: hidden;

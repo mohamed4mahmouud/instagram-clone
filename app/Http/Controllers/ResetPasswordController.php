@@ -53,7 +53,7 @@ class ResetPasswordController extends Controller
                 ]);
                 $user->password = bcrypt($request->password);
                 $user->save();
-                return redirect('dashboard');
+                return redirect()->route('posts.index');
             }
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
