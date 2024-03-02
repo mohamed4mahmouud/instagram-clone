@@ -79,7 +79,7 @@
                                         </a>
                                         @if($user->id != Auth::id())
                                             @if($user->isFollowed(Auth::id()))
-                                            
+
                                         <a href="" class="text-decoration-none ps-3">Following</a>
                                             @else
                                             <form action="{{ route('follow', $user) }}" method="POST">
@@ -125,7 +125,7 @@
                                         </div>
                                         <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
                                     </div>
-                                    
+
                                     <p class="text-white-50">{{ $post->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
@@ -207,10 +207,10 @@
                                 </div>
                                 <div class="col-md-1">
                                     <button type="button" data-post-id="{{ $post->id }}"
-                                        class="btn post-comment-btn btn-outline-info">Post</button>
+                                        class="btn post-comment-btn btn-outline-info" data-user-id="{{ Auth::id()}}">Post</button>
                                 </div>
                             </div>
-                            </div>   
+                            </div>
                             {{-- end of fixed bar --}}
                         </div>
                     </div>
@@ -237,28 +237,18 @@
         }
     });
     let postComments = document.querySelectorAll('.post-comment-btn')
-    postComments.forEach(postComment => {
-        postComment.onclick = async function() {
-            const postId = this.getAttribute('data-post-id');
-            const commentBody = document.getElementById('comment-' + postId).value;
-            const url = 'http://localhost:8000/post/' + postId + '/comment';
-            const csrf = document.querySelectorAll('meta')[2].getAttribute('content');
-            const data = {
-                comment: commentBody
-            };
-            const res = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    "content-type": "application/json",
-                    "X-CSRF-TOKEN": csrf
-                },
-                body: JSON.stringify(data),
-            })
-            let resData = await res.json();
-            console.log(resData);
-        }
-    
-    });
+            postComments.forEach(postComment => {
+                postComment.onclick = async function() {
+                    const postId = this.getAttribute('data-post-id');
+                    const userId = this.getAttribute('data-user-id');
+                    const commentBody = document.getElementById('comment-' + postId).value;
+                    const url = 'http://localhost:8000/post/'+userId+'/'+postId+'/comment/'+commentBody;
+                    const csrf = document.querySelectorAll('meta')[2].getAttribute('content');
+                    const res = await fetch(url)
+                    let resData = await res.json();
+                    console.log(resData);
+                }
+            });
     let savePosts = document.querySelectorAll('.fa-bookmark');
     savePosts.forEach(savePost => {
         savePost.onclick = async function() {
@@ -266,7 +256,7 @@
             const res = await fetch("http://localhost:8000/posts/" + postId + "/save");
             let resData = await res.json();
             console.log(resData);
-    
+
         }
     });
 });

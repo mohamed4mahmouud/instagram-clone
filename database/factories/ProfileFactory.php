@@ -19,7 +19,7 @@ class ProfileFactory extends Factory
         return [
             'bio'=>fake()->sentence(),
             'website'=>fake()->url(),
-            'avatar'=>"avatar/sOpxT2VApuv9x7DQOhnT7UCagZrwbMgWYYfAylrc.jpg",
+            'avatar'=>"avatar/cACpre7cdOF8BbO2a5uWbbLtA0r14TdaPEucATx6.jpg",
         ];
     }
 }

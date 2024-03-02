@@ -1,14 +1,14 @@
 @section('navbar')
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black border-end border-dark pt-5 fixed-navbar">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a href="/"
+                    <a href="/instagram"
                         class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <img src="{{ URL('images/logo.png') }}" alt="Instagram logo" height="45">
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto col-lg-12 mb-0 align-items-center align-items-sm-start"
                         id="menu">
                         <li>
-                            <a href="http://127.0.0.1:8000/posts" class="nav-link align-middle px-0">
+                            <a href="{{ route('posts.index') }}" class="nav-link align-middle px-0">
                                 <i class="fa-solid fa-house fa-lg text-white"></i><span
                                     class="ms-2 d-none d-sm-inline text-white">Home</span>
                             </a>

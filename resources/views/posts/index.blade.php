@@ -245,7 +245,7 @@
         }
 
         .checkbox:checked+label svg #heartgroup1 #heart1,
-        .checkbox:checked+label svg #heartgroup1 #heart2,
+        .checkbox:checked+label svg #heartgroup1 #heart2
         /* Add similar rules for other heart groups */
             {
             transform: scale(0.5) translate(0, -30px);
@@ -347,7 +347,7 @@
                                                 height="60" width="60" alt="avatar" />
                                         </div>
                                     </a>
-                                    <span class="text-white">{{ $following->userName }}</span>
+                                    <span class="text-white">{{ strlen($following->userName) > 10 ? substr($following->userName, 0, 10) . '...' : $following->userName }}</span>
                                 </li>
                             @endforeach
                         @endif
@@ -642,7 +642,7 @@
                         const resultSpan=document.createElement('span')
                         resultSpan.textContent=message
                         parentdiv.appendChild(resultSpan)
-                        
+
                     }
                 }
             });
