@@ -43,11 +43,11 @@ Check out the live demo of the project [here](https://github.com/mohamed4mahmouu
 5. Enjoy using the Instagram clone!
 
 ## Team Members
-1- [Seif Ahmed](https://github.com/seifEldeenAhmed).
-2- [Mohamed Mahmoud](https://github.com/mohamed4mahmouud).
-3- [Ahmed Tarek](https://github.com/AhmedMeligy).
-4- [Farah Ali](https://github.com/farahalimohamed).
-5- [Nourhan Shawky](https://github.com/Nourhanshawky).
+1- [Seif Ahmed](https://github.com/seifEldeenAhmed).  
+2- [Mohamed Mahmoud](https://github.com/mohamed4mahmouud).  
+3- [Ahmed Tarek](https://github.com/AhmedMeligy).  
+4- [Farah Ali](https://github.com/farahalimohamed).  
+5- [Nourhan Shawky](https://github.com/Nourhanshawky).  
 
 ## Special thanks
 Special thanks to the instructors **Mohamed Shehata** and **Noha Salah** and ITI organization for giving us the opportunity to learn and develop this project.
