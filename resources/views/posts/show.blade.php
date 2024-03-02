@@ -6,12 +6,18 @@
     .hash-tag {
         text-decoration: none;
     }
+    .fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    /* right: 0; */
+    width: 100%;
+}
 </style>
 
 {{-- @foreach ($posts as $post) --}}
-<div onload="attachLogic()" class="modal fade" id="exampleModalToggle{{ $post->id }}" aria-hidden="true"
-    aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
+<div class="modal fade" id="exampleModalToggle{{ $post->id }}" aria-hidden="true"
+    aria-labelledby="exampleModalToggleLabel" tabindex="-1" >
+    <div class="modal-dialog modal-dialog-centered modal-xl" >
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
@@ -49,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-4" style="position: relative;">
                         <div>
                             <div class="d-flex align-items-center">
                                 <div class="pe-3">
@@ -64,18 +70,20 @@
                                         <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
                                             <span class="text-light">{{ $post->user->fullName }}</span>
                                         </a>
+                                        @if($user->id != Auth::id())
                                         <a href="#" class="text-decoration-none ps-3">Follow</a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div>
                                     <i class="fa-solid fa-ellipsis ms-5" style="color: #ffffff;"></i>
                                 </div>
                             </div>
-
-                            <hr class="text-light">
-
                             {{-- comments section --}}
                             {{-- post caption --}}
+                            @if(!empty($post->caption))
+                            <hr class="text-light">
+
                             <div class="d-flex">
                                 <div class="pe-3">
                                     @if ($post->user->profile)
@@ -104,12 +112,13 @@
                                         </div>
                                         <i class="fa-regular fa-heart fa-sm mt-3 ms-2" style="color: #ffffff;"></i>
                                     </div>
+                                    
                                     <p class="text-white-50">{{ $post->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
-
+                            @endif
                             {{-- other comments --}}
-                            @if (!$post->comments->isEmpty())
+                            @if (!empty($post->comments))
                                 @foreach ($post->comments as $comment)
                                     <div class="d-flex">
                                         <div class="pe-3">
@@ -139,6 +148,7 @@
                                 @endforeach
                             @endif
 
+                            <div class="fixed-bottom" style="position: absolute; bottom: 0; right: 0;">
                             <hr class="text-light">
                             {{-- Reactions Bar  --}}
                             <div class="card-body">
@@ -160,7 +170,7 @@
                                     @if ($post->like_count)
                                     @foreach ($post->likes->take(1) as $like)
                                                 <div class="mt-4">
-                                                <img src="{{Storage::url($like->user->profile->avatar)}}"
+                                                <img src=""
                                                     class="rounded-circle" height="40" width="40" alt="avatar" />
                                                         <small class="mt-5">Liked by <strong>
                                                             {{ $like->user->userName }}
@@ -172,10 +182,9 @@
                                                 @endif
                                 </div>
                             </div>
-
                             {{-- Comments form --}}
                             <div class="row mt-2">
-                                <hr>
+                                <hr class="text-light">
                                 <div class="col-md-9">
                                     <div class="form-outline" data-mdb-input-init>
                                         <input type="text" id="comment-{{ $post->id }}"
@@ -188,6 +197,8 @@
                                         class="btn post-comment-btn btn-outline-info">Post</button>
                                 </div>
                             </div>
+                            </div>   
+                            {{-- end of fixed bar --}}
                         </div>
                     </div>
                 </div>
@@ -209,9 +220,7 @@
             let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
                 'data-post-id') + '/like/' + likeBtn.getAttribute('data-user-id'));
             let data = await res.json();
-            // TODO: change heart icon to be filled with LOVE @farah
             console.log(data);
-            //Handle the likes increment or decrement on the browser View
         }
     });
     let postComments = document.querySelectorAll('.post-comment-btn')
@@ -238,7 +247,6 @@
     
     });
     let savePosts = document.querySelectorAll('.fa-bookmark');
-    // console.log(savePosts);
     savePosts.forEach(savePost => {
         savePost.onclick = async function() {
             const postId = this.getAttribute('data-post-id');
@@ -250,9 +258,6 @@
     });
 });
 
-
-
-    //TODO: Dynamic load Posts comments and likes
 
 
 

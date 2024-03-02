@@ -334,6 +334,7 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-md-12">
+                @if(! empty($user->following))
                 <div class="col-md-12 story-container" id="story">
                     <ul>
                         @if ($user)
@@ -353,6 +354,7 @@
                     </ul>
 
                 </div>
+                @endif
             </div>
         </div>
     @endsection
@@ -360,6 +362,7 @@
 
     @section('newsfeed')
         <div class="container my-5">
+            @if(!empty($posts))
             {{-- for each 3l post hena --}}
             @foreach ($posts as $post)
                 <div class="row">
@@ -375,7 +378,7 @@
                                                     class="rounded-circle " height="40" width="40" alt="avatar" />
                                                 <div class="mt-2">
                                                     <a href="{{ route('profile', ['user' => $post->user->id]) }}"
-                                                        class="text-white">
+                                                        class="text-white text-decoration-none">
                                                         <strong
                                                             class="strong mt-5 ms-2">{{ $post->user->userName }}</strong>
                                                     </a>
@@ -504,13 +507,12 @@
                                     </div>
                                     {{-- Liked by --}}
                                     <div class="row text-white">
-                                        <div class="col-md-8 mt-1">
-                                            @if ($post->like_count)
-                                                <img src="{{ Storage::url($user->profile->avatar) }}"
-                                                    class="rounded-circle mb-1 me-1" height="20" width="20"
-                                                    alt="avatar" />
-                                                <small>Liked by <strong>
-                                                        @foreach ($post->likes->take(1) as $like)
+                                        <div id="parentlikeresult{{$post->id}}" class="col-md-8 mt-1">
+                                            @if (!empty($post->like_count))
+                                            @foreach ($post->likes->take(1) as $like)
+                                            <img src="{{Storage::url($like->user->profile->avatar)}}"
+                                                class="rounded-circle mb-1 me-1" height="30" width="30" alt="avatar" />
+                                            <small>Liked by <strong>
                                                             {{ $like->user->userName }}
                                                         @endforeach
 
@@ -520,16 +522,18 @@
                                         </div>
                                     </div>
                                     {{-- Caption --}}
+                                    @if($post->caption)
                                     <div class="row text-white">
                                         <div class="col-md-12 mt-1">
                                             <p class="text-white">
                                                 <strong class="text-white">
-                                                    {{ $post->user->userName }}
+                                                    {{ $post->user->userName}}
                                                 </strong>
                                                 {{ $post->caption }}
                                             </p>
                                         </div>
                                     </div>
+                                    @endif
                                     {{-- Comments --}}
                                     <div class="row text-white">
                                         @if ($post->comments_count)
@@ -578,8 +582,9 @@
             {{-- Author profile --}}
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50"
-                        width="50" alt="avatar" />
+                    <img src="{{ Storage::url($user->profile->avatar) }}" class="rounded-circle" height="50" width="50"
+
+                        alt="avatar" />
                 </div>
                 <div class="col-md-9">
                     <ul class="ml-0 ps-1 mt-1 list-unstyled">
@@ -621,16 +626,24 @@
             </div>
 
         </div>
+        @endif
         <script>
+            window.addEventListener('DOMContentLoaded',function () {
             let likeBtns = document.querySelectorAll(".checkbox")
             likeBtns.forEach(likeBtn => {
                 likeBtn.onclick = async function() {
+                    const postId=likeBtn.getAttribute('data-post-id');
                     let res = await fetch('http://localhost:8000/posts/' + likeBtn.getAttribute(
                         'data-post-id') + '/like/' + likeBtn.getAttribute('data-user-id'));
                     let data = await res.json();
-
-                    console.log(data);
-
+                    const message=data.msg;
+                    if (message==='Liked by you') {
+                        const parentdiv= document.getElementById('parentlikeresult'+postId);
+                        const resultSpan=document.createElement('span')
+                        resultSpan.textContent=message
+                        parentdiv.appendChild(resultSpan)
+                        
+                    }
                 }
             });
 
@@ -672,7 +685,7 @@
                     console.log(resData);
 
                 }
-            });
+            });})
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
