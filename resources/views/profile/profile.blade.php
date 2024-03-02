@@ -89,6 +89,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="max-height: 350px; overflow-y: auto;">
+                    @if(!empty($followers))
                     @foreach($followers as $follower)
                     {{-- @dd($follower) --}}
                     <div class="person mb-3">
@@ -105,6 +106,7 @@
                         </div>
                     </div>
                     @endforeach
+                    @endif
                 </div>
             </div>
         </div>
