@@ -42,7 +42,7 @@ class PostsController extends Controller
             }
             $post->timeDifference = $created_at->diffForHumans();
         }
-        // dd($post->likes[0]->user->profile->avatar);
+        // dd($post->likes);
         return view('posts.index', ['posts' => $latestPosts, 'user' => $user]);
     }
 
@@ -116,10 +116,9 @@ class PostsController extends Controller
         }
 
         preg_match_all('/#(\w+)/', $post->caption, $matches);
-        foreach ($matches[1] as $tag) {
+        $tags = $matches[1];
+        // $caption_with_tags = preg_replace('/#(\w+)/', '<span class="tag">#$1</span>', $post->caption);
 
-        }
-        // dd(!empty($post->caption));
         $user=Auth::user();
         return view('posts.show' , ['post' => $post, 'user'=>$user]);
 
@@ -177,6 +176,7 @@ class PostsController extends Controller
 
         // dd($postTag[0]->posts);
         $tag = Tag::find($id);
+        // dd($tag->id);
         // $tag->posts[0]->images = json_decode($tag->posts[0]->images, true);
         foreach($tag->posts as $post){
             $post->images = json_decode($post->images, true);

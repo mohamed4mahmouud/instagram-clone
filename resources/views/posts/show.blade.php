@@ -12,12 +12,19 @@
     /* right: 0; */
     width: 100%;
 }
+.custom-button {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
 </style>
 
 {{-- @foreach ($posts as $post) --}}
 <div class="modal fade" id="exampleModalToggle{{ $post->id }}" aria-hidden="true"
-    aria-labelledby="exampleModalToggleLabel" tabindex="-1" >
-    <div class="modal-dialog modal-dialog-centered modal-xl" >
+    aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
@@ -66,17 +73,24 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <div class="fw-bold">
+                                    <div class="fw-bold d-flex align-items-center">
                                         <a class="text-decoration-none" href="/profile/{{ $post->user->id }}">
                                             <span class="text-light">{{ $post->user->fullName }}</span>
                                         </a>
                                         @if($user->id != Auth::id())
-                                        <a href="#" class="text-decoration-none ps-3">Follow</a>
+                                            @if($user->isFollowed(Auth::id()))
+                                            
+                                        <a href="" class="text-decoration-none ps-3">Following</a>
+                                            @else
+                                            <form action="{{ route('follow', $user) }}" method="POST">
+                                            @csrf
+                                        <button type="submit" class=" custom-button text-primary mt-3 ps-3">Follow</button>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
-                                <div>
-                                    <i class="fa-solid fa-ellipsis ms-5" style="color: #ffffff;"></i>
+                                <div style="position: absolute; right: 0;">
+                                    <i class="fa-solid fa-ellipsis me-5" style="color: #ffffff;"></i>
                                 </div>
                             </div>
                             {{-- comments section --}}
@@ -101,11 +115,10 @@
                                                 </a>
                                             </span>
                                             <p class="text-light">
-                                                {{ $post->caption }}
+                                                {{-- {{ $post->caption }} --}}
                                                 @foreach ($post->tags as $tag)
                                                     <span class="text-light ">
-                                                        <a href="{{ route('tags', ['id' => $tag->id]) }}"
-                                                            class="hash-tag">#{{ $tag->name }}</a>
+                                                            {!! preg_replace('/#(\w+)/', '<a class="hash-tag" href=" '. route('tags', ['id' => $tag->id] ) .'">$0</a>', $post->caption) !!}
                                                     </span>
                                                 @endforeach
                                             </p>
@@ -183,8 +196,8 @@
                                 </div>
                             </div>
                             {{-- Comments form --}}
+                            <hr class="text-light">
                             <div class="row mt-2">
-                                <hr class="text-light">
                                 <div class="col-md-9">
                                     <div class="form-outline" data-mdb-input-init>
                                         <input type="text" id="comment-{{ $post->id }}"
