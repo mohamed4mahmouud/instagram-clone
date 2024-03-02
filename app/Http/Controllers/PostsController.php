@@ -176,11 +176,11 @@ class PostsController extends Controller
         $user = User::find($request->user);
         $comment = new Comment();
         $comment->post_id = $request->post;
-        $comment->user_id = Auth::id();
-        $comment->body = $request->json()->get('comment');
+        $comment->user_id = $request->user;
+        $comment->body = $request->commentbody;
         $comment->saveOrFail();
         event(new PostComment($comment));
-        $user->notify(new NotificationCommentAdded($comment));
+        // $user->notify(new NotificationCommentAdded($comment));
         return response()->json(['message' => 'Commented on post ' . $comment]);
     }
 

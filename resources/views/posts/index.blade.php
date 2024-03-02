@@ -564,7 +564,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-1">
-                                            <button type="button" data-post-id="{{ $post->id }}"
+                                            <button type="button" data-post-id="{{ $post->id }}" data-user-id="{{ Auth::id() }}"
                                                 class="btn post-comment-btn btn-outline-info">Post</button>
                                         </div>
                                     </div>
@@ -656,20 +656,11 @@
             postComments.forEach(postComment => {
                 postComment.onclick = async function() {
                     const postId = this.getAttribute('data-post-id');
+                    const userId = this.getAttribute('data-user-id');
                     const commentBody = document.getElementById('comment-' + postId).value;
-                    const url = 'http://localhost:8000/post/' + postId + '/comment';
+                    const url = 'http://localhost:8000/post/'+userId+'/'+postId+'/comment/'+commentBody;
                     const csrf = document.querySelectorAll('meta')[2].getAttribute('content');
-                    const data = {
-                        comment: commentBody
-                    };
-                    const res = await fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            "content-type": "application/json",
-                            "X-CSRF-TOKEN": csrf
-                        },
-                        body: JSON.stringify(data),
-                    })
+                    const res = await fetch(url)
                     let resData = await res.json();
                     console.log(resData);
                 }
