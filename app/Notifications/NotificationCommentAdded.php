@@ -52,6 +52,7 @@ class NotificationCommentAdded extends Notification
             'user_id'=> $this->comment->user_id,
             'comment_id'=> $this->comment->id,
             'post_id'=> $this->comment->post_id,
+            'userName'=> $this->comment->user->userName,
         ];
     }
 }
